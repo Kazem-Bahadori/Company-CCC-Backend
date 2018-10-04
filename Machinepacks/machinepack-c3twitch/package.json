@@ -1,0 +1,28 @@
+{
+  "name": "machinepack-c3twitch",
+  "version": "0.1.0",
+  "description": "machine pack for fetching data from twitch",
+  "scripts": {
+    "test": "node ./node_modules/test-machinepack-mocha/bin/testmachinepack-mocha.js"
+  },
+  "keywords": [
+    "c3twitch",
+    "machines",
+    "machinepack"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "machine": "^12.2.5"
+  },
+  "devDependencies": {
+    "test-machinepack-mocha": "^2.1.5"
+  },
+  "machinepack": {
+    "friendlyName": "c3twitch",
+    "machineDir": "machines/",
+    "machines": [
+      "filters"
+    ]
+  }
+}
