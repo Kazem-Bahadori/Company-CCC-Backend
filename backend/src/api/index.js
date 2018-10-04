@@ -1,29 +1,63 @@
 import { version } from '../../package.json';
 import { Router } from 'express';
-import facets from './facets';
 
-var twitch = require('../../../Machinepacks/machinepack-c3twitch');
-export default ({ config, db }) => {
+const Twitch = require('../Machinepacks/machinepack-c3twitch');
+
+//Steam node-machine from npm
+const Steam = require('machinepack-steam');
+export default ({
+	config,
+	db
+}) => {
 	let api = Router();
-
-	// mount the facets resource
-	api.use('/facets', facets({ config, db }));
 
 	// perhaps expose some API metadata at the root
 	api.get('/', (req, res) => {
-		res.json({ version });
+		res.json({
+			version
+		});
 	});
 
 	api.get('/twitch/filters', (req, res) => {
-		// twitch.filters()
-		res.json({
-			'twitch': 'success!'
+		Twitch.filters(req.body).exec({
+
+			// An unexpected error occurred.
+			error: function (err) {
+				console.log(err);
+				res.sendStatus(500);
+			},
+
+			// OK.
+			success: function (result) {
+				res.json({
+					result
+				});
+			},
+
 		});
 	});
 
 	api.get('/steam/filters', (req, res) => {
-		res.json({
-			'steam': 'success!'
+		// Returns on global statistics of a specific game
+
+		Steam.getGlobalStatsForGame({
+			appid: 400,
+			name: ['global.map.emp_isle'],
+		}).exec({
+
+			// An unexpected error occurred.
+			error: function (err) {
+				console.log(err);
+				res.sendStatus(500);
+			},
+
+			// OK.
+			success: function (result) {
+				res.json({
+					result
+				});
+			},
+
 		});
 	});
 

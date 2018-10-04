@@ -1,10 +1,10 @@
 module.exports = {
 
 
-  friendlyName: 'filters',
+  friendlyName: 'health',
 
 
-  description: 'fetches and filters content from steam',
+  description: 'pings the content provider',
 
 
   cacheable: false,
@@ -31,7 +31,6 @@ module.exports = {
   fn: function(inputs, exits
     /*``*/
   ) {
-    console.log('Twitch function triggered!')
     return exits.success();
   },
 
