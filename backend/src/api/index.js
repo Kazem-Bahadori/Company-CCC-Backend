@@ -1,6 +1,7 @@
 import { version } from '../../package.json';
 import { Router } from 'express';
 
+const fetch = require('node-fetch');
 const Twitch = require('../Machinepacks/machinepack-c3twitch');
 
 //Steam node-machine from npm
@@ -21,17 +22,19 @@ export default ({
 	api.get('/twitch/filters', (req, res) => {
 		Twitch.filters(req.body).exec({
 
+			
 			// An unexpected error occurred.
 			error: function (err) {
+				
 				console.log(err);
 				res.sendStatus(500);
 			},
 
 			// OK.
 			success: function (result) {
-				res.json({
-					result
-				});
+			fetch('https://api.twitch.tv/kraken/games/top?client_id=3jxj3x3uo4h6xcxh2o120cu5wehsab')
+       		.then(res => res.json())
+       		.then(json => res.send(json));
 			},
 
 		});
