@@ -26,10 +26,10 @@ export default ({
 			},
 			// OK.
 			success: function (result) {
-				fetch('https://api.twitch.tv/helix/games/top', {headers: {"Client-ID": '3jxj3x3uo4h6xcxh2o120cu5wehsab'}}) 
-				.then(res => res.json())
-				.then(json => res.send(json));
-					
+
+				result.then(function (response) {
+					res.send(response); 
+					});
 			},
 		});
 	});
