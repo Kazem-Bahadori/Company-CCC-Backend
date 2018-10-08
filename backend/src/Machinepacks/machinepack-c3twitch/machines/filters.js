@@ -6,6 +6,26 @@ module.exports = {
   cacheable: false,
   sync: false,
   inputs: {
+      filterType: {
+        example: 'games',
+        description: 'what you want to get',
+        require: true
+      },
+      assetType: {
+        example: 'top',
+        description: 'amount of what you want to get',
+        require: false
+      },
+      additionalFilter: {
+        example: '?first',
+        description: 'additional filter for calls',
+        require: false
+      },
+      amount: {
+        example: '20',
+        description: 'amount of items to call',
+        require: false
+      },
   },
   exits: {
     success: {
@@ -18,7 +38,21 @@ module.exports = {
   ) {
     console.log('Twitch function triggered!')
 
-         fetch('https://api.twitch.tv/helix/games/top', {headers: {"Client-ID": '3jxj3x3uo4h6xcxh2o120cu5wehsab'}})
+    var url = "https://api.twitch.tv/helix/" + inputs.filterType;
+
+    if (inputs.assetType != null){
+      url = url.concat("/" + inputs.assetType);
+    }
+    if (inputs.additionalFilter != null){
+      url = url.concat("?" + inputs.additionalFilter);
+    }
+    if (inputs.amount != null){
+      url = url.concat("=" + inputs.amount);
+    }
+
+    console.log(url)
+
+         fetch(url, {headers: {"Client-ID": '3jxj3x3uo4h6xcxh2o120cu5wehsab'}})
          .then(function(response){
              return exits.success(response.json());
          })

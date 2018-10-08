@@ -16,7 +16,7 @@ export default ({
 		});
 	});
 	api.get('/twitch/filters', (req, res) => {
-		Twitch.filters(req.body).exec({
+		Twitch.filters(req.query).exec({
 			
 			// An unexpected error occurred.
 			error: function (err) {
