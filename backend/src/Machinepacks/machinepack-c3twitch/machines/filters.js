@@ -41,13 +41,13 @@ module.exports = {
     var url = "https://api.twitch.tv/helix/" + inputs.query.filterType;
 
     if (inputs.query.assetType != null){
-      url = url.concat("/" + inputs.assetType);
+      url = url.concat("/" + inputs.query.assetType);
     }
     if (inputs.query.additionalFilter != null){
-      url = url.concat("?" + inputs.additionalFilter);
+      url = url.concat("?" + inputs.query.additionalFilter);
     }
     if (inputs.query.amount != null){
-      url = url.concat("=" + inputs.amount);
+      url = url.concat("=" + inputs.query.amount);
     }
 
     console.log(url)
