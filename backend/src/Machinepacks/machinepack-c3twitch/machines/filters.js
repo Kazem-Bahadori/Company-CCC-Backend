@@ -17,7 +17,7 @@ module.exports = {
         require: false
       },
       additionalFilter: {
-        example: '?first',
+        example: 'first',
         description: 'additional filter for calls',
         require: false
       },
@@ -38,15 +38,15 @@ module.exports = {
   ) {
     console.log('Twitch function triggered!')
 
-    var url = "https://api.twitch.tv/helix/" + inputs.filterType;
+    var url = "https://api.twitch.tv/helix/" + inputs.query.filterType;
 
-    if (inputs.assetType != null){
+    if (inputs.query.assetType != null){
       url = url.concat("/" + inputs.assetType);
     }
-    if (inputs.additionalFilter != null){
+    if (inputs.query.additionalFilter != null){
       url = url.concat("?" + inputs.additionalFilter);
     }
-    if (inputs.amount != null){
+    if (inputs.query.amount != null){
       url = url.concat("=" + inputs.amount);
     }
 

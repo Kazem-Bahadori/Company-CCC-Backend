@@ -16,7 +16,11 @@ export default ({
 		});
 	});
 	api.get('/twitch/filters', (req, res) => {
-		Twitch.filters(req.query).exec({
+		const inputs = {
+			query: req.query,
+			body: req.body,
+		}
+		Twitch.filters(inputs).exec({
 			
 			// An unexpected error occurred.
 			error: function (err) {
