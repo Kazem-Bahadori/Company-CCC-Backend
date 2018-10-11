@@ -23,19 +23,12 @@ export default ({
 		Twitch.health().exec({
 
 			// An unexpected error occurred.
-			error: function (err) {
-
-				console.log(err);
+			error: function () {
 				res.sendStatus(500);
 			},
 			// OK.
-			success: function (result) {
-
-				result
-					.then(() => {
-						res.sendStatus(200);
-					})
-					.catch(err => res.sendStatus(err));
+			success: function () {
+				res.sendStatus(200);
 			},
 		});
 	});
@@ -61,13 +54,17 @@ export default ({
 			},
 		});
 	});
-
+	// twitch/search is the url
 	api.get('/twitch/search', (req, res) => {
+		// req.query = ?filterType=games&assetType=top
 		const inputs = {
 			query: req.query,
 			body: req.body,
 		}
-		Twitch.filters(inputs).exec({
+		//console.log(inputs);
+		//console.log(inputs.query);
+		//console.log(inputs.body);
+		Twitch.search(inputs).exec({
 
 			// An unexpected error occurred.
 			error: function (err) {
@@ -78,9 +75,7 @@ export default ({
 			// OK.
 			success: function (result) {
 
-				result.then(function (response) {
-					res.send(response);
-				});
+				res.send(result);
 			},
 		});
 	});
