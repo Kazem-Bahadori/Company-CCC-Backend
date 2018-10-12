@@ -37,6 +37,7 @@
     "express": "^4.13.3",
     "machinepack-steam": "^0.1.10",
     "morgan": "^1.8.0",
+    "node-fetch": "^2.2.0",
     "resource-router-middleware": "^0.6.0"
   },
   "devDependencies": {
