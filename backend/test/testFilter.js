@@ -5,17 +5,38 @@ describe('FIRST TEST', () =>{
   it('Filters shall not be null', ()=> { //first parameter is the description, the second parameter is
     //assert.isEmpty(button); //first parameter is the file being tested (the paraenthesis is because app is returning a function!)
     //the second parameter is what it is supposed to return
-    assert.isNotNull(filters); 
-    assert.equal(filters.description, 'fetches and filters content from steam') 
-    
-    
+    assert.isNotNull(filters);
+    assert.equal(filters.description, 'fetches and filters content from steam')
+
+
   });
-}); 
+});
 
 describe('Second TEST', () =>{
-    it('Testing description', ()=> { 
-      
-      assert.equal(filters.description, 'fetches and filters content from steam') 
-            
+    it('Testing description', ()=> {
+
+      assert.equal(filters.description, 'fetches and filters content from steam')
+
     });
-  }); 
+  });
+
+describe('Third TEST', () =>{
+    it('Testing friendlyName', ()=> {
+
+      assert.equal(filters.friendlyName, 'filters')
+
+    });
+  });
+
+describe('Fourth TEST', () =>{
+    it('Testing cacheable', ()=> {
+      assert.equal(filters.cacheable, false)
+
+    });
+  });
+
+describe('Fifth TEST', () =>{
+    it('Testing sync', ()=> {
+      assert.equal(filters.sync, false)
+    });
+  });
