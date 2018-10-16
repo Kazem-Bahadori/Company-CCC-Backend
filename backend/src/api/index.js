@@ -61,9 +61,6 @@ export default ({
 			query: req.query,
 			body: req.body,
 		}
-		//console.log(inputs);
-		//console.log(inputs.query);
-		//console.log(inputs.body);
 		Twitch.search(inputs).exec({
 
 			// An unexpected error occurred.

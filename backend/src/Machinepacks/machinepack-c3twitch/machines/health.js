@@ -23,8 +23,12 @@ module.exports = {
   exits: {
 
     success: {
-      variableName: 'result',
-      description: 'Done.',
+      result: 200,
+      description: 'Server alive.',
+    },
+    exit: {
+      result: 500,
+      description: 'Server not alive.',
     },
 
   },
@@ -51,7 +55,7 @@ module.exports = {
 
     function fetchFromTwitch() {
       return new Promise(function (resolve, reject) {
-        let url = 'https://api.twitch.tv/helix/streamss';
+        let url = 'https://api.twitch.tv/helix/streams';
         fetch(url, {
             headers: {
               'Client-ID': '3jxj3x3uo4h6xcxh2o120cu5wehsab'
@@ -79,7 +83,7 @@ module.exports = {
           });
       });
     }
-    ping(fetchFromTwitch)
+    ping(mockFetch)
       .then(response => exits.success(response))
       .catch(err => exits.error(err));
   }

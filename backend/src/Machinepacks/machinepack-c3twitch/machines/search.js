@@ -31,20 +31,12 @@ module.exports = {
   fn: function (inputs, exits
     /*``*/
   ) {
+    /*
+    Hjälp för hur man arbetar med javascript
+
     //Hur man definierar variabler i modern javascript
     let toChange = "unchanged";
     const cannotBeChanged = 0;
-
-    //Hur man skapar en promise
-    const promise1 = new Promise(function (resolve, reject) {
-      setTimeout(function () {
-        //toChange = 'changed';
-        resolve(toChange);
-        if(toChange=='unchanged'){
-          reject(toChange);
-        }
-      }, 300);
-    });
 
     // Hur man skickar med parametrar till en promise
     function timeOut(time, value) {
@@ -77,6 +69,8 @@ module.exports = {
         return exits.success(value);
       });
     console.log(toChange);
+    */
+    return exits.success('Twitch Node-machine search säger hej!');
   },
 
 
