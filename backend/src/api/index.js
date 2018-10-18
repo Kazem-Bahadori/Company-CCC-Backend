@@ -48,9 +48,7 @@ export default ({
 			// OK.
 			success: function (result) {
 
-				result.then(function (response) {
-					res.send(response);
-				});
+				res.send(result);
 			},
 		});
 	});
