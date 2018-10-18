@@ -3,7 +3,7 @@ import { Router } from 'express';
 const fetch = require('node-fetch');
 const Twitch = require('../Machinepacks/machinepack-c3twitch');
 //Steam node-machine from npm
-const Steam = require('machinepack-steam');
+const Steam = require('../Machinepacks/machinepack-c3steam');
 export default ({
 	config,
 	db
@@ -38,21 +38,24 @@ export default ({
 		});
 	});
 	api.get('/steam/filters', (req, res) => {
-		// Returns on global statistics of a specific game
-		Steam.getGlobalStatsForGame({
-			appid: 400,
-			name: ['global.map.emp_isle'],
-		}).exec({
+		const inputs = {
+			query: req.query,
+			body: req.body,
+		}
+		Steam.filters(inputs).exec({
+			
 			// An unexpected error occurred.
 			error: function (err) {
+				
 				console.log(err);
 				res.sendStatus(500);
 			},
 			// OK.
 			success: function (result) {
-				res.json({
-					result
-				});
+
+				//result.then(function (response) {
+					//res.send(response); 
+					//});
 			},
 		});
 	});
