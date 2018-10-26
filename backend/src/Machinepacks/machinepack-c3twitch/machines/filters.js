@@ -13,12 +13,12 @@ module.exports = {
     },
     filterType: {
       example: 'contexual',
-      description: ' ',
+      description: 'specifies what you want within the selected category',
       require: true
     },
     filterValue: {
-      example: 'first',
-      description: 'gameID, userID etc.',
+      example: '10',
+      description: 'id\'s or numbers, gameID, userID, amount of streams etc.',
       require: false
     },
     context: {
@@ -47,13 +47,26 @@ module.exports = {
 
     if (inputs.query.assetType == 'games') {
       if (inputs.query.filterType == 'top') {
-        url = url.concat('games/top')
-        fetchFromTwitch(url) //gets the 20 top streamed games on twitch
-          .then(response => {
-            return exits.success(response);  // returns the Json to the client 
-          })
+        if (inputs.query.filterValue != undefined) {
+          if (inputs.query.filterValue >= 1 && inputs.query.filterValue <= 100) { // each twitch-call only accepts numbers between 1-100.
+            url = url.concat('games/top?first=' + inputs.query.filterValue)
+            fetchFromTwitch(url) //gets the top streamed games on twitch. 
+              .then(response => {
+                return exits.success(response);  // returns the Json to the client 
+              })
+          } else {
+            return exits.error('bad request - filtervalue for top games must be between 1-100')
+          }
+
+        } else {
+          url = url.concat('games/top')
+          fetchFromTwitch(url) //gets the top streamed games on twitch. 20 is default in the twitch api
+            .then(response => {
+              return exits.success(response);  // returns the Json to the client 
+            })
+        }
       } else {
-        return exits.error('filterType input error');
+        return exits.error('bad request - filterType input error');
       }
 
     } else if (inputs.query.assetType == 'streams') {
@@ -62,8 +75,14 @@ module.exports = {
           url = url.concat('streams?game_id=' + inputs.query.filterValue)
           fetchFromTwitch(url) // Gets the tops streams on a specific game
             .then(response => {
-              twitchResponse = response
-              multiCallVar = twitchResponse.data[0].user_id
+
+              if (Object.keys(response.data).length == 0){ //Checks if the response is empty
+                return exits.error('no streams found - check spelling of game_id')
+              }
+
+              //here starts hte process to get streamers displayname from twitch and put it into the list of streams
+              twitchResponse = response // saves the response to a variable
+              multiCallVar = twitchResponse.data[0].user_id //adds the streamers id to multiCallVar
 
               for (var user in twitchResponse['data']) { // Gets all the user id's from the top streams and adds them to multiCallVar
                 //adds each user_id with the proper urlsyntax to multiCallVar
@@ -79,12 +98,14 @@ module.exports = {
                   return exits.success(twitchResponse); // returns the Json to the client 
                 })
             })
+        } else {
+          return exits.error('bad request - filterValue input error');
         }
       } else {
-        return exits.error('filterType input error');
+        return exits.error('bad request - filterType input error');
       }
     } else {
-      return exits.error('assetType input error');
+      return exits.error('bad request - assetType input error');
     }
 
     function fetchFromTwitch(url) {
