@@ -10,7 +10,8 @@
     "prestart": "npm run -s build",
     "test": "eslint src",
     "test_case": "mocha --compilers js:babel-core/register",
-    "create_result": "mocha --compilers js:babel-core/register test --reporter mocha-junit-reporter"
+    "create_result": "mocha --compilers js:babel-core/register test --reporter mocha-junit-reporter",
+    "party": "newman run Flatfish_backend.postman_collection.json"
   },
   "eslintConfig": {
     "extends": "eslint:recommended",
@@ -53,6 +54,7 @@
     "eslint": "^3.1.1",
     "mocha": "^5.2.0",
     "mocha-junit-reporter": "^1.18.0",
+    "newman": "^4.1.0",
     "nodemon": "^1.9.2"
   },
   "bugs": {

@@ -1,64 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="Mocha Tests" time="0.004" tests="15" failures="0">
-  <testsuite name="Root Suite" timestamp="2018-10-16T13:40:36" tests="0" failures="0" time="0">
+<testsuites name="Mocha Tests" time="0.003" tests="15" failures="0">
+  <testsuite name="Root Suite" timestamp="2018-10-16T13:45:24" tests="0" failures="0" time="0">
   </testsuite>
-  <testsuite name="First TEST" timestamp="2018-10-16T13:40:36" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testFilter.js" failures="0" time="0.003">
-    <testcase name="First TEST Filters shall not be null" time="0.003" classname="Filters shall not be null">
+  <testsuite name="First TEST" timestamp="2018-10-16T13:45:24" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testFilter.js" failures="0" time="0.002">
+    <testcase name="First TEST Filters shall not be null" time="0.002" classname="Filters shall not be null">
     </testcase>
   </testsuite>
-  <testsuite name="Second TEST" timestamp="2018-10-16T13:40:36" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testFilter.js" failures="0" time="0">
-    <testcase name="Second TEST Testing description" time="0" classname="Testing description">
+  <testsuite name="Second TEST" timestamp="2018-10-16T13:45:24" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testFilter.js" failures="0" time="0.001">
+    <testcase name="Second TEST Testing description" time="0.001" classname="Testing description">
     </testcase>
   </testsuite>
-  <testsuite name="Third TEST" timestamp="2018-10-16T13:40:36" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testFilter.js" failures="0" time="0">
+  <testsuite name="Third TEST" timestamp="2018-10-16T13:45:24" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testFilter.js" failures="0" time="0">
     <testcase name="Third TEST Testing friendlyName" time="0" classname="Testing friendlyName">
     </testcase>
   </testsuite>
-  <testsuite name="Fourth TEST" timestamp="2018-10-16T13:40:36" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testFilter.js" failures="0" time="0">
+  <testsuite name="Fourth TEST" timestamp="2018-10-16T13:45:24" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testFilter.js" failures="0" time="0">
     <testcase name="Fourth TEST Testing cacheable" time="0" classname="Testing cacheable">
     </testcase>
   </testsuite>
-  <testsuite name="Fifth TEST" timestamp="2018-10-16T13:40:36" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testFilter.js" failures="0" time="0">
+  <testsuite name="Fifth TEST" timestamp="2018-10-16T13:45:24" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testFilter.js" failures="0" time="0">
     <testcase name="Fifth TEST Testing sync" time="0" classname="Testing sync">
     </testcase>
   </testsuite>
-  <testsuite name="First health TEST" timestamp="2018-10-16T13:40:36" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testHealth.js" failures="0" time="0.001">
-    <testcase name="First health TEST Health shall not be null" time="0.001" classname="Health shall not be null">
+  <testsuite name="First health TEST" timestamp="2018-10-16T13:45:24" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testHealth.js" failures="0" time="0">
+    <testcase name="First health TEST Health shall not be null" time="0" classname="Health shall not be null">
     </testcase>
   </testsuite>
-  <testsuite name="Second health TEST" timestamp="2018-10-16T13:40:36" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testHealth.js" failures="0" time="0">
+  <testsuite name="Second health TEST" timestamp="2018-10-16T13:45:24" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testHealth.js" failures="0" time="0">
     <testcase name="Second health TEST Testing description" time="0" classname="Testing description">
     </testcase>
   </testsuite>
-  <testsuite name="Third health TEST" timestamp="2018-10-16T13:40:36" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testHealth.js" failures="0" time="0">
+  <testsuite name="Third health TEST" timestamp="2018-10-16T13:45:24" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testHealth.js" failures="0" time="0">
     <testcase name="Third health TEST Testing friendlyName" time="0" classname="Testing friendlyName">
     </testcase>
   </testsuite>
-  <testsuite name="Fourth health TEST" timestamp="2018-10-16T13:40:36" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testHealth.js" failures="0" time="0">
+  <testsuite name="Fourth health TEST" timestamp="2018-10-16T13:45:24" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testHealth.js" failures="0" time="0">
     <testcase name="Fourth health TEST Testing cacheable" time="0" classname="Testing cacheable">
     </testcase>
   </testsuite>
-  <testsuite name="Fifth health TEST" timestamp="2018-10-16T13:40:36" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testHealth.js" failures="0" time="0">
+  <testsuite name="Fifth health TEST" timestamp="2018-10-16T13:45:24" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testHealth.js" failures="0" time="0">
     <testcase name="Fifth health TEST Testing sync" time="0" classname="Testing sync">
     </testcase>
   </testsuite>
-  <testsuite name="First search TEST" timestamp="2018-10-16T13:40:36" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testSearch.js" failures="0" time="0">
+  <testsuite name="First search TEST" timestamp="2018-10-16T13:45:24" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testSearch.js" failures="0" time="0">
     <testcase name="First search TEST search shall not be null" time="0" classname="search shall not be null">
     </testcase>
   </testsuite>
-  <testsuite name="Second search TEST" timestamp="2018-10-16T13:40:36" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testSearch.js" failures="0" time="0">
+  <testsuite name="Second search TEST" timestamp="2018-10-16T13:45:24" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testSearch.js" failures="0" time="0">
     <testcase name="Second search TEST Testing description" time="0" classname="Testing description">
     </testcase>
   </testsuite>
-  <testsuite name="Third search TEST" timestamp="2018-10-16T13:40:36" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testSearch.js" failures="0" time="0">
+  <testsuite name="Third search TEST" timestamp="2018-10-16T13:45:24" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testSearch.js" failures="0" time="0">
     <testcase name="Third search TEST Testing friendlyName" time="0" classname="Testing friendlyName">
     </testcase>
   </testsuite>
-  <testsuite name="Fourth search TEST" timestamp="2018-10-16T13:40:36" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testSearch.js" failures="0" time="0">
+  <testsuite name="Fourth search TEST" timestamp="2018-10-16T13:45:24" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testSearch.js" failures="0" time="0">
     <testcase name="Fourth search TEST Testing cacheable" time="0" classname="Testing cacheable">
     </testcase>
   </testsuite>
-  <testsuite name="Fifth search TEST" timestamp="2018-10-16T13:40:36" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testSearch.js" failures="0" time="0">
+  <testsuite name="Fifth search TEST" timestamp="2018-10-16T13:45:24" tests="1" file="/Users/pierre/pum_project/Company-CCC-Backend/backend/test/testSearch.js" failures="0" time="0">
     <testcase name="Fifth search TEST Testing sync" time="0" classname="Testing sync">
     </testcase>
   </testsuite>

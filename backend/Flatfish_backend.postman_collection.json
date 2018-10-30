@@ -1,0 +1,97 @@
+{
+	"info": {
+		"_postman_id": "71baac15-e804-4239-8f1c-d1d90ac401e8",
+		"name": "Flatfish_backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get_Top20_games",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a8ec180f-b15b-417d-872e-c7c3cfe1de29",
+						"exec": [
+							"const jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 200\", function () { //makes sure that the response was successful",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,202]);",
+							"});",
+							"pm.test(\"Response time is less than 200ms\", function () {  // should not be used.",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"",
+							"",
+							"pm.test('Has data', function() {",
+							"  pm.expect(jsonData).to.have.property('data');",
+							"});",
+							"",
+							"",
+							"pm.test('Contains id', function () { ",
+							"    pm.expect(jsonData.data.id).to.be.not.null;",
+							"   // pm.jsonData = jsonData.data.id !== null ;",
+							"});    ",
+							"",
+							"pm.test('Contains name', function () { ",
+							"    pm.expect(jsonData.data.name).to.be.not.null;",
+							"    //pm.jsonData = jsonData.data.name !== null ;",
+							"});    ",
+							"pm.test('Contains pic_url', function () { ",
+							"    pm.expect(jsonData.data.box_art_url).to.be.not.null;",
+							"   // pm.jsonData = jsonData.data.box_art_url !== null ;",
+							"});    ",
+							"",
+							"",
+							"pm.test('Contains 20 top games', function () { //checks the amout of games shown",
+							"     var responseJson = JSON.parse(responseBody);",
+							"     console.log(responseJson.data.length);",
+							"    pm.expect(responseJson.data.length).to.equal(19);",
+							"    ",
+							"});",
+							" ",
+							"    "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/twitch/filters?filterType=games&assetType=top",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"twitch",
+						"filters"
+					],
+					"query": [
+						{
+							"key": "filterType",
+							"value": "games"
+						},
+						{
+							"key": "assetType",
+							"value": "top"
+						}
+					]
+				},
+				"description": "A API request that makes sure we get the correct game"
+			},
+			"response": []
+		}
+	]
+}
