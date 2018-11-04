@@ -161,6 +161,78 @@
 				"description": "fetches top streams from a specific game ID, in this case Red Dead Redemption 2 ID: 493959"
 			},
 			"response": []
+		},
+		{
+			"name": "get_a_specific_streamer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dadc2a14-be7a-438e-b69a-051aeee89f98",
+						"exec": [
+							"//const jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 200\", function () { //makes sure that the response was successful",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test('Streamer name != KalleAnka', function () { //checks the amout of games shown",
+							"     //console.log(responseJson.data.length);",
+							"     pm.expect(pm.response.text()).to.not.include(\"KalleAnka\");",
+							"});",
+							"",
+							"pm.test(\"Streamer name == CohhCarnage\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"CohhCarnage\");",
+							"});",
+							"",
+							"pm.test('Body contains description', function () { //checks the amout of games shown",
+							"     //console.log(responseJson.data.length);",
+							"    pm.expect(pm.response.text()).to.include(\"description\");",
+							"    ",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/twitch/filters?filterType=users&additionalFilter=id&amount=26610234",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"twitch",
+						"filters"
+					],
+					"query": [
+						{
+							"key": "filterType",
+							"value": "users"
+						},
+						{
+							"key": "additionalFilter",
+							"value": "id"
+						},
+						{
+							"key": "amount",
+							"value": "26610234"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
