@@ -21,7 +21,7 @@
 							"pm.test(\"Successful POST request\", function () {",
 							"    pm.expect(pm.response.code).to.be.oneOf([200,202]);",
 							"});",
-							"pm.test(\"Response time is less than 200ms\", function () {  // should not be used.",
+							"pm.test(\"Response time is less than 500ms\", function () {  // should not be used.",
 							"    pm.expect(pm.response.responseTime).to.be.below(500);",
 							"});",
 							"",
@@ -48,7 +48,7 @@
 							"",
 							"pm.test('Contains 20 top games', function () { //checks the amout of games shown",
 							"     var responseJson = JSON.parse(responseBody);",
-							"     console.log(responseJson.data.length);",
+							"     //console.log(responseJson.data.length);",
 							"    pm.expect(responseJson.data.length).to.equal(19);",
 							"    ",
 							"});",
@@ -90,6 +90,75 @@
 					]
 				},
 				"description": "A API request that makes sure we get the correct game"
+			},
+			"response": []
+		},
+		{
+			"name": "get_top_streams_from_gID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9f0c0b7b-e706-4d2c-9f89-87510a40c319",
+						"exec": [
+							"const jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 200\", function () { //makes sure that the response was successful",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"493959\");",
+							"});",
+							"",
+							"",
+							"pm.test('Type == live', function () { //checks the amout of games shown",
+							"    ",
+							"     //console.log(responseJson.data.length);",
+							"    pm.expect(pm.response.text()).to.include(\"live\");",
+							"    ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/twitch/filters?filterType=streams&additionalFilter=game_id&amount=493959",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"twitch",
+						"filters"
+					],
+					"query": [
+						{
+							"key": "filterType",
+							"value": "streams"
+						},
+						{
+							"key": "additionalFilter",
+							"value": "game_id"
+						},
+						{
+							"key": "amount",
+							"value": "493959"
+						}
+					]
+				},
+				"description": "fetches top streams from a specific game ID, in this case Red Dead Redemption 2 ID: 493959"
 			},
 			"response": []
 		}
