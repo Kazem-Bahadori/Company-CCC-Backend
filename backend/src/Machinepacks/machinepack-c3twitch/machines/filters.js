@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 module.exports = {
 
   friendlyName: 'filters',
-  description: 'fetches and filters content from steam',
+  description: 'fetches and filters content from twitch',
   cacheable: false,
   sync: false,
   inputs: {
