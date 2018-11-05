@@ -50,6 +50,11 @@ module.exports = {
         if (inputs.query.filterValue != undefined) {
           if (inputs.query.filterValue >= 1 && inputs.query.filterValue <= 100) { // each twitch-call only accepts numbers between 1-100.
             url = url.concat('games/top?first=' + inputs.query.filterValue)
+
+            if(inputs.body.hasOwnProperty('page_after')){ //adds pagination. Makes it so you can make a call to get a continous list of data where a previous one ended
+              url = url.concat('&after=' + inputs.body.page_after)
+            }
+
             fetchFromTwitch(url) //gets the top streamed games on twitch. 
               .then(response => {
                 return exits.success(response);  // returns the Json to the client 
@@ -79,24 +84,9 @@ module.exports = {
               if (Object.keys(response.data).length == 0){ //Checks if the response is empty
                 return exits.error('no streams found - check spelling of game_id')
               }
+                
+              return exits.success(response);  // returns the Json to the client
 
-              //here starts hte process to get streamers displayname from twitch and put it into the list of streams
-              twitchResponse = response // saves the response to a variable
-              multiCallVar = twitchResponse.data[0].user_id //adds the streamers id to multiCallVar
-
-              for (var user in twitchResponse['data']) { // Gets all the user id's from the top streams and adds them to multiCallVar
-                //adds each user_id with the proper urlsyntax to multiCallVar
-                multiCallVar = multiCallVar.concat('&id=' + twitchResponse.data[user].user_id)
-              }
-
-              fetchFromTwitch('https://api.twitch.tv/helix/users?id=' + multiCallVar) // makes a twitch api call to get user info on all the multiCallVar
-                .then(response => {
-
-                  for (var key in twitchResponse.data) { // for each stream entry for the game we called earlier
-                    twitchResponse.data[key].display_name = response.data[key].display_name //adds display_name of the streamer to the stream
-                  }
-                  return exits.success(twitchResponse); // returns the Json to the client 
-                })
             })
         } else {
           return exits.error('bad request - filterValue input error');
