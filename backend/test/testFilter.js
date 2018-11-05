@@ -6,7 +6,7 @@ describe('First TEST', () =>{
     //assert.isEmpty(button); //first parameter is the file being tested (the paraenthesis is because app is returning a function!)
     //the second parameter is what it is supposed to return
     assert.isNotNull(filters);
-    assert.equal(filters.description, 'fetches and filters content from steam')
+    assert.equal(filters.description, 'fetches and filters content from twitch')
 
 
   });
@@ -15,7 +15,7 @@ describe('First TEST', () =>{
 describe('Second TEST', () =>{
     it('Testing description', ()=> {
 
-      assert.equal(filters.description, 'fetches and filters content from steam')
+      assert.equal(filters.description, 'fetches and filters content from twitch')
 
     });
   });
