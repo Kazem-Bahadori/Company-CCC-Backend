@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 module.exports = {
 
   friendlyName: 'filters',
-  description: 'fetches and filters content from steam',
+  description: 'fetches and filters content from twitch',
   cacheable: false,
   sync: false,
   inputs: {
@@ -12,18 +12,18 @@ module.exports = {
       require: false
     },
     filterType: {
-      example: 'contexual',
-      description: 'specifies what you want within the selected category',
+      example: 'top, contexual',
+      description: 'specifies what you want within the selected category. Can also be contextual if the call is complex',
       require: true
     },
     filterValue: {
-      example: '10',
-      description: 'id\'s or numbers, gameID, userID, amount of streams etc.',
+      example: 'related to, action',
+      description: 'if one value is searched for',
       require: false
     },
     context: {
       example: '20',
-      description: 'amount of items to call',
+      description: 'Context to specify what is wanted',
       require: false
     },
   },
@@ -38,73 +38,109 @@ module.exports = {
   ) {
     console.log('Twitch function triggered!')
 
-    let url = 'https://api.twitch.tv/helix/'; // the main url of the twitch api
-
-    let twitchResponse = {} // a variable used to store json when multiple calls are done
-    let multiCallVar // a variable used when having to do send in multiple values in a call to twitch
+    let url = 'https://api.twitch.tv/helix/' // the main url of the twitch api
 
     console.log(inputs.query)
 
     if (inputs.query.assetType == 'games') {
       if (inputs.query.filterType == 'top') {
-        if (inputs.query.filterValue != undefined) {
-          if (inputs.query.filterValue >= 1 && inputs.query.filterValue <= 100) { // each twitch-call only accepts numbers between 1-100.
-            url = url.concat('games/top?first=' + inputs.query.filterValue)
+        url = url.concat('games/top')
+        fetchFromTwitch(url) //gets the top streamed games on twitch. 
+          .then(response => {
+            return exits.success(response);  // returns the Json to the client 
+          })
 
-            if(inputs.body.hasOwnProperty('page_after')){ //adds pagination. Makes it so you can make a call to get a continous list of data where a previous one ended
+      } else if (inputs.query.filterType == 'contextual') {
+
+        if (isEmpty(inputs.body)) { //Checks if body is empty
+          return exits.error('bad request - No context given')
+        }
+
+        url = url.concat('games/top?')
+
+          let checkFirst = false; //A check to see if a parameter has been added so subsequent parameters adds '&'
+
+          if (inputs.body.hasOwnProperty('quantity') && inputs.body.quantity >= 1 && inputs.body.quantity <= 100) {
+            url = url.concat('first=' + inputs.body.quantity)
+            checkFirst = true
+          }
+          if (inputs.body.hasOwnProperty('page_after')) {
+            //adds pagination. Makes it so you can make a call to get a continous list of data where a previous one ended
+            if (checkFirst == true) { //checks if there is something before it incase it needs to add '&'
               url = url.concat('&after=' + inputs.body.page_after)
+            } else {
+              url = url.concat('after=' + inputs.body.page_after)
             }
-
-            fetchFromTwitch(url) //gets the top streamed games on twitch. 
-              .then(response => {
-                return exits.success(response);  // returns the Json to the client 
-              })
-          } else {
-            return exits.error('bad request - filtervalue for top games must be between 1-100')
           }
 
-        } else {
-          url = url.concat('games/top')
-          fetchFromTwitch(url) //gets the top streamed games on twitch. 20 is default in the twitch api
-            .then(response => {
-              return exits.success(response);  // returns the Json to the client 
-            })
-        }
+          fetchFromTwitch(url) //gets the top streamed games on twitch. 
+          .then(response => {
+            return exits.success(response);  // returns the Json to the client 
+          })
+
       } else {
-        return exits.error('bad request - filterType input error');
+        return exits.error('bad request - filterType input error')
       }
 
     } else if (inputs.query.assetType == 'streams') {
-      if (inputs.query.filterType == 'game_id') {
-        if (inputs.query.filterValue != null) {
-          url = url.concat('streams?game_id=' + inputs.query.filterValue)
-          fetchFromTwitch(url) // Gets the tops streams on a specific game
-            .then(response => {
+      if (inputs.query.filterType == 'contextual') {
 
-              if (Object.keys(response.data).length == 0){ //Checks if the response is empty
-                return exits.error('no streams found - check spelling of game_id')
-              }
-                
-              return exits.success(response);  // returns the Json to the client
-
-            })
-        } else {
-          return exits.error('bad request - filterValue input error');
+        if (isEmpty(inputs.body)) { //Checks if body is empty
+          return exits.error('bad request - No context given')
         }
+        if (inputs.body.hasOwnProperty('game_id')) { //Checks if game_id exists within body
+          url = url.concat('streams?game_id=' + inputs.body.game_id)
+        } else {
+          return exits.error('bad request - no game_id found')
+        }
+        if (inputs.body.hasOwnProperty('quantity') && inputs.body.quantity >= 1 && inputs.body.quantity <= 100) {
+          url = url.concat('&first=' + inputs.body.quantity)
+        } else {
+          return exits.error('bad request - quantity must be between 1-100')
+        }
+        if (inputs.body.hasOwnProperty('page_after')) {
+          //adds pagination. Makes it so you can make a call to get a continous list of data where a previous one ended
+          url = url.concat('&after=' + inputs.body.page_after)
+        }
+
+        fetchFromTwitch(url) // Gets the tops streams on a specific game
+          .then(response => {
+
+            if (Object.keys(response.data).length == 0) { //Checks if the response is empty
+              return exits.error('no streams found - check spelling of game_id')
+            }
+
+            return exits.success(response);  // returns the Json to the client
+
+          })
+
       } else {
-        return exits.error('bad request - filterType input error');
+        return exits.error('bad request - filterType input error')
       }
     } else {
-      return exits.error('bad request - assetType input error');
+      return exits.error('bad request - assetType input error')
     }
 
+    //-------------------------------------Seperate functions---------------------------------------------------------------
+
+    //Does the call towards the twitch api
     function fetchFromTwitch(url) {
       return new Promise(function (resolve, reject) {
         fetch(url, { headers: { 'Client-ID': '3jxj3x3uo4h6xcxh2o120cu5wehsab' } })
           .then(function (response) {
-            resolve(response.json());
+            resolve(response.json())
           })
       });
     }
+
+    //Used to check if Json is empty
+    function isEmpty(obj) {
+      for (var key in obj) {
+        if (obj.hasOwnProperty(key))
+          return false;
+      }
+      return true;
+    }
+
   },
 };
