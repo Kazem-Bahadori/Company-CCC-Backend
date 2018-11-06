@@ -65,7 +65,6 @@ module.exports = {
             .then(response => {
               fetchSteamData(response.data[0].name)
                 .then(name => {
-                  console.log(name);
                   return exits.success(response);
                 });
             });
@@ -151,9 +150,15 @@ module.exports = {
         promises.push(new Promise(function (resolve, reject) {
           getSteamID(element.name)
             .then(game => {
-              // getSteamData(game.appId)
-              //   .then(data => resolve(data));
-              resolve(game);
+              if (game.appId != undefined) {
+                getSteamData(game.appId)
+                  .then(data => {
+                    resolve(data)
+                  })
+                  .catch(() => resolve(false));
+              } else {
+                resolve(game);
+              }
             });
         })
         );
@@ -162,7 +167,6 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Promise.all(promises).then(values => {
           for (let i = 0; i < games.length; i++) {
-            //console.log('twitch', twitchGames[i], values[9]);
             games[i]['steam'] = values[i];
           }
           resolve(games);
@@ -173,8 +177,8 @@ module.exports = {
     function getSteamData(appId) {
       const inputs = {
         query: {
-          assetType: 'games',
-          filterType: 'data',
+          assetType: 'price',
+          filterType: 'app_id',
           filterValue: appId
         }
       }
@@ -186,7 +190,7 @@ module.exports = {
           },
           // OK.
           success: function (result) {
-            resolve(result);
+            resolve({'appid': appId, price: result});
           },
         });
       });

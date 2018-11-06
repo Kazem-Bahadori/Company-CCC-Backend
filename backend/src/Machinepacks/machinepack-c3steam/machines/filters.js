@@ -40,42 +40,29 @@ module.exports = {
   ) {
     let url = 'http://store.steampowered.com/api/'; // the main url of the twitch api
 
-    if (inputs.query.assetType == 'game') {
-      if (inputs.query.filterType == 'data') {
-        if (inputs.query.filterValue != undefined) {
-          url = url.concat('appdetails?appids=' + inputs.query.filterValue)
-          fetchFromSteam(url) 
-            .then(response => {
-              const appId = inputs.query.filterValue;
-              return exits.success(response[appId]);  // returns the Json to the client 
-            })
-          } else {
-            return exits.error('bad request - filterValue input error');
-          }
-        } else {
-          return exits.error('bad request - filterType input error');
-        }
-    } else if (inputs.query.assetType == 'price') {
+    if (inputs.query.assetType == 'price') {
       if (inputs.query.filterType == 'app_id') {
         if (inputs.query.filterValue != undefined) {
           url = url.concat('appdetails?appids=' + inputs.query.filterValue)
-          fetchFromSteam(url) 
+          fetchFromSteam(url)
             .then(response => {
-
-              let appId = inputs.query.filterValue;
-              let steamResponse = {}
-
-              steamResponse = response[appId]
-              let price = steamResponse.data.price_overview
-
-              return exits.success(price);  // returns the Json to the client 
+              const appId = inputs.query.filterValue;
+              const steamResponse = response[appId];
+              if (steamResponse.data != undefined) {
+                let price = steamResponse.data.price_overview
+                return exits.success(price);  // returns the Json to the client 
+              } else {
+                return exits.error('Could not find price data');
+              }
+              
             })
-          } else {
-            return exits.error('bad request - filterValue input error');
-          }
+            .catch (err => exits.error(err));
         } else {
-          return exits.error('bad request - filterType input error');
+          return exits.error('bad request - filterValue input error');
         }
+      } else {
+        return exits.error('bad request - filterType input error');
+      }
     } else if (inputs.query.assetType == 'system_requirements') {
       if (inputs.query.filterType == 'app_id') {
         if (inputs.query.filterValue != undefined) {
@@ -105,7 +92,7 @@ module.exports = {
       if (inputs.query.filterType == 'app_id') {
         if (inputs.query.filterValue != undefined) {
           url = url.concat('appdetails?appids=' + inputs.query.filterValue)
-          fetchFromSteam(url)  
+          fetchFromSteam(url)
             .then(response => {
 
               let appId = inputs.query.filterValue;
@@ -116,42 +103,42 @@ module.exports = {
 
               return exits.success(review);  // returns the Json to the client 
             })
-          } else {
-            return exits.error('bad request - filterValue input error');
-          }
         } else {
-          return exits.error('bad request - filterType input error');
+          return exits.error('bad request - filterValue input error');
         }
+      } else {
+        return exits.error('bad request - filterType input error');
+      }
     } else if (inputs.query.assetType == 'games') {
       if (inputs.query.filterType == 'on_twitch') {
         if (inputs.query.filterValue != undefined) {
-          
+
           let games = require('./steam_games.json');
           let name = inputs.query.filterValue
           let gameObject
           let counter = 0;
 
 
-          while (counter<games.length) {
+          while (counter < games.length) {
 
             gameObject = games[counter]
 
             if (gameObject.name == name) {
-              return exits.success({appId:gameObject['appid']});  // returns the Json to the client 
+              return exits.success({ appId: gameObject['appid'] });  // returns the Json to the client 
             }
             counter++
-          } 
+          }
           return exits.success(false)  // returns the Json to the client 
 
         } else {
-            return exits.error('bad request - filterValue input error');
-          }
-      } else {
-          return exits.error('bad request - filterType input error');
+          return exits.error('bad request - filterValue input error');
         }
-    } else {
-        return exits.error('bad request - assetType input error');
+      } else {
+        return exits.error('bad request - filterType input error');
       }
+    } else {
+      return exits.error('bad request - assetType input error');
+    }
 
     function fetchFromSteam(url) {
       return new Promise(function (resolve, reject) {
