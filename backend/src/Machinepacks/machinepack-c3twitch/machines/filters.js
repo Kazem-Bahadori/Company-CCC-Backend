@@ -47,12 +47,29 @@ module.exports = {
       if (inputs.query.filterType == 'top') {
         const amount = inputs.query.filterValue != undefined ? inputs.query.filterValue : 20;
         getTopGames(amount)
-          .then(x => {
-            return exits.success(x);
+          .then(games => {
+            return exits.success(games);
           })
           .catch(err => {
             return exits.error(err);
           });
+      } else if (inputs.query.filterType === 'category') {
+        if (inputs.query.filterValue === 'steamGame') {
+
+          getTopGames(100)
+            .then(games => {
+              let steamGames = games.filter(game => game.steam != false);
+              if(Object.keys(steamGames).length > 20) {
+                steamGames = steamGames.slice(0,20);
+              }
+              return exits.success(steamGames);
+            })
+            .catch(err => {
+              return exits.error(err);
+            });
+        } else {
+          return exits.error('bad request - filterType input error');
+        }
       } else {
         return exits.error('bad request - filterType input error');
       }
