@@ -38,13 +38,24 @@ module.exports = {
   fn: function (inputs, exits
     /*``*/
   ) {
-    //console.log('Steam function triggered!')
-
     let url = 'http://store.steampowered.com/api/'; // the main url of the twitch api
 
-    //console.log(inputs.query)
-
-    if (inputs.query.assetType == 'price') {
+    if (inputs.query.assetType == 'game') {
+      if (inputs.query.filterType == 'data') {
+        if (inputs.query.filterValue != undefined) {
+          url = url.concat('appdetails?appids=' + inputs.query.filterValue)
+          fetchFromSteam(url) 
+            .then(response => {
+              const appId = inputs.query.filterValue;
+              return exits.success(response[appId]);  // returns the Json to the client 
+            })
+          } else {
+            return exits.error('bad request - filterValue input error');
+          }
+        } else {
+          return exits.error('bad request - filterType input error');
+        }
+    } else if (inputs.query.assetType == 'price') {
       if (inputs.query.filterType == 'app_id') {
         if (inputs.query.filterValue != undefined) {
           url = url.concat('appdetails?appids=' + inputs.query.filterValue)
@@ -126,7 +137,7 @@ module.exports = {
             gameObject = games[counter]
 
             if (gameObject.name == name) {
-              return exits.success(true)  // returns the Json to the client 
+              return exits.success({appId:gameObject['appid']});  // returns the Json to the client 
             }
             counter++
           } 
