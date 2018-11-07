@@ -6,6 +6,50 @@
 	},
 	"item": [
 		{
+			"name": "Check_if_twitch_machine_is_running",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "159faee6-7065-445c-8ab3-9d152b520e9e",
+						"exec": [
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Should be OK\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"OK\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/twitch/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"twitch",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "get_Top20_games",
 			"event": [
 				{
@@ -49,7 +93,7 @@
 							"pm.test('Contains 20 top games', function () { //checks the amout of games shown",
 							"     var responseJson = JSON.parse(responseBody);",
 							"     //console.log(responseJson.data.length);",
-							"    pm.expect(responseJson.data.length).to.equal(19);",
+							"    pm.expect(responseJson.data.length).to.equal(20);",
 							"    ",
 							"});",
 							" ",
@@ -67,7 +111,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/twitch/filters?filterType=games&assetType=top",
+					"raw": "http://localhost:8080/api/twitch/filters?assetType=games&filterType=top",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -80,11 +124,11 @@
 					],
 					"query": [
 						{
-							"key": "filterType",
+							"key": "assetType",
 							"value": "games"
 						},
 						{
-							"key": "assetType",
+							"key": "filterType",
 							"value": "top"
 						}
 					]
@@ -109,7 +153,8 @@
 							"",
 							"",
 							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"493959\");",
+							"    pm.expect(pm.response.text()).to.include(\"user_name\");",
+							"     pm.expect(pm.response.text()).to.include(\"display_name\");",
 							"});",
 							"",
 							"",
@@ -118,78 +163,9 @@
 							"     //console.log(responseJson.data.length);",
 							"    pm.expect(pm.response.text()).to.include(\"live\");",
 							"    ",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "http://localhost:8080/api/twitch/filters?filterType=streams&additionalFilter=game_id&amount=493959",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"twitch",
-						"filters"
-					],
-					"query": [
-						{
-							"key": "filterType",
-							"value": "streams"
-						},
-						{
-							"key": "additionalFilter",
-							"value": "game_id"
-						},
-						{
-							"key": "amount",
-							"value": "493959"
-						}
-					]
-				},
-				"description": "fetches top streams from a specific game ID, in this case Red Dead Redemption 2 ID: 493959"
-			},
-			"response": []
-		},
-		{
-			"name": "get_a_specific_streamer",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "dadc2a14-be7a-438e-b69a-051aeee89f98",
-						"exec": [
-							"//const jsonData = pm.response.json();",
-							"",
-							"pm.test(\"Status code is 200\", function () { //makes sure that the response was successful",
-							"    pm.response.to.have.status(200);",
 							"});",
 							"",
-							"pm.test('Streamer name != KalleAnka', function () { //checks the amout of games shown",
-							"     //console.log(responseJson.data.length);",
-							"     pm.expect(pm.response.text()).to.not.include(\"KalleAnka\");",
-							"});",
 							"",
-							"pm.test(\"Streamer name == CohhCarnage\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"CohhCarnage\");",
-							"});",
-							"",
-							"pm.test('Body contains description', function () { //checks the amout of games shown",
-							"     //console.log(responseJson.data.length);",
-							"    pm.expect(pm.response.text()).to.include(\"description\");",
-							"    ",
-							"});",
 							"",
 							""
 						],
@@ -205,7 +181,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/twitch/filters?filterType=users&additionalFilter=id&amount=26610234",
+					"raw": "http://localhost:8080/api/twitch/filters?assetType=streams&filterType=game_id&filterValue=21779",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -218,19 +194,20 @@
 					],
 					"query": [
 						{
+							"key": "assetType",
+							"value": "streams"
+						},
+						{
 							"key": "filterType",
-							"value": "users"
+							"value": "game_id"
 						},
 						{
-							"key": "additionalFilter",
-							"value": "id"
-						},
-						{
-							"key": "amount",
-							"value": "26610234"
+							"key": "filterValue",
+							"value": "21779"
 						}
 					]
-				}
+				},
+				"description": "fetches top streams from a specific game ID, in this case Red Dead Redemption 2 ID: 493959"
 			},
 			"response": []
 		}
