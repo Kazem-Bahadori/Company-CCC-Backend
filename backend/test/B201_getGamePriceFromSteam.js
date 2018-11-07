@@ -4,9 +4,14 @@ const filters = require('../src/Machinepacks/machinepack-c3steam/machines/filter
 
 describe('B201 TEST', () =>{
     it('Testing game price from Steam', ()=> {
+      let url = 'http://store.steampowered.com/api/';
+      filters.inputs.assetType = 'price';
+      filters.inputs.filterType = 'app_id';
 
-      //assert.equal(filters.fn.exits.success(price), "true");
+      
 
 
+      console.log(filters.inputs.query);
+      console.log(filters.inputs.assetType);
     });
   });
