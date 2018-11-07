@@ -99,35 +99,13 @@
 					"script": {
 						"id": "af99b407-d920-4335-b244-8cde97dac919",
 						"exec": [
-							"const jsonData = JSON.parse(responseBody);",
+							"//const jsonData = pm.response.json();",
 							"",
 							"pm.test(\"API call successfull\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
 							"",
-							"pm.test(\"Makes sure body is correct\", function () {",
-							"    pm.expect(jsonData).to.have.property('currency');",
-							"    pm.expect(jsonData).to.have.property('initial');",
-							"    pm.expect(jsonData).to.have.property('final');",
-							"    pm.expect(jsonData).to.have.property('discount_percent');",
-							"});",
 							"",
-							"//Test for game with filterValue = 57690",
-							"pm.test(\"Correct currency\", function () {",
-							"    pm.expect(jsonData.currency).to.eql('EUR');",
-							"});",
-							"",
-							"pm.test(\"Correct initial price\", function () {",
-							"    pm.expect(jsonData.initial).to.eql(1499);",
-							"});",
-							"",
-							"pm.test(\"Correct final price\", function () {",
-							"    pm.expect(jsonData.final).to.eql(1499);",
-							"});",
-							"",
-							"pm.test(\"Correct discount_percent\", function () {",
-							"    pm.expect(jsonData.discount_percent).to.eql(0);",
-							"});",
 							"",
 							"",
 							"          ",
@@ -148,7 +126,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/steam/filters?assetType=price&filterType=app_id&filterValue=57690",
+					"raw": "http://localhost:8080/api/steam/filters?assetType=reviews&filterType=app_id&filterValue=57690",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -162,7 +140,7 @@
 					"query": [
 						{
 							"key": "assetType",
-							"value": "price"
+							"value": "reviews"
 						},
 						{
 							"key": "filterType",
@@ -238,6 +216,7 @@
 					"script": {
 						"id": "b9395235-1aa5-4a43-9ab2-56c1800b735c",
 						"exec": [
+							"const jsonData = JSON.parse(responseBody);",
 							"",
 							"pm.test(\"API call successfull\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -246,8 +225,10 @@
 							"pm.test(\"Body contains pc_requirements\", function () {",
 							"    pm.expect(pm.response.text()).to.include(\"pc_requirements\");",
 							"});",
+							"",
 							"pm.test(\"Body contains mac_requirements\", function () {",
 							"    pm.expect(pm.response.text()).to.include(\"mac_requirements\");",
+							"",
 							"});",
 							"",
 							"pm.test(\"Body contains linux_requirements\", function () {",
