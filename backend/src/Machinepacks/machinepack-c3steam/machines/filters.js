@@ -67,8 +67,8 @@ module.exports = {
     } else if (inputs.query.assetType == 'system_requirements') {
       if (inputs.query.filterType == 'app_id') {
         if (inputs.query.filterValue != undefined) {
-          url = url.concat('api/appdetails?appids=' + inputs.query.filterValue)
-          fetchFromSteam(url) //gets the top streamed games on twitch.
+          url = url.concat('appdetails?appids=' + inputs.query.filterValue)
+          fetchFromSteam(url)
             .then(response => {
 
               let appId = inputs.query.filterValue;
@@ -95,7 +95,6 @@ module.exports = {
           url = url.concat('appdetails?appids=' + inputs.query.filterValue)
 
           fetchFromSteam(url)
-          get_gameprice
             .then(response => {
 
               let review = response.query_summary
