@@ -11,7 +11,7 @@
     "test": "eslint src",
     "test_case": "mocha --compilers js:babel-core/register",
     "create_result": "mocha --compilers js:babel-core/register test --reporter mocha-junit-reporter",
-    "newman": "newman run Flatfish_backend.postman_collection.json --reporters cli,junit"
+    "newman": "newman run Flatfish_backend_twitch.postman_collection.json --reporters cli,junit"
   },
   "eslintConfig": {
     "extends": "eslint:recommended",
