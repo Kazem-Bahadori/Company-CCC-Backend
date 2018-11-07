@@ -1,4 +1,6 @@
 const fetch = require('node-fetch');
+import Steam from '../../machinepack-c3steam';
+
 module.exports = {
 
   friendlyName: 'filters',
@@ -36,14 +38,10 @@ module.exports = {
   fn: function (inputs, exits
     /*``*/
   ) {
-    console.log('Twitch function triggered!')
-
     let url = 'https://api.twitch.tv/helix/'; // the main url of the twitch api
 
     let twitchResponse = {} // a variable used to store json when multiple calls are done
     let multiCallVar // a variable used when having to do send in multiple values in a call to twitch
-
-    console.log(inputs.query)
 
     if (inputs.query.assetType == 'games') {
       if (inputs.query.filterType == 'top') {
@@ -52,8 +50,11 @@ module.exports = {
             url = url.concat('games/top?first=' + inputs.query.filterValue)
             fetchFromTwitch(url) //gets the top streamed games on twitch. 
               .then(response => {
-                return exits.success(response);  // returns the Json to the client 
-              })
+                gamesIsOnSale(response.data)
+                  .then(res => {
+                    return exits.success(res);
+                  });
+              });
           } else {
             return exits.error('bad request - filtervalue for top games must be between 1-100')
           }
@@ -62,8 +63,11 @@ module.exports = {
           url = url.concat('games/top')
           fetchFromTwitch(url) //gets the top streamed games on twitch. 20 is default in the twitch api
             .then(response => {
-              return exits.success(response);  // returns the Json to the client 
-            })
+              fetchSteamData(response.data[0].name)
+                .then(name => {
+                  return exits.success(response);
+                });
+            });
         }
       } else {
         return exits.error('bad request - filterType input error');
@@ -76,7 +80,7 @@ module.exports = {
           fetchFromTwitch(url) // Gets the tops streams on a specific game
             .then(response => {
 
-              if (Object.keys(response.data).length == 0){ //Checks if the response is empty
+              if (Object.keys(response.data).length == 0) { //Checks if the response is empty
                 return exits.error('no streams found - check spelling of game_id')
               }
 
@@ -109,11 +113,86 @@ module.exports = {
     }
 
     function fetchFromTwitch(url) {
-      return new Promise(function (resolve, reject) {
+      return new Promise((resolve, reject) => {
         fetch(url, { headers: { 'Client-ID': '3jxj3x3uo4h6xcxh2o120cu5wehsab' } })
           .then(function (response) {
             resolve(response.json());
           })
+      });
+    }
+
+    function getSteamID(nameOfGame) {
+      const inputs = {
+        query: {
+          assetType: 'games',
+          filterType: 'on_twitch',
+          filterValue: nameOfGame
+        }
+      }
+      return new Promise((resolve, reject) => {
+        Steam.filters(inputs).exec({
+          // An unexpected error occurred.
+          error: function (err) {
+            reject(err);
+          },
+          // OK.
+          success: function (result) {
+            resolve(result);
+          },
+        });
+      });
+    }
+
+    function gamesIsOnSale(twitchGames) {
+      const promises = [];
+      const games = twitchGames;
+      games.forEach(function (element) {
+        promises.push(new Promise(function (resolve, reject) {
+          getSteamID(element.name)
+            .then(game => {
+              if (game.appId != undefined) {
+                getSteamData(game.appId)
+                  .then(data => {
+                    resolve(data)
+                  })
+                  .catch(() => resolve(false));
+              } else {
+                resolve(game);
+              }
+            });
+        })
+        );
+      });
+
+      return new Promise((resolve, reject) => {
+        Promise.all(promises).then(values => {
+          for (let i = 0; i < games.length; i++) {
+            games[i]['steam'] = values[i];
+          }
+          resolve(games);
+        })
+      });
+    }
+
+    function getSteamData(appId) {
+      const inputs = {
+        query: {
+          assetType: 'price',
+          filterType: 'app_id',
+          filterValue: appId
+        }
+      }
+      return new Promise((resolve, reject) => {
+        Steam.filters(inputs).exec({
+          // An unexpected error occurred.
+          error: function (err) {
+            reject(err);
+          },
+          // OK.
+          success: function (result) {
+            resolve({'appid': appId, price: result});
+          },
+        });
       });
     }
   },

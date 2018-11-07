@@ -6,7 +6,6 @@ import {
 } from 'express';
 const fetch = require('node-fetch');
 const Twitch = require('../Machinepacks/machinepack-c3twitch');
-//Steam node-machine from npm
 const Steam = require('../Machinepacks/machinepack-c3steam');
 export default ({
 	config,
