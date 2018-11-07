@@ -14,7 +14,7 @@
 						"id": "159faee6-7065-445c-8ab3-9d152b520e9e",
 						"exec": [
 							"",
-							"pm.test(\"Status code is 200\", function () {",
+							"pm.test(\"API call successfull\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
 							"",
@@ -59,41 +59,60 @@
 						"exec": [
 							"const jsonData = pm.response.json();",
 							"",
-							"pm.test(\"Status code is 200\", function () { //makes sure that the response was successful",
+							"pm.test(\"API call successfull\", function () { //makes sure that the response was successful",
 							"    pm.response.to.have.status(200);",
 							"});",
-							"pm.test(\"Successful POST request\", function () {",
-							"    pm.expect(pm.response.code).to.be.oneOf([200,202]);",
+							"",
+							"",
+							"/*pm.test('Response body has data', function() {",
+							"    pm.expect(jsonData).to.have.property('data');",
+							"   ",
+							"});*/",
+							"pm.test('Response body has 20 id', function() {",
+							"   // pm.expect(jsonData.data).contains('id');",
+							"   var counter =0;",
+							"        jsonData.forEach(function(id){",
+							"            counter++;",
+							"            //console.log(counter);",
+							"        });",
+							"    pm.expect(counter).to.be.equal(20);  ",
+							" // pm.expect(jsonData).to.be.equal('id');",
+							"  ",
 							"});",
-							"pm.test(\"Response time is less than 500ms\", function () {  // should not be used.",
-							"    pm.expect(pm.response.responseTime).to.be.below(500);",
-							"});",
 							"",
-							"",
-							"pm.test('Has data', function() {",
-							"  pm.expect(jsonData).to.have.property('data');",
-							"});",
-							"",
-							"",
-							"pm.test('Contains id', function () { ",
-							"    pm.expect(jsonData.data.id).to.be.not.null;",
+							"pm.test('Response body id is not null', function () {  // gör nog inte vad den sa´ka",
+							"   ",
+							"   ",
+							"   // pm.expect(jsonData.id).to.be.not.null;",
+							"        jsonData.forEach(function(id){",
+							"            pm.expect(id).to.be.not.null;",
+							"        });",
+							"   // pm.expect(counter).to.be.equal(20);  ",
+							"   // console.log(jsonData.data.id);",
 							"   // pm.jsonData = jsonData.data.id !== null ;",
 							"});    ",
 							"",
-							"pm.test('Contains name', function () { ",
-							"    pm.expect(jsonData.data.name).to.be.not.null;",
+							"pm.test('Response body name is not null', function () { // gör nog inte vad den sa´ka",
+							"   // pm.expect(jsonData.data.name).to.be.not.null;",
+							"   jsonData.forEach(function(name){",
+							"            pm.expect(name).to.be.not.null;",
+							"        });",
 							"    //pm.jsonData = jsonData.data.name !== null ;",
 							"});    ",
-							"pm.test('Contains pic_url', function () { ",
-							"    pm.expect(jsonData.data.box_art_url).to.be.not.null;",
+							"pm.test('Response body box_art_url is not null', function () { // gör nog inte vad den sa´ka",
+							"   // pm.expect(jsonData.data.box_art_url).to.be.not.null;",
 							"   // pm.jsonData = jsonData.data.box_art_url !== null ;",
+							"   jsonData.forEach(function(box_art_url){",
+							"            pm.expect(box_art_url).to.be.not.null;",
+							"            //console.log(box_art_url)",
+							"        });",
 							"});    ",
 							"",
 							"",
 							"pm.test('Contains 20 top games', function () { //checks the amout of games shown",
-							"     var responseJson = JSON.parse(responseBody);",
+							"     //var responseJson = JSON.parse(responseBody);",
 							"     //console.log(responseJson.data.length);",
-							"    pm.expect(responseJson.data.length).to.equal(20);",
+							"    pm.expect(jsonData.length).to.equal(20);",
 							"    ",
 							"});",
 							" ",
@@ -147,13 +166,16 @@
 						"exec": [
 							"const jsonData = pm.response.json();",
 							"",
-							"pm.test(\"Status code is 200\", function () { //makes sure that the response was successful",
+							"pm.test(\"API call successfull\", function () { //makes sure that the response was successful",
 							"    pm.response.to.have.status(200);",
 							"});",
 							"",
 							"",
-							"pm.test(\"Body matches string\", function () {",
+							"pm.test(\"Body has user_name\", function () {",
 							"    pm.expect(pm.response.text()).to.include(\"user_name\");",
+							"});",
+							"",
+							"pm.test(\"Body has display_name\", function () {",
 							"     pm.expect(pm.response.text()).to.include(\"display_name\");",
 							"});",
 							"",
@@ -208,6 +230,215 @@
 					]
 				},
 				"description": "fetches top streams from a specific game ID, in this case Red Dead Redemption 2 ID: 493959"
+			},
+			"response": []
+		},
+		{
+			"name": "get_price_info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "af99b407-d920-4335-b244-8cde97dac919",
+						"exec": [
+							"",
+							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/steam/filters?assetType=price&filterType=app_id&filterValue=57690",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"steam",
+						"filters"
+					],
+					"query": [
+						{
+							"key": "assetType",
+							"value": "price"
+						},
+						{
+							"key": "filterType",
+							"value": "app_id"
+						},
+						{
+							"key": "filterValue",
+							"value": "57690"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_<rename>_steam",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9e06f8bf-6ee9-4099-b04d-5430cb2addc2",
+						"exec": [
+							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/steam/filters?assetType=reviews&filterType=app_id&filterValue=57690",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"steam",
+						"filters"
+					],
+					"query": [
+						{
+							"key": "assetType",
+							"value": "reviews"
+						},
+						{
+							"key": "filterType",
+							"value": "app_id"
+						},
+						{
+							"key": "filterValue",
+							"value": "57690"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_system_req",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b9395235-1aa5-4a43-9ab2-56c1800b735c",
+						"exec": [
+							"",
+							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Body contains pc_requirements\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"pc_requirements\");",
+							"});",
+							"pm.test(\"Body contains mac_requirements\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"mac_requirements\");",
+							"});",
+							"",
+							"pm.test(\"Body contains linux_requirements\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"linux_requirements\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/steam/filters?assetType=system_requirements&filterType=app_id&filterValue=57690",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"steam",
+						"filters"
+					],
+					"query": [
+						{
+							"key": "assetType",
+							"value": "system_requirements"
+						},
+						{
+							"key": "filterType",
+							"value": "app_id"
+						},
+						{
+							"key": "filterValue",
+							"value": "57690"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Not sure what this does",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/steam/filters?assetType=games&filterType=on_twitch&filterValue=Assassin's Creed",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"steam",
+						"filters"
+					],
+					"query": [
+						{
+							"key": "assetType",
+							"value": "games"
+						},
+						{
+							"key": "filterType",
+							"value": "on_twitch"
+						},
+						{
+							"key": "filterValue",
+							"value": "Assassin's Creed"
+						}
+					]
+				}
 			},
 			"response": []
 		}
