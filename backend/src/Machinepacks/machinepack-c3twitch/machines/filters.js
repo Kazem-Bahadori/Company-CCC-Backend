@@ -23,7 +23,7 @@ module.exports = {
     },
     context: {
       example: '20',
-      description: 'Context to specify what is wanted',
+      description: 'The body. Context to specify what is wanted',
       require: false
     },
   },
@@ -42,13 +42,19 @@ module.exports = {
 
     console.log(inputs.query)
 
-    if (inputs.query.assetType == 'games') {
-      if (inputs.query.filterType == 'top') {
-        url = url.concat('games/top')
-        fetchFromTwitch(url) //gets the top streamed games on twitch. 
-          .then(response => {
-            return exits.success(response);  // returns the Json to the client 
-          })
+    if (inputs.query.assetType == 'streams') {
+      if (inputs.query.filterType == 'games') {
+        if (inputs.query.filterValue == 'top') {
+          url = url.concat('games/top')
+          fetchFromTwitch(url) //gets the top streamed games on twitch. 
+            .then(response => {
+              return exits.success(response);  // returns the Json to the client 
+            })
+        } else {
+          return exits.error('bad request - filterValue input error')
+        }
+
+        //-------------------Contextual calls-----------------------------------------------------------------------------
 
       } else if (inputs.query.filterType == 'contextual') {
 
@@ -56,63 +62,62 @@ module.exports = {
           return exits.error('bad request - No context given')
         }
 
-        url = url.concat('games/top?')
+        if (inputs.body.hasOwnProperty('filter_by')) {
+          if (inputs.body.filter_by == 'top_games') {
+            url = url.concat('games/top?')
 
-          let checkFirst = false; //A check to see if a parameter has been added so subsequent parameters adds '&'
+            let checkFirst = false; //A check to see if a parameter has been added so subsequent parameters adds '&'
 
-          if (inputs.body.hasOwnProperty('quantity') && inputs.body.quantity >= 1 && inputs.body.quantity <= 100) {
-            url = url.concat('first=' + inputs.body.quantity)
-            checkFirst = true
-          }
-          if (inputs.body.hasOwnProperty('page_after')) {
-            //adds pagination. Makes it so you can make a call to get a continous list of data where a previous one ended
-            if (checkFirst == true) { //checks if there is something before it incase it needs to add '&'
-              url = url.concat('&after=' + inputs.body.page_after)
+            if (inputs.body.hasOwnProperty('quantity') && inputs.body.quantity >= 1 && inputs.body.quantity <= 100) {
+              url = url.concat('first=' + inputs.body.quantity) //twitch only supports 1-100 items each call
+              checkFirst = true
+            }
+            if (inputs.body.hasOwnProperty('page_after')) {
+              //adds pagination. Makes it so you can make a call to get a continous list of data where a previous one ended
+              if (checkFirst == true) { //checks if there is something before it incase it needs to add '&'
+                url = url.concat('&after=' + inputs.body.page_after)
+              } else {
+                url = url.concat('after=' + inputs.body.page_after)
+              }
+            }
+
+            fetchFromTwitch(url) //gets the top streamed games on twitch. 
+              .then(response => {
+                return exits.success(response);  // returns the Json to the client 
+              })
+
+          } else if (inputs.body.filter_by == 'game_id') {
+            if (inputs.body.hasOwnProperty('game_id')) { //Checks if game_id exists within body
+              url = url.concat('streams?game_id=' + inputs.body.game_id)
             } else {
-              url = url.concat('after=' + inputs.body.page_after)
+              return exits.error('bad request - no game_id found')
             }
+            if (inputs.body.hasOwnProperty('quantity') && inputs.body.quantity >= 1 && inputs.body.quantity <= 100) {
+              url = url.concat('&first=' + inputs.body.quantity)
+            } else {
+              return exits.error('bad request - quantity must be between 1-100')
+            }
+            if (inputs.body.hasOwnProperty('page_after')) {
+              //adds pagination. Makes it so you can make a call to get a continous list of data where a previous one ended
+              url = url.concat('&after=' + inputs.body.page_after)
+            }
+
+            fetchFromTwitch(url) // Gets the tops streams on a specific game
+              .then(response => {
+
+                if (Object.keys(response.data).length == 0) { //Checks if the response is empty
+                  return exits.error('no streams found - check spelling of game_id')
+                }
+
+                return exits.success(response);  // returns the Json to the client
+
+              })
           }
-
-          fetchFromTwitch(url) //gets the top streamed games on twitch. 
-          .then(response => {
-            return exits.success(response);  // returns the Json to the client 
-          })
-
-      } else {
-        return exits.error('bad request - filterType input error')
-      }
-
-    } else if (inputs.query.assetType == 'streams') {
-      if (inputs.query.filterType == 'contextual') {
-
-        if (isEmpty(inputs.body)) { //Checks if body is empty
-          return exits.error('bad request - No context given')
         }
-        if (inputs.body.hasOwnProperty('game_id')) { //Checks if game_id exists within body
-          url = url.concat('streams?game_id=' + inputs.body.game_id)
-        } else {
-          return exits.error('bad request - no game_id found')
-        }
-        if (inputs.body.hasOwnProperty('quantity') && inputs.body.quantity >= 1 && inputs.body.quantity <= 100) {
-          url = url.concat('&first=' + inputs.body.quantity)
-        } else {
-          return exits.error('bad request - quantity must be between 1-100')
-        }
-        if (inputs.body.hasOwnProperty('page_after')) {
-          //adds pagination. Makes it so you can make a call to get a continous list of data where a previous one ended
-          url = url.concat('&after=' + inputs.body.page_after)
-        }
-
-        fetchFromTwitch(url) // Gets the tops streams on a specific game
-          .then(response => {
-
-            if (Object.keys(response.data).length == 0) { //Checks if the response is empty
-              return exits.error('no streams found - check spelling of game_id')
-            }
-
-            return exits.success(response);  // returns the Json to the client
-
-          })
+        // fetchFromTwitch(url) //gets the top streamed games on twitch. 
+        //   .then(response => {
+        //     return exits.success(response);  // returns the Json to the client 
+        //   })
 
       } else {
         return exits.error('bad request - filterType input error')
