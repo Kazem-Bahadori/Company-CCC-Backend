@@ -40,14 +40,14 @@ module.exports = {
   ) {
     //console.log('Steam function triggered!')
 
-    let url = 'http://store.steampowered.com/api/'; // the main url of the twitch api
+    let url = 'http://store.steampowered.com/'; // the main url of the twitch api
 
     //console.log(inputs.query)
 
     if (inputs.query.assetType == 'price') {
       if (inputs.query.filterType == 'app_id') {
         if (inputs.query.filterValue != undefined) {
-          url = url.concat('appdetails?appids=' + inputs.query.filterValue)
+          url = url.concat('api/appdetails?appids=' + inputs.query.filterValue)
           fetchFromSteam(url) 
             .then(response => {
 
@@ -68,7 +68,7 @@ module.exports = {
     } else if (inputs.query.assetType == 'system_requirements') {
       if (inputs.query.filterType == 'app_id') {
         if (inputs.query.filterValue != undefined) {
-          url = url.concat('appdetails?appids=' + inputs.query.filterValue)
+          url = url.concat('api/appdetails?appids=' + inputs.query.filterValue)
           fetchFromSteam(url) //gets the top streamed games on twitch. 
             .then(response => {
 
@@ -93,15 +93,11 @@ module.exports = {
     } else if (inputs.query.assetType == 'reviews') {
       if (inputs.query.filterType == 'app_id') {
         if (inputs.query.filterValue != undefined) {
-          url = url.concat('appdetails?appids=' + inputs.query.filterValue)
+          url = url.concat('appreviews/' + inputs.query.filterValue + '?json=1')
           fetchFromSteam(url)  
             .then(response => {
 
-              let appId = inputs.query.filterValue;
-              let steamResponse = {}
-
-              steamResponse = response[appId]
-              let review = steamResponse.data.reviews
+              let review = response.query_summary
 
               return exits.success(review);  // returns the Json to the client 
             })
