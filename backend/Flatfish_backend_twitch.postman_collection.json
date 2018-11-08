@@ -68,16 +68,15 @@
 							"    pm.expect(jsonData).to.have.property('data');",
 							"   ",
 							"});*/",
-							"pm.test('Response body has 20 id', function() {",
+							"pm.test('Response body has 50 id', function() {",
 							"   // pm.expect(jsonData.data).contains('id');",
 							"   var count =0;",
 							"   for (var i=0; i < jsonData.length; i++){",
 							"       if (jsonData[i].id){",
 							"           count ++;",
 							"       }",
-							"       ",
 							"     }",
-							"     pm.expect(count).to.be.equal(20)",
+							"     pm.expect(count).to.be.equal(50)",
 							"   ",
 							" // pm.expect(jsonData).to.be.equal('id');",
 							"  ",
@@ -105,17 +104,17 @@
 							"});    ",
 							"",
 							"",
-							"pm.test('Contains 20 top games', function () { //checks the amout of games shown",
+							"pm.test('Contains 50 top games', function () { //checks the amout of games shown",
 							"     //var responseJson = JSON.parse(responseBody);",
 							"     //console.log(responseJson.data.length);",
-							"    pm.expect(jsonData.length).to.equal(20);",
+							"    pm.expect(jsonData.length).to.equal(50);",
 							"    ",
 							"});",
 							"",
 							"pm.test('steamGame should show have appId', function () { ",
 							"     ",
 							"     for (var i=0; i < jsonData.length; i++){",
-							"         if (jsonData[i].steam != false){",
+							"         if (jsonData[i].steam !== false){",
 							"            pm.expect(jsonData[i].steam.appid).to.be.not.null;",
 							"         }",
 							"     }",
@@ -136,7 +135,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/twitch/filters?assetType=games&filterType=top",
+					"raw": "http://localhost:8080/api/twitch/filters?assetType=games&filterType=top&filterValue=50",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -155,6 +154,10 @@
 						{
 							"key": "filterType",
 							"value": "top"
+						},
+						{
+							"key": "filterValue",
+							"value": "50"
 						}
 					]
 				},
