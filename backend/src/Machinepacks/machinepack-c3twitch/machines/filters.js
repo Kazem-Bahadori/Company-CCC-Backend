@@ -109,6 +109,20 @@ module.exports = {
       } else {
         return exits.error('bad request - filterType input error');
       }
+    } else if (inputs.query.assetType == 'search') {
+      if (inputs.query.filterType == 'search') {
+        if (inputs.query.filterValue != null) { 
+          let searchUrl = 'https://api.twitch.tv/kraken/search/games?query='  + inputs.query.filterValue;
+          fetch(searchUrl,  {           
+              headers: {
+                'Accept': 'application/vnd.twitchtv.v5+json',
+                'Client-ID': '3jxj3x3uo4h6xcxh2o120cu5wehsab' 
+              },             
+            })
+            .then(res => res.json())
+            .then(json => exits.success(json));
+        }
+      }
     } else {
       return exits.error('bad request - assetType input error');
     }
@@ -137,6 +151,7 @@ module.exports = {
           })
       });
     }
+    
 
     function getSteamID(nameOfGame) {
       const inputs = {
