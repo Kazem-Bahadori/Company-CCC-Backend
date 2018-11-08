@@ -69,7 +69,7 @@ module.exports = {
       if (inputs.query.filterType == 'app_id') {
         if (inputs.query.filterValue != undefined) {
           url = url.concat('api/appdetails?appids=' + inputs.query.filterValue)
-          fetchFromSteam(url) //gets the top streamed games on twitch. 
+          fetchFromSteam(url)
             .then(response => {
 
               let appId = inputs.query.filterValue;
