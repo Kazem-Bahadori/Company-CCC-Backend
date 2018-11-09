@@ -91,8 +91,8 @@ export default ({
 			},
 		});
 	});
-	api.get('/aggregation/search', (req, res) => {
-		TwitchIntegratedData.search().exec({
+	api.get('/aggregation/filter', (req, res) => {
+		TwitchIntegratedData.filters().exec({
 			// An unexpected error occurred.
 			error: err => {
 				console.log(err);

@@ -1,5 +1,3 @@
-import Twitch from '../../machinepack-c3twitch';
-
 module.exports = {
 
 
@@ -33,22 +31,7 @@ module.exports = {
   fn: function(inputs, exits
     /*``*/
   ) {
-    console.log('triggered! Should combine tiwtch with steam!');
-    // Twitch.filters(inputs).exec({
-
-		// 	// An unexpected error occurred.
-		// 	error: function (err) {
-
-		// 		console.log('ERROR:', err);
-		// 		return exits.error(err);
-		// 	},
-		// 	// OK.
-		// 	success: function (result) {
-
-		// 		return exits.success(result);
-		// 	},
-    // });
-    return exits.success('result');
+    return exits.success();
   },
 
 

@@ -22,7 +22,6 @@
     "friendlyName": "twitchIntegrateGameData",
     "machineDir": "machines/",
     "machines": [
-      "say-hello",
       "filters",
       "health",
       "search"
