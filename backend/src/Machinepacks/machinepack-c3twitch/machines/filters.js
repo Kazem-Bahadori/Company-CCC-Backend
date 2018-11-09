@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const fetch = require('node-fetch')
 module.exports = {
 
   friendlyName: 'filters',
@@ -36,13 +36,22 @@ module.exports = {
   fn: function (inputs, exits
     /*``*/
   ) {
+
+    // ________       ________     
+    // |\   ____\     |\_____  \    
+    // \ \  \___|     \|____|\ /_   
+    //  \ \  \              \|\  \  
+    //   \ \  \____        __\_\  \ 
+    //    \ \_______\     |\_______\
+    //     \|_______|     \|_______|
+
     console.log('Twitch function triggered!')
 
     let url = 'https://api.twitch.tv/helix/' // the main url of the twitch api
 
     console.log(inputs.query)
 
-    //-------------------------------------Top games---------------------------------------------------------------
+    //------------------------------------- Top games ---------------------------------------------------------------
 
     if (inputs.query.assetType == 'games') {
       if (inputs.query.filterType == 'top') {
@@ -60,7 +69,7 @@ module.exports = {
               })
         }
         
-        //_________________________game contextual________________________________
+        //~~~~~~~~~~~~~~~~~~~~~~~~~ game contextual ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       } else if (inputs.query.filterType == 'contextual') {
         if (isEmpty(inputs.body)) { //Checks if body is empty
           return exits.error('bad request - No context given')
@@ -95,7 +104,7 @@ module.exports = {
         }
       }
 
-      //-------------------------------------Top streams---------------------------------------------------------------
+      //------------------------------------- Top streams ---------------------------------------------------------------
 
     } else if (inputs.query.assetType == 'streams') {
       if (inputs.query.filterType == 'game') {
@@ -112,7 +121,7 @@ module.exports = {
           } else {
             return exits.error('bad request - no game_id is given')
           }
-      //_________________________stream contextual________________________________
+      //~~~~~~~~~~~~~~~~~~~~~~~~ stream contextual ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       } else if (inputs.query.filterType == 'contextual') {
 
         if (isEmpty(inputs.body)) { //Checks if body is empty
@@ -150,24 +159,25 @@ module.exports = {
         return exits.error('bad request - filterType input error')
       }
 
-    //-------------------------------------Streamer info---------------------------------------------------------------
+    //------------------------------------- Streamer info ---------------------------------------------------------------
 
     } else if (inputs.query.assetType == 'streamer_info'){
       if (inputs.query.filterType == undefined && inputs.query.filterValue != undefined) {
         url = url.concat('users?id=' + inputs.query.filterValue)
         console.log(url)
-        fetchFromTwitch(url) //gets the top streamed games on twitch. 
+        fetchFromTwitch(url)
             .then(response => {
               return exits.success(response);  // returns the Json to the client 
             })
       } else {
         return exits.error('bad request - incorrect user id or filterType not empty')
       }
+
     }else {
       return exits.error('bad request - assetType input error')
     }
 
-    //-------------------------------------Seperate functions---------------------------------------------------------------
+    //------------------------------------- Seperate functions ---------------------------------------------------------------
 
     //Does the call towards the twitch api
     function fetchFromTwitch(url) {

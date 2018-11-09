@@ -1,36 +1,56 @@
+const fetch = require('node-fetch')
 module.exports = {
 
 
   friendlyName: 'search',
-
-
   description: 'Searches for content from twitch',
-
-
   cacheable: false,
-
-
   sync: false,
-
-
   inputs: {
-
+    assetType: {
+      example: 'games',
+      description: 'Category what you want to get',
+      require: false
+    },
+    filterType: {
+      example: '',
+      description: 'specifies what you want within the selected category. Can also be contextual if the call is complex',
+      require: true
+    },
+    filterValue: {
+      example: 'starcraft',
+      description: 'What you want to search for',
+      require: false
+    }
   },
-
-
   exits: {
-
     success: {
       variableName: 'result',
       description: 'Done.',
     },
-
   },
 
 
   fn: function (inputs, exits
     /*``*/
   ) {
+    let url = 'https://api.twitch.tv/kraken/search/'
+
+    if (inputs.query.assetType == "games"){ // if you are searching for games on twitch
+      if (inputs.query.filterValue != undefined){ //Checks that filtervalue isn't left empty
+        url = url.concat('games?query=' + inputs.query.filterValue) //adds the searchword to the url
+        searchOnTwitch(url) //calls the searchOnTwitch function
+        .then( response => { //takes the response from the searchOnTwitch function
+          return exits.success(response);  // returns the response to the client
+        })
+      } else {
+        return exits.error('bad request - no filterValue given')
+      }
+    } else {
+      return exits.error('bad request - incorrect assetType')
+    }
+
+
     /*
     Hjälp för hur man arbetar med javascript
 
@@ -70,9 +90,14 @@ module.exports = {
       });
     console.log(toChange);
     */
-    return exits.success('Twitch Node-machine search säger hej!');
+    function searchOnTwitch(url) { //Sends the url with the id 
+      return new Promise(function (resolve, reject) {
+        fetch(url, { headers: { 'Accept': 'application/vnd.twitchtv.v5+json',
+        'Client-ID': '3jxj3x3uo4h6xcxh2o120cu5wehsab' } })
+          .then(function (response) {
+            resolve(response.json())
+          })
+      });
+    }
   },
-
-
-
 };
