@@ -45,7 +45,7 @@ module.exports = {
           response.games.forEach(function(element) { //Changes the output recived from twitch
             element.id = element._id;
             delete element._id; 
-            element.pic = element.box.large;
+            element.box_art_url = element.box.large;
             delete element.box;
             delete element.logo;
             delete element.localized_name;
