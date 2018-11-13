@@ -144,10 +144,11 @@ module.exports = {
 
               const appId = inputs.query.filterValue;
               const steamResponse = response[appId];
+              const a = 'id';
 
               if (steamResponse.data != undefined) {
-                let trailer = steamResponse.data.movies
-
+                let trailer = steamResponse.data.movies[0].webm.max
+                
                 return exits.success(trailer);  // returns the Json to the client 
               } else {
                 return exits.error('Error');
