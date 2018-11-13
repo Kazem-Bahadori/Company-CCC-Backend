@@ -36,17 +36,7 @@ module.exports = {
   fn: function (inputs, exits
     /*``*/
   ) {
-
-    // ________       ________     
-    // |\   ____\     |\_____  \    
-    // \ \  \___|     \|____|\ /_   
-    //  \ \  \              \|\  \  
-    //   \ \  \____        __\_\  \ 
-    //    \ \_______\     |\_______\
-    //     \|_______|     \|_______|
-
-    console.log('Twitch function triggered!')
-
+    
     let url = 'https://api.twitch.tv/helix/' // the main url of the twitch api
 
     console.log(inputs.query)
@@ -181,7 +171,7 @@ module.exports = {
 
     //Does the call towards the twitch api
     function fetchFromTwitch(url) {
-      return new Promise(function (resolve, reject) {
+      return new Promise((resolve, reject) => {
         fetch(url, { headers: { 'Client-ID': '3jxj3x3uo4h6xcxh2o120cu5wehsab' } })
           .then(function (response) {
             resolve(response.json())
