@@ -46,7 +46,7 @@ module.exports = {
       if (inputs.query.filterType == 'app_id') {
         if (inputs.query.filterValue != undefined) {
           url = url.concat('api/appdetails?appids=' + inputs.query.filterValue)
-          fetchFromSteam(url) 
+          fetchFromSteam(url)
             .then(response => {
               const appId = inputs.query.filterValue;
               const steamResponse = response[appId];
@@ -94,14 +94,8 @@ module.exports = {
     } else if (inputs.query.assetType == 'reviews') {
       if (inputs.query.filterType == 'app_id') {
         if (inputs.query.filterValue != undefined) {
-<<<<<<< HEAD
-          url = url.concat('appdetails?appids=' + inputs.query.filterValue)
-
-          fetchFromSteam(url)
-=======
           url = url.concat('appreviews/' + inputs.query.filterValue + '?json=1')
-          fetchFromSteam(url)  
->>>>>>> dev
+          fetchFromSteam(url)
             .then(response => {
 
               let review = response.query_summary
