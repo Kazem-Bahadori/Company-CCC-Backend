@@ -51,7 +51,10 @@ module.exports = {
             delete element.localized_name;
             delete element.locale;
             delete element.giantbomb_id;
+            //element.steam = getSteamID(element.name);
           });
+
+          
           
           /*
           var results = response['games'];  //Sorts the array
@@ -124,5 +127,26 @@ module.exports = {
           })
       });
     }
+   /* function getSteamID(nameOfGame) {
+      const inputs = {
+        query: {
+          assetType: 'games',
+          filterType: 'on_twitch',
+          filterValue: nameOfGame
+        }
+      }
+      return new Promise((resolve, reject) => {
+        Steam.filters(inputs).exec({
+          // An unexpected error occurred.
+          error: function (err) {
+            reject(err);
+          },
+          // OK.
+          success: function (result) {
+            resolve(result);
+          },
+        });
+      });
+    } */
   },
 };
