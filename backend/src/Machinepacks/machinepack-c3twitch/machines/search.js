@@ -17,7 +17,7 @@ module.exports = {
       description: 'specifies what you want within the selected category. Can also be contextual if the call is complex',
       require: true
     },
-    filterValue: {
+    queryString : {
       example: 'starcraft',
       description: 'What you want to search for',
       require: false
@@ -37,8 +37,8 @@ module.exports = {
     let url = 'https://api.twitch.tv/kraken/search/'
 
     if (inputs.query.assetType == "games"){ // if you are searching for games on twitch
-      if (inputs.query.filterValue != undefined){ //Checks that filtervalue isn't left empty
-        url = url.concat('games?query=' + inputs.query.filterValue) //adds the searchword to the url
+      if (inputs.query.queryString != undefined){ //Checks that filtervalue isn't left empty
+        url = url.concat('games?query=' + inputs.query.queryString ) //adds the searchword to the url
         searchOnTwitch(url) //calls the searchOnTwitch function
         .then( response => { //takes the response from the searchOnTwitch function
 
@@ -69,7 +69,7 @@ module.exports = {
           return exits.success(response);  // returns the response to the client
         })
       } else {
-        return exits.error('bad request - no filterValue given')
+        return exits.error('bad request - no queryString  given')
       }
     } else {
       return exits.error('bad request - incorrect assetType')
