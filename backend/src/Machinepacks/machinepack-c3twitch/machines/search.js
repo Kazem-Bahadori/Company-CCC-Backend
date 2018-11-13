@@ -41,6 +41,13 @@ module.exports = {
         url = url.concat('games?query=' + inputs.query.filterValue) //adds the searchword to the url
         searchOnTwitch(url) //calls the searchOnTwitch function
         .then( response => { //takes the response from the searchOnTwitch function
+
+          response.games.forEach(function(element) { //Changes name from _id to id
+            element.id = element._id;
+            delete element._id; 
+           
+          });
+         
           return exits.success(response);  // returns the response to the client
         })
       } else {
