@@ -134,7 +134,36 @@ module.exports = {
       } else {
         return exits.error('bad request - filterType input error');
       }
-    } else {
+    } else if (inputs.query.assetType == 'trailers') {
+      if (inputs.query.filterType == 'app_id') {
+        if (inputs.query.filterValue != undefined) {
+
+          url = url.concat('api/appdetails?appids=' + inputs.query.filterValue)
+          fetchFromSteam(url) 
+            .then(response => {
+
+              const appId = inputs.query.filterValue;
+              const steamResponse = response[appId];
+
+              if (steamResponse.data != undefined) {
+                let trailer = steamResponse.data.movies
+
+                return exits.success(trailer);  // returns the Json to the client 
+              } else {
+                return exits.error('Error');
+              }
+              
+            })
+            .catch (err => exits.error(err));
+    
+          } else {
+            return exits.error('bad request - filterValue input error');
+          }
+        } else {
+          return exits.error('bad request - filterType input error');
+        }
+    
+          } else {
       return exits.error('bad request - assetType input error');
     }
 
