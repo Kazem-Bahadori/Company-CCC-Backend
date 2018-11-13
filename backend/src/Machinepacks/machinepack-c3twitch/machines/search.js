@@ -42,12 +42,30 @@ module.exports = {
         searchOnTwitch(url) //calls the searchOnTwitch function
         .then( response => { //takes the response from the searchOnTwitch function
 
-          response.games.forEach(function(element) { //Changes name from _id to id
+          response.games.forEach(function(element) { //Changes the output recived from twitch
             element.id = element._id;
             delete element._id; 
-           
+            element.pic = element.box.large;
+            delete element.box;
+            delete element.logo;
+            delete element.localized_name;
+            delete element.locale;
+            delete element.giantbomb_id;
           });
-         
+          
+          /*
+          var results = response['games'];  //Sorts the array
+          results.sort(function(a,b){
+            if(a.popularity == b.popularity)
+                return 0;
+            if(a.popularity < b.popularity)
+                return 1;
+            if(a.popularity > b.popularity)
+                return -1;
+        });
+        response['games'] = results;
+        */
+        
           return exits.success(response);  // returns the response to the client
         })
       } else {
