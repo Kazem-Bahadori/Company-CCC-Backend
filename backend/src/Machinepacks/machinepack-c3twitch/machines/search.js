@@ -51,13 +51,11 @@ module.exports = {
             delete element.localized_name;
             delete element.locale;
             delete element.giantbomb_id;
-            //element.steam = getSteamID(element.name);
+            element.steam = getSteamID(element.name); //Get data from steam
           });
 
-          
-          
           /*
-          var results = response['games'];  //Sorts the array
+          var results = response['games'];  //Posibility to sort the output data
           results.sort(function(a,b){
             if(a.popularity == b.popularity)
                 return 0;
@@ -87,7 +85,7 @@ module.exports = {
           })
       });
     }
-   /* function getSteamID(nameOfGame) {
+    function getSteamID(nameOfGame) {
       const inputs = {
         query: {
           assetType: 'games',
@@ -107,6 +105,6 @@ module.exports = {
           },
         });
       });
-    } */
+    } 
   },
 };
