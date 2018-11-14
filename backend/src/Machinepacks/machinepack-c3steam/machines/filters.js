@@ -51,9 +51,16 @@ module.exports = {
               const appId = inputs.query.filterValue;
               const steamResponse = response[appId];
               if (steamResponse.data != undefined) {
-                let price = steamResponse.data.price_overview
-                return exits.success(price);  // returns the Json to the client 
+                let price = {};
+                if (steamResponse.data.is_free) {
+                  price.final = 0;
+                  price.discount_percent = 0;
+                } else {
+                  price = steamResponse.data.price_overview
+                }
+                return exits.success(price);
               } else {
+                console.log(response[appId]);
                 return exits.error('Could not find price data');
               }
               
