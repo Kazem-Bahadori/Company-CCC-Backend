@@ -122,7 +122,7 @@ module.exports = {
             gameObject = games[counter]
 
             if (gameObject.name == name) {
-              return exits.success({ appId: gameObject['appid'] });  // returns the Json to the client 
+              return exits.success({ appId: gameObject['appid'], priceOverview: gameObject['price_overview']});  // returns the Json to the client 
             }
             counter++
           }
@@ -164,7 +164,38 @@ module.exports = {
           return exits.error('bad request - filterType input error');
         }
     
+    }else if (inputs.query.assetType == 'sale') {
+      if (inputs.query.filterType == 'on_steam') {
+          if (inputs.query.filterValue != undefined) {
+      
+            let steamGames = inputs.query.filterValue;
+            
+            //let gameObject
+            let counter = 0;
+            let gamesOnSale;
+            let gamesFound =0;
+      
+      
+            while (counter < steamGames.length) {
+
+              //game = fetchFromSteam(url)
+              if (steamGames[counter].price_overview.discount > 0) {
+                gamesOnSale[gamesFound] = steamGames[counter];
+                gamesFound++;
+              }
+ 
+              counter++
+            }
+            return exits.success(gamesOnSale);  // returns the Json to the client 
+            
+      
           } else {
+            return exits.error('bad request - filterValue input error');
+          }
+      } else {
+              return exits.error('bad request - filterType input error');
+      }
+    } else {
       return exits.error('bad request - assetType input error');
     }
 
