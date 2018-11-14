@@ -35,7 +35,7 @@ module.exports = {
     /*``*/
   ) {
     let url = 'https://api.twitch.tv/kraken/search/'
-
+/*
     if (inputs.query.assetType == "games"){ // if you are searching for games on twitch
       if (inputs.query.filterValue != undefined){ //Checks that filtervalue isn't left empty
         url = url.concat('games?query=' + inputs.query.filterValue) //adds the searchword to the url
@@ -56,20 +56,20 @@ module.exports = {
     } else {
       return exits.error('bad request - incorrect assetType')
     }
+*/
 
-
-   url = 'https://api.twitch.tv/helix/streams'
+  /* url = 'https://api.twitch.tv/kraken/search'*/
    if (inputs.query.assetType == "streams"){ // if you are searching for games on twitch
      if (inputs.query.filterValue != undefined){ //Checks that filtervalue isn't left empty
        url = url.concat('streams?query=' + inputs.query.filterValue) //adds the searchword to the url
        searchOnTwitch(url) //calls the searchOnTwitch function
        .then( response => { //takes the response from the searchOnTwitch function
 
-         response.streams.forEach(function(element) { //Changes name from _id to id
+      /*   response.streams.forEach(function(element) { //Changes name from _id to id
            element.id = element._id;
            delete element._id;
 
-         });
+         }); */
 
          return exits.success(response);  // returns the response to the client
        })
