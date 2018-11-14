@@ -1,13 +1,9 @@
-import {
-	version
-} from '../../package.json';
-import {
-	Router
-} from 'express';
-const fetch = require('node-fetch');
-const Twitch = require('../Machinepacks/machinepack-c3twitch');
-//Steam node-machine from npm
-const Steam = require('machinepack-steam');
+import { version } from '../../package.json';
+import { Router } from 'express';
+import Twitch from '../Machinepacks/machinepack-c3twitch';
+import Steam from '../Machinepacks/machinepack-c3steam';
+import TwitchIntegratedData from '../Machinepacks/machinepack-twitchintegrategamedata';
+
 export default ({
 	config,
 	db
@@ -76,27 +72,36 @@ export default ({
 	});
 
 	api.get('/steam/filters', (req, res) => {
-		// Returns on global statistics of a specific game
-		Steam.getGlobalStatsForGame({
-			appid: 400,
-			name: ['global.map.emp_isle'],
-		}).exec({
+		const inputs = {
+			query: req.query,
+			body: req.body,
+		}
+		Steam.filters(inputs).exec({
+
 			// An unexpected error occurred.
 			error: function (err) {
+
 				console.log(err);
 				res.sendStatus(500);
 			},
 			// OK.
 			success: function (result) {
-				res.json({
-					result
-				});
+
+				res.send(result);
 			},
 		});
 	});
-	api.get('/aggregate/filters', (req, res) => {
-		res.json({
-			'aggregate': 'success!'
+	api.get('/aggregation/filter', (req, res) => {
+		TwitchIntegratedData.filters().exec({
+			// An unexpected error occurred.
+			error: err => {
+				console.log(err);
+				res.sendStatus(500);
+			},
+			// OK.
+			success: function () {
+				res.sendStatus(200);
+			},
 		});
 	});
 	return api;
