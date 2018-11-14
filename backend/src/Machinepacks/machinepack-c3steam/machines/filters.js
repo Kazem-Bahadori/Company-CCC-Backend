@@ -38,12 +38,10 @@ module.exports = {
   fn: function (inputs, exits
     /*``*/
   ) {
-    //console.log('Steam function triggered!')
-
     let url = 'http://store.steampowered.com/'; // the main url of the twitch api
 
     if (inputs.query.assetType == 'price') {
-      if (inputs.query.filterType == 'app_id') {
+      if (inputs.query.filterType == 'appId') {
         if (inputs.query.filterValue != undefined) {
           url = url.concat('api/appdetails?appids=' + inputs.query.filterValue)
           fetchFromSteam(url) 
@@ -60,7 +58,6 @@ module.exports = {
                 }
                 return exits.success(price);
               } else {
-                console.log(response[appId]);
                 return exits.error('Could not find price data');
               }
               
@@ -73,7 +70,7 @@ module.exports = {
         return exits.error('bad request - filterType input error');
       }
     } else if (inputs.query.assetType == 'system_requirements') {
-      if (inputs.query.filterType == 'app_id') {
+      if (inputs.query.filterType == 'appId') {
         if (inputs.query.filterValue != undefined) {
           url = url.concat('api/appdetails?appids=' + inputs.query.filterValue)
           fetchFromSteam(url)
@@ -98,7 +95,7 @@ module.exports = {
         return exits.error('bad request - filterType input error');
       }
     } else if (inputs.query.assetType == 'reviews') {
-      if (inputs.query.filterType == 'app_id') {
+      if (inputs.query.filterType == 'appId') {
         if (inputs.query.filterValue != undefined) {
           url = url.concat('appreviews/' + inputs.query.filterValue + '?json=1')
           fetchFromSteam(url)  
@@ -114,8 +111,8 @@ module.exports = {
       } else {
         return exits.error('bad request - filterType input error');
       }
-    } else if (inputs.query.assetType == 'games') {
-      if (inputs.query.filterType == 'on_twitch') {
+    } else if (inputs.query.assetType == 'game') {
+      if (inputs.query.filterType == 'onTwitch') {
         if (inputs.query.filterValue != undefined) {
 
           let games = require('./steam_games.json');
@@ -142,7 +139,7 @@ module.exports = {
         return exits.error('bad request - filterType input error');
       }
     } else if (inputs.query.assetType == 'trailers') {
-      if (inputs.query.filterType == 'app_id') {
+      if (inputs.query.filterType == 'appId') {
         if (inputs.query.filterValue != undefined) {
 
           url = url.concat('api/appdetails?appids=' + inputs.query.filterValue)

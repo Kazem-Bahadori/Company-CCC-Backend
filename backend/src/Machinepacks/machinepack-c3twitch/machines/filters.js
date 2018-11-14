@@ -39,8 +39,6 @@ module.exports = {
     
     let url = 'https://api.twitch.tv/helix/' // the main url of the twitch api
 
-    console.log(inputs.query)
-
     //------------------------------------- Top games ---------------------------------------------------------------
 
     if (inputs.query.assetType == 'games') {
@@ -97,7 +95,7 @@ module.exports = {
       //------------------------------------- Top streams ---------------------------------------------------------------
 
     } else if (inputs.query.assetType == 'streams') {
-      if (inputs.query.filterType == 'game') {
+      if (inputs.query.filterType == 'gameId') {
         if (inputs.query.filterValue != undefined) {
           url = url.concat('streams?game_id=' + inputs.query.filterValue)
           fetchFromTwitch(url) // Gets the tops streams on a specific game
@@ -154,7 +152,6 @@ module.exports = {
     } else if (inputs.query.assetType == 'streamer_info'){
       if (inputs.query.filterType == undefined && inputs.query.filterValue != undefined) {
         url = url.concat('users?id=' + inputs.query.filterValue)
-        console.log(url)
         fetchFromTwitch(url)
             .then(response => {
               return exits.success(response);  // returns the Json to the client 

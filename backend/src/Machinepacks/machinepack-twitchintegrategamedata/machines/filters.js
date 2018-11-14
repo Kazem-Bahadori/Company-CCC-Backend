@@ -106,7 +106,7 @@ module.exports = {
         const inputs = {
           query: {
             assetType: 'games',
-            filterType: 'on_twitch',
+            filterType: 'onTwitch',
             filterValue: nameOfGame
           }
         }
@@ -159,7 +159,7 @@ module.exports = {
         const inputs = {
           query: {
             assetType: 'price',
-            filterType: 'app_id',
+            filterType: 'appId',
             filterValue: appId
           }
         }
