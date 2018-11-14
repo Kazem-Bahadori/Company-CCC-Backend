@@ -1,4 +1,6 @@
 const fetch = require('node-fetch')
+import Steam from '../../machinepack-c3steam';
+
 module.exports = {
 
 
@@ -52,8 +54,12 @@ module.exports = {
             delete element.locale;
             delete element.giantbomb_id;
             element.steam = getSteamID(element.name);
+            test(element);
           });
 
+          var test = new Promise(function(resolve, reject) {
+            resolve(console.log(getSteamID(element.name)))
+           });
           
           
           /*
