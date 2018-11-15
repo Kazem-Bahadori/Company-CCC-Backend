@@ -1,4 +1,5 @@
 import Steam from '../../machinepack-c3steam';
+import Twitch from '../../machinepack-c3twitch';
 module.exports = {
 
 
@@ -29,10 +30,9 @@ module.exports = {
   },
 
 
-  fn: function(inputs, exits
+  fn: function (inputs, exits
     /*``*/
   ) {
-    return exits.success();
 
     if (inputs.query.assetType == 'games') {
       if (inputs.query.filterType == 'top') {
@@ -50,8 +50,8 @@ module.exports = {
           getTopGames(100)
             .then(games => {
               let steamGames = games.filter(game => game.steam != false);
-              if(Object.keys(steamGames).length > 20) {
-                steamGames = steamGames.slice(0,20);
+              if (Object.keys(steamGames).length > 20) {
+                steamGames = steamGames.slice(0, 20);
               }
               return exits.success(steamGames);
             })
@@ -67,18 +67,41 @@ module.exports = {
     function getTopGames(amount) {
       return new Promise((resolve, reject) => {
         if (amount >= 1 && amount <= 100) { // each twitch-call only accepts numbers between 1-100.
-          url = url.concat('games/top?first=' + amount)
-          fetchFromTwitch(url) //gets the top streamed games on twitch. 
+          const inputs = {
+            query: {
+              assetType: 'games',
+              filterType: 'top',
+              filterValue: amount
+            }
+          }
+          return new Promise((resolve, reject) => {
+          Twitch.filters(inputs).exec({
+            // An unexpected error occurred.
+            error: function (err) {
+              reject(err);
+            },
+            // OK.
+            success: function (result) {
+
+              resolve(result)
+              //return exits.success(result);
+
+            },
+          });
+        })
             .then(response => {
               gamesIsOnSale(response.data)
+                
                 .then(res => resolve(res))
                 .catch(err => reject(err));
             });
+          
         } else {
           return exits.error('bad request - filtervalue for top games must be between 1-100')
         }
       });
 
+      //denna function är vad jag behöver för att kalla twitch machine
       function getSteamID(nameOfGame) {
         const inputs = {
           query: {
@@ -100,7 +123,7 @@ module.exports = {
           });
         });
       }
-  
+
       function gamesIsOnSale(twitchGames) {
         const promises = [];
         const games = twitchGames;
@@ -121,7 +144,7 @@ module.exports = {
           })
           );
         });
-  
+
         return new Promise((resolve, reject) => {
           Promise.all(promises).then(values => {
             for (let i = 0; i < games.length; i++) {
@@ -131,7 +154,7 @@ module.exports = {
           })
         });
       }
-  
+
       function getSteamData(appId) {
         const inputs = {
           query: {
@@ -153,9 +176,6 @@ module.exports = {
           });
         });
       }
-
-
-
     }
 
   },

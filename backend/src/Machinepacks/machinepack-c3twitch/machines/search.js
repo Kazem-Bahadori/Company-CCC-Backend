@@ -53,17 +53,11 @@ module.exports = {
             delete element.localized_name;
             delete element.locale;
             delete element.giantbomb_id;
-            element.steam = getSteamID(element.name);
-            test(element);
+            element.steam = getSteamID(element.name); //Get data from steam
           });
 
-          var test = new Promise(function(resolve, reject) {
-            resolve(console.log(getSteamID(element.name)))
-           });
-          
-          
           /*
-          var results = response['games'];  //Sorts the array
+          var results = response['games'];  //Posibility to sort the output data
           results.sort(function(a,b){
             if(a.popularity == b.popularity)
                 return 0;

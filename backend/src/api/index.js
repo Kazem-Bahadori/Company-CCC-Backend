@@ -91,16 +91,20 @@ export default ({
 			},
 		});
 	});
-	api.get('/aggregation/filter', (req, res) => {
-		TwitchIntegratedData.filters().exec({
+	api.get('/aggregation/filters', (req, res) => {
+		const inputs = {
+			query: req.query,
+			body: req.body,
+		}
+		TwitchIntegratedData.filters(inputs).exec({
 			// An unexpected error occurred.
 			error: err => {
 				console.log(err);
 				res.sendStatus(500);
 			},
 			// OK.
-			success: function () {
-				res.sendStatus(200);
+			success: function (result) {
+				res.send(result);
 			},
 		});
 	});
