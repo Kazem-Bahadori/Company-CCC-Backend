@@ -180,6 +180,7 @@ module.exports = {
               if (inputs.query.filterValue != undefined) {
                 url = url.concat('api/appdetails?appids=');
 
+                const filterValue = inputs.query.filterValue;
                 //If the array has more than 1 app_id the function will iterate over all app_id:s except the last one
                 //to concat the id with a ',' to separate the values. The last app_id will be concatinated without ','
                 //after the loop.
