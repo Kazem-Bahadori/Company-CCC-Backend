@@ -177,19 +177,19 @@ module.exports = {
             //fetching the data for all app_ids in one call to Steam
           else if (inputs.query.assetType == 'getDetails') {
             if (inputs.query.filterType == 'app_id') {
-              if (inputs.query.filterValue != undefined) {
+              if (inputs.query.filterValue == undefined) { // Filtervalue kanske inte behöver vara med.
                 url = url.concat('api/appdetails?appids=');
 
-                const filterValue = inputs.query.filterValue;
+                const ids = inputs.body.data;
                 //If the array has more than 1 app_id the function will iterate over all app_id:s except the last one
                 //to concat the id with a ',' to separate the values. The last app_id will be concatinated without ','
                 //after the loop.
-                if (filterValue.length > 1){
-                  for (i = 0; i < filterValue.length-1; i++) {
-                    url = url.concat(filterValue[i]+',');
+                if (ids.length > 1){
+                  for (i = 0; i < ids.length-1; i++) {
+                    url = url.concat(ids[i]+',');
                   }
                 }
-                url = url.concat(filterValue[filterValue.length-1]);
+                url = url.concat(ids[ids.length-1]);
 
                 fetchFromSteam(url)  
                   .then(response => {
