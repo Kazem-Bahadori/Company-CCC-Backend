@@ -53,7 +53,7 @@ module.exports = {
             delete element.localized_name;
             delete element.locale;
             delete element.giantbomb_id;
-            element.steam = getSteamID(element.name); //Get data from steam
+            //element.steam = getSteamID(element.name); //Get data from steam
           });
 
           /*
