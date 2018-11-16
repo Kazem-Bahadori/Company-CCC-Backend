@@ -85,7 +85,7 @@ module.exports = {
             /*   response.streams.forEach(function(element) { //Changes name from _id to id
                  element.id = element._id;
                  delete element._id;
-     
+
                }); */
 
             return exits.success(response);  // returns the response to the client
@@ -97,7 +97,9 @@ module.exports = {
       return exits.error('bad request - incorrect assetType')
     }
 
-    function searchOnTwitch(url) { //Sends the url with the id 
+    function searchOnTwitch(url) { //Sends the url with the id
+      let keys = require.main.require('./keys.json');
+      console.log(keys)
       return new Promise(function (resolve, reject) {
         fetch(url, {
           headers: {
@@ -131,7 +133,7 @@ module.exports = {
           },
         });
       });
-    } 
+    }
      */
   }
 }
