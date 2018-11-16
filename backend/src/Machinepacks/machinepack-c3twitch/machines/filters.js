@@ -187,6 +187,5 @@ module.exports = {
       }
       return true;
     }
-
   },
 };

@@ -51,9 +51,16 @@ module.exports = {
               const appId = inputs.query.filterValue;
               const steamResponse = response[appId];
               if (steamResponse.data != undefined) {
-                let price = steamResponse.data.price_overview
-                return exits.success(price);  // returns the Json to the client 
+                let price = {};
+                if (steamResponse.data.is_free) {
+                  price.final = 0;
+                  price.discount_percent = 0;
+                } else {
+                  price = steamResponse.data.price_overview
+                }
+                return exits.success(price);
               } else {
+                console.log(response[appId]);
                 return exits.error('Could not find price data');
               }
               
@@ -134,7 +141,37 @@ module.exports = {
       } else {
         return exits.error('bad request - filterType input error');
       }
-    } else {
+    } else if (inputs.query.assetType == 'trailers') {
+      if (inputs.query.filterType == 'app_id') {
+        if (inputs.query.filterValue != undefined) {
+
+          url = url.concat('api/appdetails?appids=' + inputs.query.filterValue)
+          fetchFromSteam(url) 
+            .then(response => {
+
+              const appId = inputs.query.filterValue;
+              const steamResponse = response[appId];
+              const a = 'id';
+
+              if (steamResponse.data != undefined) {
+                let trailer = steamResponse.data.movies[0].webm.max
+                
+                return exits.success(trailer);  // returns the Json to the client 
+              } else {
+                return exits.error('Error');
+              }
+              
+            })
+            .catch (err => exits.error(err));
+    
+          } else {
+            return exits.error('bad request - filterValue input error');
+          }
+        } else {
+          return exits.error('bad request - filterType input error');
+        }
+    
+          } else {
       return exits.error('bad request - assetType input error');
     }
 
