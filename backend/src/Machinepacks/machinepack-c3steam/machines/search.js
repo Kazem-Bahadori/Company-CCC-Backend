@@ -8,29 +8,44 @@ module.exports = {
   friendlyName: 'search',
 
 
-  description: 'Searches for app_id from game_name',
+  description: 'Searches for steam appid from the name of the game',
 
 
-  cacheable: false,
+  cacheable: true,
 
 
   sync: false,
 
 
   inputs: {
-
+    assetType: {
+      example: 'gameId',
+      description: 'The type of asset that you want to get',
+      require: true
+    },
+    queryString: {
+      example: 'Dota 2',
+      description: 'The name of the game you want to search for',
+      require: true
+    },
   },
 
 
   exits: {
 
     success: {
-      variableName: 'result',
-      description: 'Done.',
+      example: {
+        "appId": 354160
+      },
+      description: 'The appId of the game you searched for',
     },
     error: {
+      example: {
+        description: 'bad request - assetType input error',
+        code: 400
+      },
       description: 'There was some kind of error',
-      code: 200
+      code: 'The status code'
     }
 
   },
