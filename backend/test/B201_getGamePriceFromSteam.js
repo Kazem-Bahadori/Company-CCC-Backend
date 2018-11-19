@@ -1,17 +1,27 @@
 const assert = require('chai').assert; //bringring in the chai library
-const filters = require('../src/Machinepacks/machinepack-c3steam/machines/filters'); //Bringing in the app from the app.js, i.e. the file we want to test
-
+const expect = require('chai').expect; //bringring in the chai library
+import Steam from '../src/Machinepacks/machinepack-c3steam';
 
 describe('B201 TEST', () =>{
     it('Testing game price from Steam', ()=> {
-      let url = 'http://store.steampowered.com/api/';
-      filters.inputs.assetType = 'price';
-      filters.inputs.filterType = 'app_id';
 
-      
+        const inputs = {
+          query: {assetType: 'price', filterType: 'app_id', filterValue: '57690'},
+        }
 
+        Steam.filters(inputs).exec({
 
-      console.log(filters.inputs.query);
-      console.log(filters.inputs.assetType);
+          // An unexpected error occurred.
+          error: function (err) {
+
+            console.log(err);
+          },
+          // OK.
+          success: function (result) {
+            console.log(result.final_formatted);
+            assert.property(result, 'final_formatted1')
+
+          },
+        });
     });
   });
