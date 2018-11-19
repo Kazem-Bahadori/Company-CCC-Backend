@@ -216,7 +216,7 @@ module.exports = {
       }
     } else if (inputs.query.assetType == 'trailers') {
       if (inputs.query.filterType == 'app_id') {
-        if (inputs.query.filterValue != undefined) {
+        if (inputs.query.filterValue != undefined && inputs.query.filterValue!= null) {
 
           url = url.concat('api/appdetails?appids=' + inputs.query.filterValue)
           fetchFromSteam(url) 
