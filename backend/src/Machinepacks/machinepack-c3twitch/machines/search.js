@@ -39,14 +39,13 @@ module.exports = {
     let url = 'https://api.twitch.tv/kraken/search/'
 
     if (inputs.query.assetType == "games") { // if you are searching for games on twitch
-      if (inputs.query.queryString != undefined) { //Checks that queryString isn't left empty
+      
+      if (inputs.query.queryString != "" && inputs.query.queryString != undefined) { //Checks that queryString isn't left empty
         url = url.concat('games?query=' + inputs.query.queryString) //adds the searchword to the url
         searchOnTwitch(url) //calls the searchOnTwitch function
           .then(response => { //takes the response from the searchOnTwitch function
 
-            console.log(response);
-
-            if (response.games != null) {
+            if (response.games != null) { //Only run if there is atleast one game matching the search
 
               response.games.forEach(function (element) { //Changes the output recived from twitch
                 element.id = element._id;
@@ -57,7 +56,6 @@ module.exports = {
                 delete element.localized_name;
                 delete element.locale;
                 delete element.giantbomb_id;
-                //element.steam = getSteamID(element.name); //Get data from steam
               });
             } 
             /*
@@ -77,10 +75,15 @@ module.exports = {
 
             return exits.success(response);  // returns the response to the client
           })
+      } else {
+        return exits.error({
+          description: 'bad request - queryString input error',
+          code: 400});
       }
+
     } else if (inputs.query.assetType == "streams") {
       let limit = 20; //Sets the limit of streams shown.
-      if (inputs.query.queryString != undefined) { //Checks that queryString isn't left empty
+      if (inputs.query.queryString != "" && inputs.query.queryString != undefined) { //Checks that queryString isn't left empty
         url = url.concat('streams/?query=' + inputs.query.queryString + '&limit=' + limit) //adds the searchword to the url
         console.log(url);
         searchOnTwitch(url) //calls the searchOnTwitch function
@@ -95,10 +98,14 @@ module.exports = {
             return exits.success(response);  // returns the response to the client
           })
       } else {
-        return exits.error('bad request - no queryString  given')
+        return exits.error({
+          description: 'bad request - queryString input error',
+          code: 400});
       }
     } else {
-      return exits.error('bad request - incorrect assetType')
+      return exits.error({
+        description: 'bad request - incorrect assetType',
+        code: 400});
     }
 
     function searchOnTwitch(url) { //Sends the url with the id 
@@ -114,28 +121,5 @@ module.exports = {
           })
       });
     }
-    /*
-    function getSteamID(nameOfGame) {
-      const inputs = {
-        query: {
-          assetType: 'games',
-          filterType: 'on_twitch',
-          filterValue: nameOfGame
-        }
-      }
-      return new Promise((resolve, reject) => {
-        Steam.filters(inputs).exec({
-          // An unexpected error occurred.
-          error: function (err) {
-            reject(err);
-          },
-          // OK.
-          success: function (result) {
-            resolve(result);
-          },
-        });
-      });
-    } 
-     */
   }
 }
