@@ -192,6 +192,7 @@ module.exports = {
                   }
                 }
                 url = url.concat(ids[ids.length-1]);
+                url = url.concat('&filters=price_overview');
 
                 console.log(url);
 
