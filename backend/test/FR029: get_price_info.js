@@ -3,8 +3,8 @@ const expect = require('chai').expect; //bringring in the chai library
 import Steam from '../src/Machinepacks/machinepack-c3steam';
 
 describe('FR029 TEST', () =>{
-    it('Response body has currency property', ()=> {
-    let propertyExists = false;
+    it('Response body has correct properties', ()=> {
+    let propertyExists = true;
 
         const inputs = {
           query: {assetType: 'price', filterType: 'app_id', filterValue: '57690'},
@@ -13,156 +13,26 @@ describe('FR029 TEST', () =>{
         return new Promise(function(resolve, reject){
           Steam.filters(inputs).exec({
             error: function (err) {
-
               console.log(err);
             },
             success: function (result) {
-              if(result.hasOwnProperty('currency')){
-                propertyExists = true
+              if(!result.hasOwnProperty('currency')){
+                propertyExists = false;
               }
-              resolve(propertyExists);
-            },
-          });
-        })
-        .then((result) =>{
-          assert.isTrue(propertyExists);
-        })
-        .catch((error) => {
-          assert.isNotOk(error);
-        });
-    });
-
-    it('Response body has initial property', ()=> {
-    let propertyExists = false;
-
-        const inputs = {
-          query: {assetType: 'price', filterType: 'app_id', filterValue: '57690'},
-        }
-
-        return new Promise(function(resolve, reject){
-          Steam.filters(inputs).exec({
-            error: function (err) {
-
-              console.log(err);
-            },
-            success: function (result) {
-              if(result.hasOwnProperty('initial')){
-                propertyExists = true
+              if(!result.hasOwnProperty('initial')){
+                propertyExists = false;
               }
-              resolve(propertyExists);
-            },
-          });
-        })
-        .then((result) =>{
-          assert.isTrue(propertyExists);
-        })
-        .catch((error) => {
-          assert.isNotOk(error);
-        });
-    });
-
-    it('Response body has final property', ()=> {
-    let propertyExists = false;
-
-        const inputs = {
-          query: {assetType: 'price', filterType: 'app_id', filterValue: '57690'},
-        }
-
-        return new Promise(function(resolve, reject){
-          Steam.filters(inputs).exec({
-            error: function (err) {
-
-              console.log(err);
-            },
-            success: function (result) {
-              if(result.hasOwnProperty('final')){
-                propertyExists = true
+              if(!result.hasOwnProperty('final')){
+                propertyExists = false;
               }
-              resolve(propertyExists);
-            },
-          });
-        })
-        .then((result) =>{
-          assert.isTrue(propertyExists);
-        })
-        .catch((error) => {
-          assert.isNotOk(error);
-        });
-    });
-
-    it('Response body has discount_percent property', ()=> {
-    let propertyExists = false;
-
-        const inputs = {
-          query: {assetType: 'price', filterType: 'app_id', filterValue: '57690'},
-        }
-
-        return new Promise(function(resolve, reject){
-          Steam.filters(inputs).exec({
-            error: function (err) {
-
-              console.log(err);
-            },
-            success: function (result) {
-              if(result.hasOwnProperty('discount_percent')){
-                propertyExists = true
+              if(!result.hasOwnProperty('discount_percent')){
+                propertyExists = false;
               }
-              resolve(propertyExists);
-            },
-          });
-        })
-        .then((result) =>{
-          assert.isTrue(propertyExists);
-        })
-        .catch((error) => {
-          assert.isNotOk(error);
-        });
-    });
-
-    it('Response body has initial_formatted property', ()=> {
-    let propertyExists = false;
-
-        const inputs = {
-          query: {assetType: 'price', filterType: 'app_id', filterValue: '57690'},
-        }
-
-        return new Promise(function(resolve, reject){
-          Steam.filters(inputs).exec({
-            error: function (err) {
-
-              console.log(err);
-            },
-            success: function (result) {
-              if(result.hasOwnProperty('initial_formatted')){
-                propertyExists = true
+              if(!result.hasOwnProperty('initial_formatted')){
+                propertyExists = false;
               }
-              resolve(propertyExists);
-            },
-          });
-        })
-        .then((result) =>{
-          assert.isTrue(propertyExists);
-        })
-        .catch((error) => {
-          assert.isNotOk(error);
-        });
-    });
-    it('Response body has final_formatted property', ()=> {
-    let propertyExists = false;
-
-        const inputs = {
-          query: {assetType: 'price', filterType: 'app_id', filterValue: '57690'},
-        }
-
-        return new Promise(function(resolve, reject){
-          Steam.filters(inputs).exec({
-            error: function (err) {
-
-              console.log(err);
-            },
-            success: function (result) {
-              if(result.hasOwnProperty('final_formatted')){
-                propertyExists = true
+              if(!result.hasOwnProperty('final_formatted')){
+                propertyExists = false;
               }
               resolve(propertyExists);
             },
@@ -202,6 +72,59 @@ describe('FR029 TEST', () =>{
         })
         .then((counter) =>{
           expect(counter).to.equal(6);
+        })
+        .catch((error) => {
+          assert.isNotOk(error);
+        });
+    });
+
+    it('Response body properties are correctly formatted', ()=> {
+    let correctFormat = true;
+
+        const inputs = {
+          query: {assetType: 'price', filterType: 'app_id', filterValue: '57690'},
+        }
+
+        return new Promise(function(resolve, reject){
+          Steam.filters(inputs).exec({
+            error: function (err) {
+
+              console.log(err);
+            },
+            success: function (result) {
+              if(typeof(result.currency) != 'string'){
+                correctFormat = false;
+              }
+              if(typeof(result.initial) != 'number'){
+                correctFormat = false;
+              }
+              if(result.initial < 0){
+                correctFormat = false;
+              }
+              if(typeof(result.final) != 'number'){
+                correctFormat = false;
+              }
+              if(result.final < 0){
+                correctFormat = false;
+              }
+              if(typeof(result.discount_percent) != 'number'){
+                correctFormat = false;
+              }
+              if(result.discount_percent < 0 || result.discount_percent > 100){
+                correctFormat = false;
+              }
+              if(typeof(result.initial_formatted) != 'string'){
+                correctFormat = false;
+              }
+              if(typeof(result.final_formatted) != 'string'){
+                correctFormat = false;
+              }
+              resolve(correctFormat);
+            },
+          });
+        })
+        .then((correctFormat) =>{
+          assert.isTrue(correctFormat);
         })
         .catch((error) => {
           assert.isNotOk(error);
