@@ -30,6 +30,14 @@ module.exports = {
       variableName: 'result',
       description: 'Done.',
     },
+    error: {
+      example: {
+        description: 'bad request - queryString input error',
+        code: 400
+      },
+      description: 'There was some kind of error',
+      code: 'The status code'
+    }
   },
 
 
