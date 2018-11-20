@@ -139,16 +139,15 @@ module.exports = {
     function gamesIsOnSale(twitchGames) {
       const promises = [];
       const games = twitchGames;
+      let IDs = []
       games.forEach(function (element) {
         promises.push(new Promise(function (resolve, reject) {
           getSteamID(element.name)
             .then(game => {
               if (game.appId != undefined) {
-                getSteamData(game.appId)
-                  .then(data => {
-                    resolve(data)
-                  })
-                  .catch(() => resolve(false));
+                console.log(game.appId)
+                IDs.push(game.appId)
+                  resolve(game.appId)
               } else {
                 resolve(game);
               }
@@ -156,12 +155,20 @@ module.exports = {
         })
         );
       });
-
+      
       return new Promise((resolve, reject) => {
         Promise.all(promises).then(values => {
+
+          getSteamData(IDs)
+                  .then(data => {
+                    resolve(data)
+                  })
+                  .catch(() => resolve(false));
+
           for (let i = 0; i < games.length; i++) {
             games[i]['steam'] = values[i];
           }
+          console.log(IDs)
           resolve(games);
         })
       });
@@ -179,7 +186,12 @@ module.exports = {
         }
       }
       return new Promise((resolve, reject) => {
-        Steam.filters(inputs).exec({
+
+        console.log(appId)
+        return function (result) {
+          resolve({ 'appid': appId});
+        }
+        /* Steam.filters(inputs).exec({
           // An unexpected error occurred.
           error: function (err) {
             reject(err);
@@ -188,7 +200,7 @@ module.exports = {
           success: function (result) {
             resolve({ 'appid': appId, price: result });
           },
-        });
+        }); */
       });
     }
   },
