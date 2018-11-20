@@ -1,12 +1,12 @@
 {
 	"info": {
-		"_postman_id": "84dddfa9-e90b-4247-84c1-dcd45de14a83",
+		"_postman_id": "f15b10fc-6ef7-46d4-ac0b-2c1328853088",
 		"name": "Flatfish_backend",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "get_price_info",
+			"name": "FR029: get_price_info",
 			"event": [
 				{
 					"listen": "test",
@@ -214,70 +214,7 @@
 			"response": []
 		},
 		{
-			"name": "get_price_info_nofilter",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "a456f592-3388-4f7e-83b3-02be029e74b2",
-						"exec": [
-							"",
-							"pm.test(\"API call unsuccessfull \", function () {",
-							"    pm.response.to.have.status(500);",
-							"});",
-							"",
-							"pm.test(\"Unsuccessful API response body\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Internal Server Error\");",
-							"});",
-							"          ",
-							"          ",
-							"    ",
-							"    ",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "http://localhost:8080/api/steam/filters?assetType=price&filterType=app_id&filterValue=",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"steam",
-						"filters"
-					],
-					"query": [
-						{
-							"key": "assetType",
-							"value": "price"
-						},
-						{
-							"key": "filterType",
-							"value": "app_id"
-						},
-						{
-							"key": "filterValue",
-							"value": ""
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get_reviews_info",
+			"name": "FR024: get_reviews_info",
 			"event": [
 				{
 					"listen": "test",
@@ -461,21 +398,6 @@
 			"response": []
 		},
 		{
-			"name": "get_reviews_info_nofilter",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": ""
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Check_if_twitch_machine_is_running",
 			"event": [
 				{
@@ -520,7 +442,7 @@
 			"response": []
 		},
 		{
-			"name": "FR025_FR056_get_top_streams_from_gID",
+			"name": "FR056 get_top_streams_from_gID",
 			"event": [
 				{
 					"listen": "test",
@@ -721,7 +643,7 @@
 			"response": []
 		},
 		{
-			"name": "FR064_get_Top50_games",
+			"name": "FR064, FR024: get_Top50_games",
 			"event": [
 				{
 					"listen": "test",
@@ -840,7 +762,7 @@
 			"response": []
 		},
 		{
-			"name": "get_system_req",
+			"name": "FR024: get_system_requriments",
 			"event": [
 				{
 					"listen": "test",
@@ -952,7 +874,85 @@
 			"response": []
 		},
 		{
-			"name": "get_system_req_nofilter",
+			"name": "Exception test: get_reviews_info_nofilter",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Exception test: get_price_info_nofilter",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a456f592-3388-4f7e-83b3-02be029e74b2",
+						"exec": [
+							"",
+							"pm.test(\"API call unsuccessfull \", function () {",
+							"    pm.response.to.have.status(500);",
+							"});",
+							"",
+							"pm.test(\"Unsuccessful API response body\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Internal Server Error\");",
+							"});",
+							"          ",
+							"          ",
+							"    ",
+							"    ",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/steam/filters?assetType=price&filterType=app_id&filterValue=",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"steam",
+						"filters"
+					],
+					"query": [
+						{
+							"key": "assetType",
+							"value": "price"
+						},
+						{
+							"key": "filterType",
+							"value": "app_id"
+						},
+						{
+							"key": "filterValue",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Exception test: get_system_req_nofilter",
 			"event": [
 				{
 					"listen": "test",
