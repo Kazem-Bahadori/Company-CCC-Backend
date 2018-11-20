@@ -44,7 +44,7 @@ module.exports = {
         searchOnTwitch(url) //calls the searchOnTwitch function
           .then(response => { //takes the response from the searchOnTwitch function
 
-            console.log(response);
+            //console.log(response);
 
             if (response.games != null) {
 
