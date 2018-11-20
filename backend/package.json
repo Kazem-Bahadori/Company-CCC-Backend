@@ -60,13 +60,12 @@
     "nodemon": "^1.9.2",
     "nyc": "^13.1.0"
   },
-
   "nyc": {
-    "include": ["**/machinepack-c3twitch/machines/*.js",
+    "include": [
+      "**/machinepack-c3twitch/machines/*.js",
       "**/machinepack-c3steam/machines/*.js"
     ]
   },
-
   "bugs": {
     "url": "https://github.com/developit/express-es6-rest-api/issues"
   },
