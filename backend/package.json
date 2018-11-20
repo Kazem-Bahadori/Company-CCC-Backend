@@ -4,12 +4,12 @@
   "description": "Starter project for an ES6 RESTful Express API",
   "main": "dist",
   "scripts": {
-    "dev": "nodemon -w src --exec \"babel-node src --presets env,stage-0\"",
-    "build": "babel src -s -D -d dist --presets env,stage-0",
+    "dev": "nodemon -w src --exec \"babel-node src --presets es2015,stage-0\"",
+    "build": "babel src -s -D -d dist --presets es2015,stage-0",
     "start": "node dist",
     "prestart": "npm run -s build",
     "test": "eslint src",
-    "test_case": " nyc --reporter=lcov --reporter=text-lcov mocha --compilers js:babel-core/register",
+    "test_case": " nyc --reporter=cobertura mocha --compilers js:babel-core/register",
     "create_result": "mocha --compilers js:babel-core/register test --reporter mocha-junit-reporter",
     "newman": "newman run Flatfish_backend.postman_collection.json --reporters cli,junit",
     "coverage": "nyc report"
@@ -50,7 +50,6 @@
     "babel-core": "^6.9.0",
     "babel-plugin-istanbul": "^5.1.0",
     "babel-preset-env": "^1.7.0",
-    "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.26.0",
     "chai": "^4.1.2",
@@ -61,12 +60,13 @@
     "nodemon": "^1.9.2",
     "nyc": "^13.1.0"
   },
+
   "nyc": {
-    "include": [
-      "**/machinepack-c3twitch/machines/*.js",
+    "include": ["**/machinepack-c3twitch/machines/*.js",
       "**/machinepack-c3steam/machines/*.js"
     ]
   },
+
   "bugs": {
     "url": "https://github.com/developit/express-es6-rest-api/issues"
   },
