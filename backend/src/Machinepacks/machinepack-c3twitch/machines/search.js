@@ -79,6 +79,7 @@ module.exports = {
       if (inputs.query.queryString != undefined) { //Checks that queryString isn't left empty
         url = url.concat('streams/?query=' + inputs.query.queryString +'&limit=' + limit) //adds the searchword to the url
         console.log(url);
+          console.log('ajaj');
         searchOnTwitch(url) //calls the searchOnTwitch function
           .then(response => { //takes the response from the searchOnTwitch function
 
@@ -98,13 +99,14 @@ module.exports = {
     }
 
     function searchOnTwitch(url) { //Sends the url with the id
-      let keys = require.main.require('./keys.json');
-      console.log(keys)
+     let keys = require('./keys.json');
+    /*  console.log(keys[0].Accept);
+      console.log(keys[0].Client);*/
       return new Promise(function (resolve, reject) {
         fetch(url, {
           headers: {
-            'Accept': 'application/vnd.twitchtv.v5+json',
-            'Client-ID': '3jxj3x3uo4h6xcxh2o120cu5wehsab'
+            'Accept': keys[0].Accept,
+            'Client-ID': keys[0].Client
           }
         })
           .then(function (response) {
