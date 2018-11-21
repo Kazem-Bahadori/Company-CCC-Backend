@@ -111,16 +111,38 @@ module.exports = {
     /*
     
     */
-    function getSteamID(nameOfGame) {
+    function getSteamID(nameOfGames) {
       const inputs = {
         query: {
           assetType: 'games',
           filterType: 'on_twitch',
-          filterValue: nameOfGame
+          filterValue: nameOfGames
         }
       }
+      console.log(nameOfGames)
       return new Promise((resolve, reject) => {
-        Steam.filters(inputs).exec({
+        let count = 0
+        nameOfGames.data.forEach(function (element) {
+          inputs.query.filterValue = element
+          Steam.filters(inputs).exec({
+            // An unexpected error occurred.
+            error: function (err) {
+              reject(err);
+            },
+            // OK.
+            success: function (result) {
+              console.log(result)
+              if(result != false){
+                nameOfGames.data[count].steam = result
+              } else{
+                nameOfGames.data[count].steam = false
+              }
+              count = count +1
+              resolve(result);
+            }
+          })
+        });
+        /* Steam.filters(inputs).exec({
           // An unexpected error occurred.
           error: function (err) {
             reject(err);
@@ -129,7 +151,7 @@ module.exports = {
           success: function (result) {
             resolve(result);
           },
-        });
+        }); */
       });
     }
 
@@ -139,22 +161,27 @@ module.exports = {
     function gamesIsOnSale(twitchGames) {
       const promises = [];
       const games = twitchGames;
-      let IDs = []
-      games.forEach(function (element) {
-        promises.push(new Promise(function (resolve, reject) {
-          getSteamID(element.name)
+      let IDs = []; //list to save appid's in
+      let names = {data:[]}; //list to save the game names in
+      
+      promises.push(new Promise(function (resolve, reject) {
+        games.forEach(function (element) {
+          names.data.push({ 'name': element.name})
+        });
+        console.log(names)
+        getSteamID(names)
             .then(game => {
               if (game.appId != undefined) {
                 console.log(game.appId)
                 IDs.push(game.appId)
-                  resolve(game.appId)
+                resolve(game.appId)
               } else {
                 resolve(game);
               }
             });
-        })
-        );
-      });
+      })
+      );
+
       
       return new Promise((resolve, reject) => {
         Promise.all(promises).then(values => {
