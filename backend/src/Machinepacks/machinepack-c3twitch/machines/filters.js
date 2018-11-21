@@ -36,7 +36,7 @@ module.exports = {
   fn: function (inputs, exits
     /*``*/
   ) {
-    
+
     let url = 'https://api.twitch.tv/helix/' // the main url of the twitch api
 
     console.log(inputs.query)
@@ -48,17 +48,17 @@ module.exports = {
         url = url.concat('games/top')
         if (inputs.query.filterValue != undefined) {
           url = url.concat('?first=' + inputs.query.filterValue)
-          fetchFromTwitch(url) //gets the top streamed games on twitch. 
+          fetchFromTwitch(url) //gets the top streamed games on twitch.
             .then(response => {
-              return exits.success(response);  // returns the Json to the client 
+              return exits.success(response);  // returns the Json to the client
             })
         } else {
-          fetchFromTwitch(url) //gets the top streamed games on twitch. 
+          fetchFromTwitch(url) //gets the top streamed games on twitch.
               .then(response => {
-                return exits.success(response);  // returns the Json to the client 
+                return exits.success(response);  // returns the Json to the client
               })
         }
-        
+
         //~~~~~~~~~~~~~~~~~~~~~~~~~ game contextual ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       } else if (inputs.query.filterType == 'contextual') {
         if (isEmpty(inputs.body)) { //Checks if body is empty
@@ -84,9 +84,9 @@ module.exports = {
               }
             }
 
-            fetchFromTwitch(url) //gets the top streamed games on twitch. 
+            fetchFromTwitch(url) //gets the top streamed games on twitch.
               .then(response => {
-                return exits.success(response);  // returns the Json to the client 
+                return exits.success(response);  // returns the Json to the client
               })
           } else {
             return exits.error('bad request - incorrect filter')
@@ -157,7 +157,7 @@ module.exports = {
         console.log(url)
         fetchFromTwitch(url)
             .then(response => {
-              return exits.success(response);  // returns the Json to the client 
+              return exits.success(response);  // returns the Json to the client
             })
       } else {
         return exits.error('bad request - incorrect user id or filterType not empty')
@@ -171,8 +171,10 @@ module.exports = {
 
     //Does the call towards the twitch api
     function fetchFromTwitch(url) {
+      let keys = require('./keys.json');
       return new Promise((resolve, reject) => {
-        fetch(url, { headers: { 'Client-ID': '3jxj3x3uo4h6xcxh2o120cu5wehsab' } })
+    /*  console.log(keys[0].Client);*/
+        fetch(url, { headers: { 'Client-ID': keys[0].Client } })
           .then(function (response) {
             resolve(response.json())
           })
