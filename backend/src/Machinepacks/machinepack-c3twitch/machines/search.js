@@ -40,22 +40,26 @@ module.exports = {
 
     if (inputs.query.assetType == "games") { // if you are searching for games on twitch
       if (inputs.query.queryString != undefined) { //Checks that queryString isn't left empty
-        url = url.concat('games?query=' + inputs.query.queryString ) //adds the searchword to the url
+        url = url.concat('games?query=' + inputs.query.queryString) //adds the searchword to the url
         searchOnTwitch(url) //calls the searchOnTwitch function
           .then(response => { //takes the response from the searchOnTwitch function
 
-            response.games.forEach(function (element) { //Changes the output recived from twitch
-              element.id = element._id;
-              delete element._id;
-              element.box_art_url = element.box.large;
-              delete element.box;
-              delete element.logo;
-              delete element.localized_name;
-              delete element.locale;
-              delete element.giantbomb_id;
-              //element.steam = getSteamID(element.name); //Get data from steam
-            });
+            console.log(response);
 
+            if (response.games != null) {
+
+              response.games.forEach(function (element) { //Changes the output recived from twitch
+                element.id = element._id;
+                delete element._id;
+                element.box_art_url = element.box.large;
+                delete element.box;
+                delete element.logo;
+                delete element.localized_name;
+                delete element.locale;
+                delete element.giantbomb_id;
+                //element.steam = getSteamID(element.name); //Get data from steam
+              });
+            } 
             /*
             var results = response['games'];  //Posibility to sort the output data
             results.sort(function(a,b){
@@ -75,9 +79,9 @@ module.exports = {
           })
       }
     } else if (inputs.query.assetType == "streams") {
-      let limit =20; //Sets the limit of streams shown.
+      let limit = 20; //Sets the limit of streams shown.
       if (inputs.query.queryString != undefined) { //Checks that queryString isn't left empty
-        url = url.concat('streams/?query=' + inputs.query.queryString +'&limit=' + limit) //adds the searchword to the url
+        url = url.concat('streams/?query=' + inputs.query.queryString + '&limit=' + limit) //adds the searchword to the url
         console.log(url);
           console.log('ajaj');
         searchOnTwitch(url) //calls the searchOnTwitch function
