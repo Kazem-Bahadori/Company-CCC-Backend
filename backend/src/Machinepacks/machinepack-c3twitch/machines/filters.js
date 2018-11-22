@@ -37,12 +37,25 @@ module.exports = {
     /*``*/
   ) {
     
-    let url = 'https://api.twitch.tv/helix/' // the main url of the twitch api
+    let url = 'https://api.twitch.tv/helix/' // URL of the Twitch api
 
-    console.log(inputs.query)
+    //console.log(inputs.query)
 
-    //------------------------------------- Top games ---------------------------------------------------------------
-
+    /**
+    * Return top games through the assetType `games` string and filterType `top`
+    *
+    * Base: /api/twitch/filters
+    * Options:
+    * 
+    *   - `assetType` specify if this is games - value: string (allowed: games)
+    *   - `filterType` specify how games should be sorted - value: string (allowed: top)
+    *   - `filterValue` return specified amount of games - value: integer (allowed: 1-100)
+    * 
+    * Example URL: ?assetType=games&filterType=top&filterValue=5
+    * Description: Return games (assetType) filtered by Twitch's top games (filterType), limit return to (filterValue) 5 games
+    * 
+    * Return: 
+    */
     if (inputs.query.assetType == 'games') {
       if (inputs.query.filterType == 'top') {
         url = url.concat('games/top')
