@@ -4,7 +4,6 @@ import Twitch from '../src/Machinepacks/machinepack-c3twitch';
 import Steam from '../src/Machinepacks/machinepack-c3steam';
 
 
-
 describe('FR064, FR024: get_top50_games', () =>{
 
     it('Response body has 49 or 50 id:s', ()=> {
@@ -137,7 +136,7 @@ it('Correct error handling for filterValue', ()=> {
 
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - filterType input error"); //Should be changed to filterValue
+      expect(error).to.equal("bad request - filterValue input error");
     });
 });
 
@@ -186,6 +185,102 @@ it('Correct error handling for no assetType', ()=> {
     })
     .catch((error) => {
       expect(error).to.equal("bad request - assetType input error");
+    });
+});
+
+it('Correct error for trying to fetch more than 100 games', ()=> {
+
+    const inputs = {
+      query: {assetType: 'games', filterType: 'top', filterValue: '101'},
+    }
+
+    return new Promise(function(resolve, reject){
+      Twitch.filters(inputs).exec({
+        error: function (error) {
+          reject(error);
+        },
+        success: function (result) {
+          resolve(result);
+        },
+      });
+    })
+    .then((result) =>{
+
+    })
+    .catch((error) => {
+      expect(error).to.equal("bad request - filtervalue for top games must be between 1-100");
+    });
+});
+
+it('Correct error for no assetType', ()=> {
+
+    const inputs = {
+      query: {},
+    }
+
+    return new Promise(function(resolve, reject){
+      Twitch.filters(inputs).exec({
+        error: function (error) {
+          reject(error);
+        },
+        success: function (result) {
+          resolve(result);
+        },
+      });
+    })
+    .then((result) =>{
+
+    })
+    .catch((error) => {
+      expect(error).to.equal("bad request - assetType input error");
+    });
+});
+
+it('Correct error for no filterType', ()=> {
+
+    const inputs = {
+      query: {assetType: 'games'},
+    }
+
+    return new Promise(function(resolve, reject){
+      Twitch.filters(inputs).exec({
+        error: function (error) {
+          reject(error);
+        },
+        success: function (result) {
+          resolve(result);
+        },
+      });
+    })
+    .then((result) =>{
+
+    })
+    .catch((error) => {
+      expect(error).to.equal("bad request - filterType input error");
+    });
+});
+
+it('Correct error for null filterValue', ()=> {
+
+    const inputs = {
+      query: {assetType: 'games', filterType: 'game_id', filterValue: null},
+    }
+
+    return new Promise(function(resolve, reject){
+      Twitch.filters(inputs).exec({
+        error: function (error) {
+          reject(error);
+        },
+        success: function (result) {
+          resolve(result);
+        },
+      });
+    })
+    .then((result) =>{
+
+    })
+    .catch((error) => {
+      expect(error).to.equal("bad request - filterType input error"); //Has to be changed to filterValue
     });
 });
 
