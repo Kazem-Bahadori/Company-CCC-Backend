@@ -48,14 +48,13 @@ module.exports = {
     * Base: /api/twitch/filters
     * Options:
     * 
-    *   - `assetType` specify if this is games - value: string (allowed: games)
-    *   - `filterType` specify how games should be sorted - value: string (allowed: top)
-    *   - `filterValue` return specified amount of games - value: integer (allowed: 1-100)
+    *   - `assetType` specify type of output - input value: string (allowed: games)
+    *   - `filterType` specify how games should be sorted - input value: string (allowed: top)
+    *   - `filterValue` return specified amount of games - input value: integer (allowed: 1-100)
     * 
     * Example URL: ?assetType=games&filterType=top&filterValue=5
-    * Description: Return games (assetType) filtered by Twitch's top games (filterType), limit return to (filterValue) 5 games
-    * 
-    * Return: 
+    * Description: Return games (assetType) filtered by Twitch's top games (filterType), limit
+    * (filterValue) return to 5 games
     */
 
     if (inputs.query.assetType == 'games') {
@@ -108,9 +107,20 @@ module.exports = {
           }
         }
       }
-
-      //------------------------------------- Top streams ---------------------------------------------------------------
-
+    /**
+    * Return top games through the assetType `games` string and filterType `top`
+    *
+    * Base: /api/twitch/filters
+    * Options:
+    * 
+    *   - `assetType` specify type of output - input value: string (allowed: streams)
+    *   - `filterType` specify how games should be sorted - input value: string (allowed: game)
+    *   - `filterValue` return specified game id - input value: integer (allowed: any)
+    * 
+    * Example URL: ?assetType=streams&filterType=game&filterValue=21779
+    * Description: Return streams (assetType) filtered by Twitch's one specified game (filterType),
+    * limit (filterValue) return to a Twitch game ID
+    */
     } else if (inputs.query.assetType == 'streams') {
       if (inputs.query.filterType == 'game') {
         if (inputs.query.filterValue != undefined) {
