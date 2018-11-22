@@ -119,7 +119,6 @@ module.exports = {
           filterValue: nameOfGames
         }
       }
-      console.log(nameOfGames)
       /* return new Promise((resolve, reject) => {
         let count = 0
         nameOfGames.data.forEach(function (element) {
@@ -163,10 +162,9 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Promise.all(promises).then(values => {
           for (let i = 0; i < nameOfGames.data.length; i++) {
-            nameOfGames.data[i]['steam'] = values[i];
+            nameOfGames.data[i]['steam'] = values[i].appId;
           }
           console.log(nameOfGames)
-          console.log('hej')
           resolve(nameOfGames);
         })
       });
@@ -191,13 +189,25 @@ module.exports = {
       const games = twitchGames;
       let IDs = []; //list to save appid's in
       let names = {data:[]}; //list to save the game names in
-      
+
       promises.push(new Promise(function (resolve, reject) {
         games.forEach(function (element) {
           names.data.push({'name': element.name})
         });
-        console.log(names)
         getSteamID(names)
+          .then(response => {
+            for (let i = 0; i < games.length; i++) {
+              if (response.data[i].steam != undefined){
+                games[i].steam = response.data[i].steam
+              } else {
+                games[i].steam = false
+              }
+              
+            }
+            console.log(games)
+            resolve(games)
+            return exits.success(games)
+          })
             /* .then(game => {
               if (game.appId != undefined) {
                 console.log(game.appId)
@@ -209,9 +219,10 @@ module.exports = {
             }); */
       })
       );
-
       
-      return new Promise((resolve, reject) => {
+      
+      
+      /* return new Promise((resolve, reject) => {
         Promise.all(promises).then(values => {
 
           getSteamData(IDs)
@@ -226,7 +237,7 @@ module.exports = {
           console.log(IDs)
           resolve(games);
         })
-      });
+      }); */
     }
 
     /*
