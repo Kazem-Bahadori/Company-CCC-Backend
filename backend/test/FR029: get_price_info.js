@@ -131,4 +131,53 @@ describe('FR029 TEST', () =>{
         });
     });
 
+    it('Correct error handling for filterValue', ()=> {
+
+        const inputs = {
+          query: {assetType: 'price', filterType: 'app_id'},
+        }
+
+        return new Promise(function(resolve, reject){
+          Steam.filters(inputs).exec({
+            error: function (error) {
+              reject(error);
+            },
+            success: function (result) {
+              resolve(result);
+            },
+          });
+        })
+        .then((result) =>{
+
+        })
+        .catch((error) => {
+          expect(error).to.equal("bad request - filterValue input error");
+        });
+    });
+
+    it('Correct error handling for filterType', ()=> {
+
+        const inputs = {
+          query: {assetType: 'price'},
+        }
+
+        return new Promise(function(resolve, reject){
+          Steam.filters(inputs).exec({
+            error: function (error) {
+              reject(error);
+            },
+            success: function (result) {
+              resolve(result);
+            },
+          });
+        })
+        .then((result) =>{
+
+        })
+        .catch((error) => {
+          expect(error).to.equal("bad request - filterType input error");
+        });
+    });
+
+
   });
