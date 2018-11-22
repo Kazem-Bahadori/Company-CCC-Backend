@@ -120,7 +120,7 @@ module.exports = {
         }
       }
       console.log(nameOfGames)
-      return new Promise((resolve, reject) => {
+      /* return new Promise((resolve, reject) => {
         let count = 0
         nameOfGames.data.forEach(function (element) {
           inputs.query.filterValue = element
@@ -141,7 +141,35 @@ module.exports = {
               resolve(result);
             }
           })
-        });
+        }); */
+        const promises = [];
+      nameOfGames.data.forEach(function (element) {
+        promises.push(new Promise(function (resolve, reject) {
+          inputs.query.filterValue = element.name
+          Steam.filters(inputs).exec({
+            // An unexpected error occurred.
+            error: function (err) {
+              reject(err);
+            },
+            // OK.
+            success: function (result) {
+              resolve(result);
+            }
+          })
+        })
+        );
+      });
+
+      return new Promise((resolve, reject) => {
+        Promise.all(promises).then(values => {
+          for (let i = 0; i < nameOfGames.data.length; i++) {
+            nameOfGames.data[i]['steam'] = values[i];
+          }
+          console.log(nameOfGames)
+          console.log('hej')
+          resolve(nameOfGames);
+        })
+      });
         /* Steam.filters(inputs).exec({
           // An unexpected error occurred.
           error: function (err) {
@@ -151,10 +179,10 @@ module.exports = {
           success: function (result) {
             resolve(result);
           },
-        }); */
-      });
+        }); 
+      }); */
     }
-
+//--------------------------------------------------------------------------------------------------------------------------------
     /*
       
     */
@@ -166,11 +194,11 @@ module.exports = {
       
       promises.push(new Promise(function (resolve, reject) {
         games.forEach(function (element) {
-          names.data.push({ 'name': element.name})
+          names.data.push({'name': element.name})
         });
         console.log(names)
         getSteamID(names)
-            .then(game => {
+            /* .then(game => {
               if (game.appId != undefined) {
                 console.log(game.appId)
                 IDs.push(game.appId)
@@ -178,7 +206,7 @@ module.exports = {
               } else {
                 resolve(game);
               }
-            });
+            }); */
       })
       );
 
