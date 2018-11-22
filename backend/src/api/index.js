@@ -60,8 +60,8 @@ export default ({
 			// An unexpected error occurred.
 			error: function (err) {
 
-				console.log(err);
-				res.sendStatus(500);
+				console.log(err.description);
+				res.sendStatus(err.code);
 			},
 			// OK.
 			success: function (result) {
