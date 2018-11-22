@@ -3,7 +3,7 @@ const expect = require('chai').expect; //bringring in the chai library
 import Steam from '../src/Machinepacks/machinepack-c3steam';
 
 
-describe('FR024.1 TEST', () =>{
+describe('FR024: get_reviews_info', () =>{
 
     it('Response body has correct properties', ()=> {
       let propertyExists = true;
@@ -127,6 +127,9 @@ describe('FR024.1 TEST', () =>{
             if(result.total_reviews < 0 || result.total_reviews < result.total_positive || result.total_reviews < result.total_negative){
               correctFormat = false;
             }
+            if(result.total_reviews != result.total_positive + result.total_negative){
+              correctFormat = false;
+            }
             resolve(correctFormat);
           },
         });
@@ -136,6 +139,54 @@ describe('FR024.1 TEST', () =>{
       })
       .catch((error) => {
         assert.isNotOk(error);
+      });
+  });
+
+  it('Correct error handling for filterValue', ()=> {
+
+      const inputs = {
+        query: {assetType: 'reviews', filterType: 'app_id'},
+      }
+
+      return new Promise(function(resolve, reject){
+        Steam.filters(inputs).exec({
+          error: function (error) {
+            reject(error);
+          },
+          success: function (result) {
+            resolve(result);
+          },
+        });
+      })
+      .then((result) =>{
+
+      })
+      .catch((error) => {
+        expect(error).to.equal("bad request - filterValue input error");
+      });
+  });
+
+  it('Correct error handling for filterType', ()=> {
+
+      const inputs = {
+        query: {assetType: 'reviews'},
+      }
+
+      return new Promise(function(resolve, reject){
+        Steam.filters(inputs).exec({
+          error: function (error) {
+            reject(error);
+          },
+          success: function (result) {
+            resolve(result);
+          },
+        });
+      })
+      .then((result) =>{
+
+      })
+      .catch((error) => {
+        expect(error).to.equal("bad request - filterType input error");
       });
   });
 

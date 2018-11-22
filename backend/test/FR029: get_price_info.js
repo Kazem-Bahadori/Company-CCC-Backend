@@ -2,7 +2,7 @@ const assert = require('chai').assert; //bringring in the chai library
 const expect = require('chai').expect; //bringring in the chai library
 import Steam from '../src/Machinepacks/machinepack-c3steam';
 
-describe('FR029 TEST', () =>{
+describe('FR029: get_price_info', () =>{
     it('Response body has correct properties', ()=> {
     let propertyExists = true;
 
@@ -179,5 +179,28 @@ describe('FR029 TEST', () =>{
         });
     });
 
+    it('Correct error handling for no price information', ()=> {
+
+        const inputs = {
+          query: {assetType: 'price', filterType: 'app_id', filterValue: '21779'},
+        }
+
+        return new Promise(function(resolve, reject){
+          Steam.filters(inputs).exec({
+            error: function (error) {
+              reject(error);
+            },
+            success: function (result) {
+              resolve(result);
+            },
+          });
+        })
+        .then((result) =>{
+
+        })
+        .catch((error) => {
+          expect(error).to.equal("Could not find price data");
+        });
+    });
 
   });

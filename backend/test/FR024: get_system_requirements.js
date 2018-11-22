@@ -3,7 +3,7 @@ const expect = require('chai').expect; //bringring in the chai library
 import Steam from '../src/Machinepacks/machinepack-c3steam';
 
 
-describe('FR024.2 TEST', () =>{
+describe('FR024: get_system_requriments', () =>{
 
     it('Response body has correct properties', ()=> {
       let propertyExists = true;
@@ -129,6 +129,54 @@ describe('FR024.2 TEST', () =>{
       })
       .catch((error) => {
         assert.isNotOk(error);
+      });
+  });
+
+  it('Correct error handling for filterValue', ()=> {
+
+      const inputs = {
+        query: {assetType: 'system_requirements', filterType: 'app_id'},
+      }
+
+      return new Promise(function(resolve, reject){
+        Steam.filters(inputs).exec({
+          error: function (error) {
+            reject(error);
+          },
+          success: function (result) {
+            resolve(result);
+          },
+        });
+      })
+      .then((result) =>{
+
+      })
+      .catch((error) => {
+        expect(error).to.equal("bad request - filterValue input error");
+      });
+  });
+
+  it('Correct error handling for filterType', ()=> {
+
+      const inputs = {
+        query: {assetType: 'system_requirements'},
+      }
+
+      return new Promise(function(resolve, reject){
+        Steam.filters(inputs).exec({
+          error: function (error) {
+            reject(error);
+          },
+          success: function (result) {
+            resolve(result);
+          },
+        });
+      })
+      .then((result) =>{
+
+      })
+      .catch((error) => {
+        expect(error).to.equal("bad request - filterType input error");
       });
   });
 
