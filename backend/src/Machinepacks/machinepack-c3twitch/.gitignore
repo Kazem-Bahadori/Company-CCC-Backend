@@ -19,8 +19,9 @@ npm-debug.log
 .idea
 nbproject
 .test.json
-test.json 
+test.json
 test2
+test3.json
 
 ############################
 # Tests
