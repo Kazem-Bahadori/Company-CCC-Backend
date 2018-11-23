@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f15b10fc-6ef7-46d4-ac0b-2c1328853088",
+		"_postman_id": "90a86421-071b-4f6c-ae5e-746c18c38cf4",
 		"name": "Flatfish_backend",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -442,6 +442,50 @@
 			"response": []
 		},
 		{
+			"name": "Check_if_steam_machine_is_running",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cbffa0ae-bb04-4a84-9cee-edab5763ec15",
+						"exec": [
+							"",
+							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Should be OK\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"OK\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/steam/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"steam",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "FR056 get_top_streams_from_gID",
 			"event": [
 				{
@@ -529,11 +573,12 @@
 							"   } ",
 							"});",
 							"",
-							"pm.test(\"Makes sure each game contains display_name property\", function(){",
+							"// Följande test behövs inte längre",
+							"/*pm.test(\"Makes sure each game contains display_name property\", function(){",
 							"    for(var i = 0; i < jsonData.data.length; i++){",
 							"        pm.expect(jsonData.data[i]).to.have.property('display_name');",
 							"    }",
-							"});",
+							"});*/",
 							"",
 							"pm.test(\"Makes sure response body contains exactly 2 properties\", function(){",
 							"    var counter = 0;",
@@ -545,7 +590,7 @@
 							"    pm.expect(counter).to.equal(2);",
 							"});",
 							"",
-							"pm.test(\"Makes sure data property contains exactly 13 sub-properties\", function(){",
+							"pm.test(\"Makes sure data property contains exactly 12 sub-properties\", function(){",
 							"    var counter;",
 							"    for(var i = 0; i < jsonData.data.length; i++){",
 							"        counter = 0;",
@@ -555,7 +600,7 @@
 							"            }",
 							"        }",
 							"        ",
-							"        pm.expect(counter).to.equal(13);",
+							"        pm.expect(counter).to.equal(12);",
 							"    }",
 							"    ",
 							"});",
@@ -583,11 +628,12 @@
 							"       pm.expect(jsonData.data[i].started_at).to.be.a('string');",
 							"       pm.expect(jsonData.data[i].language).to.be.a('string');",
 							"       pm.expect(jsonData.data[i].thumbnail_url).to.be.a('string');",
-							"       pm.expect(jsonData.data[i].display_name).to.be.a('string');",
+							"      // pm.expect(jsonData.data[i].tag_ids).to.be.a('string');",
 							"   } ",
 							"});",
 							"",
-							"pm.test(\"Makes sure user_name and display_name are the same\", function(){",
+							"// display_name existerar inte längre",
+							"/*pm.test(\"Makes sure user_name and display_name are the same\", function(){",
 							"    var user_name;",
 							"    var display_name;",
 							"    ",
@@ -596,7 +642,7 @@
 							"       display_name = jsonData.data[i].display_name;",
 							"       pm.expect(user_name).to.equal(display_name);",
 							"   } ",
-							"});",
+							"});*/",
 							"",
 							""
 						],
@@ -612,7 +658,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/twitch/filters?assetType=streams&filterType=game_id&filterValue=21779",
+					"raw": "http://localhost:8080/api/twitch/filters?assetType=streams&filterType=game&filterValue=21779",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -630,7 +676,7 @@
 						},
 						{
 							"key": "filterType",
-							"value": "game_id"
+							"value": "game"
 						},
 						{
 							"key": "filterValue",
@@ -664,12 +710,13 @@
 							"pm.test('Response body has 50 id', function() {",
 							"   // pm.expect(jsonData.data).contains('id');",
 							"   var count =0;",
-							"   for (var i=0; i < jsonData.length; i++){",
-							"       if (jsonData[i].id){",
+							"   for (var i=0; i < jsonData.data.length; i++){",
+							"       if (jsonData.data[i].id){",
 							"           count ++;",
+							"           console.log(\"köör\");",
 							"       }",
 							"     }",
-							"",
+							"console.log(count);",
 							"     pm.expect(count).to.be.at.least(49);",
 							"     pm.expect(count).to.be.at.most(50);",
 							"   ",
@@ -702,8 +749,8 @@
 							"pm.test('Contains 50 top games', function () { //checks the amout of games shown",
 							"     //var responseJson = JSON.parse(responseBody);",
 							"     //console.log(responseJson.data.length);",
-							"    pm.expect(jsonData.length).to.be.at.least(49);",
-							"    pm.expect(jsonData.length).to.be.at.most(50);",
+							"    pm.expect(jsonData.data.length).to.be.at.least(49);",
+							"    pm.expect(jsonData.data.length).to.be.at.most(50);",
 							"    ",
 							"});",
 							"",
@@ -883,7 +930,30 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": ""
+					"raw": "localhost:8080/api/steam/filters?assetType=reviews&filterType=appid&filterValue=",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"steam",
+						"filters"
+					],
+					"query": [
+						{
+							"key": "assetType",
+							"value": "reviews"
+						},
+						{
+							"key": "filterType",
+							"value": "appid"
+						},
+						{
+							"key": "filterValue",
+							"value": ""
+						}
+					]
 				}
 			},
 			"response": []
@@ -982,7 +1052,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "localhost:8080/api/steam/filters?assetType=system_requirements&filterType=app_id&filterValue=",
+					"raw": "localhost:8080/api/steam/filters?assetType=systemrequirements&filterType=appid&filterValue=",
 					"host": [
 						"localhost"
 					],
@@ -995,11 +1065,11 @@
 					"query": [
 						{
 							"key": "assetType",
-							"value": "system_requirements"
+							"value": "systemrequirements"
 						},
 						{
 							"key": "filterType",
-							"value": "app_id"
+							"value": "appid"
 						},
 						{
 							"key": "filterValue",
@@ -1009,6 +1079,28 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "881431b5-b274-41e1-9333-cdef29c96211",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "8a54fba1-b7e6-43eb-b1a4-29df144068bc",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
