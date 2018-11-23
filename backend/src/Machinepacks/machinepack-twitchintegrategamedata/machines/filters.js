@@ -34,40 +34,45 @@ module.exports = {
     /*``*/
   ) {
 
-    if (inputs.query.assetType == 'games') {
-      if (inputs.query.filterType == 'top') {
-        const amount = inputs.query.filterValue != undefined ? inputs.query.filterValue : 20;
-        getTopGames(amount)
-          .then(games => {
-            return exits.success(games);
-          })
-          .catch(err => {
-            return exits.error(err);
-          });
-      } else if (inputs.query.filterType === 'category') {
-        if (inputs.query.filterValue === 'steamGame') {
+    switch (inputs.query.assetType) {
+      case 'games':
+        switch (inputs.query.filterType) {
+          case 'top':
+            const amount = inputs.query.filterValue != undefined ? inputs.query.filterValue : 20;
+            getTopGames(amount)
+              .then(games => {
+                return exits.success(games);
+              })
+              .catch(err => {
+                return exits.error(err);
+              });
 
-          getTopGames(100)
-            .then(games => {
-              let steamGames = games.filter(game => game.steam != false);
-              if (Object.keys(steamGames).length > 20) {
-                steamGames = steamGames.slice(0, 20);
-              }
-              return exits.success(steamGames);
-            })
-            .catch(err => {
-              return exits.error(err);
-            });
-        } else {
-          return exits.error('bad request - filterType input error');
+          case 'category':
+            if (inputs.query.filterValue === 'steamGame') {
+              getTopGames(100)
+                .then(games => {
+                  let steamGames = games.filter(game => game.steam != false);
+                  if (Object.keys(steamGames).length > 20) {
+                    steamGames = steamGames.slice(0, 20);
+                  }
+                  return exits.success(steamGames);
+                })
+                .catch(err => {
+                  return exits.error(err);
+                });
+            }
+          default:
+            return exits.error('400 - bad request')
         }
-      }
+      default:
+        return exits.error('400 - bad request')
     }
+
 
     //------------------------------------- Seperate functions ---------------------------------------------------------------
 
     /*
-      
+      get the tops games from twitch and and adds steaminfo for the games that are also on steam
     */
     function getTopGames(amount) {
       return new Promise((resolve, reject) => {
@@ -109,7 +114,7 @@ module.exports = {
 
 
     /*
-    
+    takes a list of name of games and tries to find a match on steam. Adds an appid or false to each name.
     */
     function getSteamID(nameOfGames) {
       const inputs = {
@@ -119,7 +124,7 @@ module.exports = {
           filterValue: nameOfGames
         }
       }
-        const promises = [];
+      const promises = [];
       nameOfGames.data.forEach(function (element) {
         promises.push(new Promise(function (resolve, reject) {
           inputs.query.filterValue = element.name
@@ -140,24 +145,24 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Promise.all(promises).then(values => {
           for (let i = 0; i < nameOfGames.data.length; i++) {
-            nameOfGames.data[i]['steam'] = {'appid' :values[i].appId};
+            nameOfGames.data[i]['steam'] = { 'appid': values[i].appId };
           }
           resolve(nameOfGames);
         })
       });
-        /* Steam.filters(inputs).exec({
-          // An unexpected error occurred.
-          error: function (err) {
-            reject(err);
-          },
-          // OK.
-          success: function (result) {
-            resolve(result);
-          },
-        }); 
-      }); */
+      /* Steam.filters(inputs).exec({
+        // An unexpected error occurred.
+        error: function (err) {
+          reject(err);
+        },
+        // OK.
+        success: function (result) {
+          resolve(result);
+        },
+      }); 
+    }); */
     }
-//--------------------------------------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------------------------------------
     /*
       
     */
@@ -165,39 +170,39 @@ module.exports = {
       const promises = [];
       const games = twitchGames;
       let IDs = []; //list to save appid's in
-      let names = {data:[]}; //list to save the game names in
+      let names = { data: [] }; //list to save the game names in
 
       promises.push(new Promise(function (resolve, reject) {
         games.forEach(function (element) {
-          names.data.push({'name': element.name})
+          names.data.push({ 'name': element.name })
         });
         getSteamID(names)
           .then(response => {
             for (let i = 0; i < games.length; i++) {
-              if (response.data[i].steam.appid != undefined){
+              if (response.data[i].steam.appid != undefined) {
                 games[i].steam = response.data[i].steam
               } else {
                 games[i].steam = false
               }
-              
+
             }
             resolve(games)
             return exits.success(games)
           })
-            /* .then(game => {
-              if (game.appId != undefined) {
-                console.log(game.appId)
-                IDs.push(game.appId)
-                resolve(game.appId)
-              } else {
-                resolve(game);
-              }
-            }); */
+        /* .then(game => {
+          if (game.appId != undefined) {
+            console.log(game.appId)
+            IDs.push(game.appId)
+            resolve(game.appId)
+          } else {
+            resolve(game);
+          }
+        }); */
       })
       );
-      
-      
-      
+
+
+
       /* return new Promise((resolve, reject) => {
         Promise.all(promises).then(values => {
 
@@ -231,7 +236,7 @@ module.exports = {
 
         console.log(appId)
         return function (result) {
-          resolve({ 'appid': appId});
+          resolve({ 'appid': appId });
         }
         /* Steam.filters(inputs).exec({
           // An unexpected error occurred.
