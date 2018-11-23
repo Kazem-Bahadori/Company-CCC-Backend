@@ -713,7 +713,6 @@
 							"   for (var i=0; i < jsonData.data.length; i++){",
 							"       if (jsonData.data[i].id){",
 							"           count ++;",
-							"           console.log(\"köör\");",
 							"       }",
 							"     }",
 							"console.log(count);",
