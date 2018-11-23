@@ -60,8 +60,8 @@ export default ({
 			// An unexpected error occurred.
 			error: function (err) {
 
-				console.log(err);
-				res.sendStatus(500);
+				console.log(err.description);
+				res.sendStatus(err.code);
 			},
 			// OK.
 			success: function (result) {
@@ -91,16 +91,41 @@ export default ({
 			},
 		});
 	});
-	api.get('/aggregation/filter', (req, res) => {
-		TwitchIntegratedData.filters().exec({
+
+	api.get('/steam/search', (req, res) => {
+		const inputs = {
+			query: req.query
+		}
+		Steam.search(inputs).exec({
+
+			// An unexpected error occurred.
+			error: function (err) {
+
+				console.log(err.description);
+				res.sendStatus(err.code);
+			},
+			// OK.
+			success: function (result) {
+				console.log(result);
+				res.send(result);
+			},
+		});
+	});
+
+	api.get('/aggregation/filters', (req, res) => {
+		const inputs = {
+			query: req.query,
+			body: req.body,
+		}
+		TwitchIntegratedData.filters(inputs).exec({
 			// An unexpected error occurred.
 			error: err => {
 				console.log(err);
 				res.sendStatus(500);
 			},
 			// OK.
-			success: function () {
-				res.sendStatus(200);
+			success: function (result) {
+				res.send(result);
 			},
 		});
 	});
