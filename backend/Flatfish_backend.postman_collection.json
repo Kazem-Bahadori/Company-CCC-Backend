@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f15b10fc-6ef7-46d4-ac0b-2c1328853088",
+		"_postman_id": "b6d424aa-f81b-4d0c-ac5b-eb521cf4c94c",
 		"name": "Flatfish_backend",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -435,6 +435,50 @@
 					"path": [
 						"api",
 						"twitch",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check_if_steam_machine_is_running",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cbffa0ae-bb04-4a84-9cee-edab5763ec15",
+						"exec": [
+							"",
+							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Should be OK\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"OK\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/steam/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"steam",
 						"health"
 					]
 				}
@@ -883,7 +927,30 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": ""
+					"raw": "localhost:8080/api/steam/filters?assetType=reviews&filterType=appid&filterValue=",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"steam",
+						"filters"
+					],
+					"query": [
+						{
+							"key": "assetType",
+							"value": "reviews"
+						},
+						{
+							"key": "filterType",
+							"value": "appid"
+						},
+						{
+							"key": "filterValue",
+							"value": ""
+						}
+					]
 				}
 			},
 			"response": []
@@ -982,7 +1049,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "localhost:8080/api/steam/filters?assetType=system_requirements&filterType=app_id&filterValue=",
+					"raw": "localhost:8080/api/steam/filters?assetType=systemrequirements&filterType=appid&filterValue=",
 					"host": [
 						"localhost"
 					],
@@ -995,11 +1062,11 @@
 					"query": [
 						{
 							"key": "assetType",
-							"value": "system_requirements"
+							"value": "systemrequirements"
 						},
 						{
 							"key": "filterType",
-							"value": "app_id"
+							"value": "appid"
 						},
 						{
 							"key": "filterValue",
@@ -1009,6 +1076,28 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "881431b5-b274-41e1-9333-cdef29c96211",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "8a54fba1-b7e6-43eb-b1a4-29df144068bc",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
