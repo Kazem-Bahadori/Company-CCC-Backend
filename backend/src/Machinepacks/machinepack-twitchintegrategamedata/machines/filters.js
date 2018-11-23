@@ -119,28 +119,6 @@ module.exports = {
           filterValue: nameOfGames
         }
       }
-      /* return new Promise((resolve, reject) => {
-        let count = 0
-        nameOfGames.data.forEach(function (element) {
-          inputs.query.filterValue = element
-          Steam.filters(inputs).exec({
-            // An unexpected error occurred.
-            error: function (err) {
-              reject(err);
-            },
-            // OK.
-            success: function (result) {
-              console.log(result)
-              if(result != false){
-                nameOfGames.data[count].steam = result
-              } else{
-                nameOfGames.data[count].steam = false
-              }
-              count = count +1
-              resolve(result);
-            }
-          })
-        }); */
         const promises = [];
       nameOfGames.data.forEach(function (element) {
         promises.push(new Promise(function (resolve, reject) {
@@ -162,9 +140,8 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Promise.all(promises).then(values => {
           for (let i = 0; i < nameOfGames.data.length; i++) {
-            nameOfGames.data[i]['steam'] = values[i].appId;
+            nameOfGames.data[i]['steam'] = {'appid' :values[i].appId};
           }
-          console.log(nameOfGames)
           resolve(nameOfGames);
         })
       });
@@ -197,14 +174,13 @@ module.exports = {
         getSteamID(names)
           .then(response => {
             for (let i = 0; i < games.length; i++) {
-              if (response.data[i].steam != undefined){
+              if (response.data[i].steam.appid != undefined){
                 games[i].steam = response.data[i].steam
               } else {
                 games[i].steam = false
               }
               
             }
-            console.log(games)
             resolve(games)
             return exits.success(games)
           })
