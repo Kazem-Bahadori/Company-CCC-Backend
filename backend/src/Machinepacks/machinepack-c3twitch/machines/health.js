@@ -56,9 +56,10 @@ module.exports = {
     function fetchFromTwitch() {
       return new Promise(function (resolve, reject) {
         let url = 'https://api.twitch.tv/helix/streams';
+        let keys = require('./keys.json');
         fetch(url, {
             headers: {
-              'Client-ID': '3jxj3x3uo4h6xcxh2o120cu5wehsab'
+              'Client-ID': keys[0].Client
             }
           })
         .then(response => resolve(response.json()))

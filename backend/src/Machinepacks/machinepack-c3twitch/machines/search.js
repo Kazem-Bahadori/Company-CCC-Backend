@@ -1,4 +1,6 @@
 const fetch = require('node-fetch')
+import Steam from '../../machinepack-c3steam';
+
 module.exports = {
 
 
@@ -17,7 +19,7 @@ module.exports = {
       description: 'specifies what you want within the selected category. Can also be contextual if the call is complex',
       require: true
     },
-    queryString : {
+    queryString: {
       example: 'starcraft',
       description: 'What you want to search for',
       require: false
@@ -28,6 +30,14 @@ module.exports = {
       variableName: 'result',
       description: 'Done.',
     },
+    error: {
+      example: {
+        description: 'bad request - queryString input error',
+        code: 400
+      },
+      description: 'There was some kind of error',
+      code: 'The status code'
+    }
   },
 
 
@@ -36,75 +46,92 @@ module.exports = {
   ) {
     let url = 'https://api.twitch.tv/kraken/search/'
 
-    if (inputs.query.assetType == "games"){ // if you are searching for games on twitch
-      if (inputs.query.queryString != undefined){ //Checks that filtervalue isn't left empty
-        url = url.concat('games?query=' + inputs.query.queryString ) //adds the searchword to the url
+    if (inputs.query.assetType == "games") { // if you are searching for games on twitch
+
+      if (inputs.query.queryString != "" && inputs.query.queryString != undefined) { //Checks that queryString isn't left empty
+        url = url.concat('games?query=' + inputs.query.queryString) //adds the searchword to the url
         searchOnTwitch(url) //calls the searchOnTwitch function
-        .then( response => { //takes the response from the searchOnTwitch function
+          .then(response => { //takes the response from the searchOnTwitch function
 
-          response.games.forEach(function(element) { //Changes the output recived from twitch
-            element.id = element._id;
-            delete element._id; 
-            element.box_art_url = element.box.large;
-            delete element.box;
-            delete element.logo;
-            delete element.localized_name;
-            delete element.locale;
-            delete element.giantbomb_id;
-            element.steam = getSteamID(element.name); //Get data from steam
+            if (response.games != null) { //Only run if there is atleast one game matching the search
+
+              response.games.forEach(function (element) { //Changes the output recived from twitch
+                element.id = element._id;
+                delete element._id;
+                element.box_art_url = element.box.large;
+                delete element.box;
+                delete element.logo;
+                delete element.localized_name;
+                delete element.locale;
+                delete element.giantbomb_id;
+              });
+            }
+            /*
+            var results = response['games'];  //Posibility to sort the output data
+            results.sort(function(a,b){
+              if(a.popularity == b.popularity)
+                  return 0;
+              if(a.popularity < b.popularity)
+                  return 1;
+              if(a.popularity > b.popularity)
+                  return -1;
           });
+          response['games'] = results;
+          */
 
-          /*
-          var results = response['games'];  //Posibility to sort the output data
-          results.sort(function(a,b){
-            if(a.popularity == b.popularity)
-                return 0;
-            if(a.popularity < b.popularity)
-                return 1;
-            if(a.popularity > b.popularity)
-                return -1;
-        });
-        response['games'] = results;
-        */
-        
-          return exits.success(response);  // returns the response to the client
-        })
+            //});
+
+            return exits.success(response);  // returns the response to the client
+          })
       } else {
-        return exits.error('bad request - no queryString  given')
+        return exits.error({
+          description: 'bad request - queryString input error',
+          code: 400});
+      }
+
+    } else if (inputs.query.assetType == "streams") {
+      let limit = 20; //Sets the limit of streams shown.
+      if (inputs.query.queryString != "" && inputs.query.queryString != undefined) { //Checks that queryString isn't left empty
+        url = url.concat('streams/?query=' + inputs.query.queryString + '&limit=' + limit) //adds the searchword to the url
+        console.log(url);
+          console.log('ajaj');
+        searchOnTwitch(url) //calls the searchOnTwitch function
+          .then(response => { //takes the response from the searchOnTwitch function
+
+            /*   response.streams.forEach(function(element) { //Changes name from _id to id
+                 element.id = element._id;
+                 delete element._id;
+
+               }); */
+
+            return exits.success(response);  // returns the response to the client
+          })
+      } else {
+        return exits.error({
+          description: 'bad request - queryString input error',
+          code: 400});
       }
     } else {
-      return exits.error('bad request - incorrect assetType')
+      return exits.error({
+        description: 'bad request - incorrect assetType',
+        code: 400});
     }
 
-    function searchOnTwitch(url) { //Sends the url with the id 
+    function searchOnTwitch(url) { //Sends the url with the id
+     let keys = require('./keys.json');
+    /*  console.log(keys[0].Accept);
+      console.log(keys[0].Client);*/
       return new Promise(function (resolve, reject) {
-        fetch(url, { headers: { 'Accept': 'application/vnd.twitchtv.v5+json',
-        'Client-ID': '3jxj3x3uo4h6xcxh2o120cu5wehsab' } })
+        fetch(url, {
+          headers: {
+            'Accept': keys[0].Accept,
+            'Client-ID': keys[0].Client
+          }
+        })
           .then(function (response) {
             resolve(response.json())
           })
       });
     }
-    function getSteamID(nameOfGame) {
-      const inputs = {
-        query: {
-          assetType: 'games',
-          filterType: 'on_twitch',
-          filterValue: nameOfGame
-        }
-      }
-      return new Promise((resolve, reject) => {
-        Steam.filters(inputs).exec({
-          // An unexpected error occurred.
-          error: function (err) {
-            reject(err);
-          },
-          // OK.
-          success: function (result) {
-            resolve(result);
-          },
-        });
-      });
-    } 
-  },
-};
+  }
+}

@@ -11,6 +11,21 @@ Getting Started
 # Install dependencies
 npm install
 
+# Create a keyfile for the twitchapi
+To have the application work you need to create the following file: keys.Json
+The file must be located in: Company-CCC-Backend/backend/src/Machinepacks/machinepackc3twitch/machines/keys.json
+This file will contain information about twitchapi keys. And several functions in the application will refer to this file that you create.
+If this file is not created correctly several functions of the application will not work.
+The file is already added to gitignore so your client-id will only be active in your local repository.
+The file must contain the following information where you will fill in the information in accept-information and the-twitchapi-client-id:
+
+[
+  {
+   "Accept": "accept-information",
+   "Client": "the-twitchapi-client-id"
+  }
+]
+
 # Start development live-reload server
 PORT=8080 npm run dev
 
@@ -19,7 +34,7 @@ PORT=8080 npm start
 
 # Test a node-machine
 Send GET-request to http://localhost:8080/api/twitch/filters or
-cd to Machinepacks/machinepack-c3twitch and run "machinepack exec filters" 
+cd to Machinepacks/machinepack-c3twitch and run "machinepack exec filters"
 ```
 Docker Support
 ------

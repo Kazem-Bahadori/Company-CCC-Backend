@@ -60,8 +60,8 @@ export default ({
 			// An unexpected error occurred.
 			error: function (err) {
 
-				console.log(err);
-				res.sendStatus(500);
+				console.log(err.description);
+				res.sendStatus(err.code);
 			},
 			// OK.
 			success: function (result) {
@@ -91,6 +91,27 @@ export default ({
 			},
 		});
 	});
+
+	api.get('/steam/search', (req, res) => {
+		const inputs = {
+			query: req.query
+		}
+		Steam.search(inputs).exec({
+
+			// An unexpected error occurred.
+			error: function (err) {
+
+				console.log(err.description);
+				res.sendStatus(err.code);
+			},
+			// OK.
+			success: function (result) {
+				console.log(result);
+				res.send(result);
+			},
+		});
+	});
+
 	api.get('/aggregation/filters', (req, res) => {
 		const inputs = {
 			query: req.query,
