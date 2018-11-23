@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b6d424aa-f81b-4d0c-ac5b-eb521cf4c94c",
+		"_postman_id": "90a86421-071b-4f6c-ae5e-746c18c38cf4",
 		"name": "Flatfish_backend",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -573,11 +573,12 @@
 							"   } ",
 							"});",
 							"",
-							"pm.test(\"Makes sure each game contains display_name property\", function(){",
+							"// Följande test behövs inte längre",
+							"/*pm.test(\"Makes sure each game contains display_name property\", function(){",
 							"    for(var i = 0; i < jsonData.data.length; i++){",
 							"        pm.expect(jsonData.data[i]).to.have.property('display_name');",
 							"    }",
-							"});",
+							"});*/",
 							"",
 							"pm.test(\"Makes sure response body contains exactly 2 properties\", function(){",
 							"    var counter = 0;",
@@ -589,7 +590,7 @@
 							"    pm.expect(counter).to.equal(2);",
 							"});",
 							"",
-							"pm.test(\"Makes sure data property contains exactly 13 sub-properties\", function(){",
+							"pm.test(\"Makes sure data property contains exactly 12 sub-properties\", function(){",
 							"    var counter;",
 							"    for(var i = 0; i < jsonData.data.length; i++){",
 							"        counter = 0;",
@@ -599,7 +600,7 @@
 							"            }",
 							"        }",
 							"        ",
-							"        pm.expect(counter).to.equal(13);",
+							"        pm.expect(counter).to.equal(12);",
 							"    }",
 							"    ",
 							"});",
@@ -627,11 +628,12 @@
 							"       pm.expect(jsonData.data[i].started_at).to.be.a('string');",
 							"       pm.expect(jsonData.data[i].language).to.be.a('string');",
 							"       pm.expect(jsonData.data[i].thumbnail_url).to.be.a('string');",
-							"       pm.expect(jsonData.data[i].display_name).to.be.a('string');",
+							"      // pm.expect(jsonData.data[i].tag_ids).to.be.a('string');",
 							"   } ",
 							"});",
 							"",
-							"pm.test(\"Makes sure user_name and display_name are the same\", function(){",
+							"// display_name existerar inte längre",
+							"/*pm.test(\"Makes sure user_name and display_name are the same\", function(){",
 							"    var user_name;",
 							"    var display_name;",
 							"    ",
@@ -640,7 +642,7 @@
 							"       display_name = jsonData.data[i].display_name;",
 							"       pm.expect(user_name).to.equal(display_name);",
 							"   } ",
-							"});",
+							"});*/",
 							"",
 							""
 						],
@@ -656,7 +658,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/twitch/filters?assetType=streams&filterType=game_id&filterValue=21779",
+					"raw": "http://localhost:8080/api/twitch/filters?assetType=streams&filterType=game&filterValue=21779",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -674,7 +676,7 @@
 						},
 						{
 							"key": "filterType",
-							"value": "game_id"
+							"value": "game"
 						},
 						{
 							"key": "filterValue",
@@ -708,12 +710,13 @@
 							"pm.test('Response body has 50 id', function() {",
 							"   // pm.expect(jsonData.data).contains('id');",
 							"   var count =0;",
-							"   for (var i=0; i < jsonData.length; i++){",
-							"       if (jsonData[i].id){",
+							"   for (var i=0; i < jsonData.data.length; i++){",
+							"       if (jsonData.data[i].id){",
 							"           count ++;",
+							"           console.log(\"köör\");",
 							"       }",
 							"     }",
-							"",
+							"console.log(count);",
 							"     pm.expect(count).to.be.at.least(49);",
 							"     pm.expect(count).to.be.at.most(50);",
 							"   ",
@@ -746,8 +749,8 @@
 							"pm.test('Contains 50 top games', function () { //checks the amout of games shown",
 							"     //var responseJson = JSON.parse(responseBody);",
 							"     //console.log(responseJson.data.length);",
-							"    pm.expect(jsonData.length).to.be.at.least(49);",
-							"    pm.expect(jsonData.length).to.be.at.most(50);",
+							"    pm.expect(jsonData.data.length).to.be.at.least(49);",
+							"    pm.expect(jsonData.data.length).to.be.at.most(50);",
 							"    ",
 							"});",
 							"",
