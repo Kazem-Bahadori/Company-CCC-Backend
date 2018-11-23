@@ -16,6 +16,7 @@ describe('FR024: get_reviews_info', () =>{
         Steam.filters(inputs).exec({
           error: function (err) {
             console.log(err);
+            reject(err);
           },
           success: function (result) {
             if(!result.hasOwnProperty('num_reviews')){

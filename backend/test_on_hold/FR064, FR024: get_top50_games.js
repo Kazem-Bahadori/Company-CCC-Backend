@@ -18,10 +18,10 @@ describe('FR064, FR024: get_top50_games', () =>{
 
             console.log(err);
           },
-          success: function (result) {
+          success: function (steamGames) {
             var counter = 0;
-            for(var i = 0; i < result.length; i++){
-              if(result[i].id){
+            for(var i = 0; i < steamGames.data.length; i++){
+              if(steamGames.data[i].id){
                 counter++;
               }
             }
@@ -257,30 +257,6 @@ it('Correct error for no filterType', ()=> {
     })
     .catch((error) => {
       expect(error).to.equal("bad request - filterType input error");
-    });
-});
-
-it('Correct error for null filterValue', ()=> {
-
-    const inputs = {
-      query: {assetType: 'games', filterType: 'game_id', filterValue: null},
-    }
-
-    return new Promise(function(resolve, reject){
-      Twitch.filters(inputs).exec({
-        error: function (error) {
-          reject(error);
-        },
-        success: function (result) {
-          resolve(result);
-        },
-      });
-    })
-    .then((result) =>{
-
-    })
-    .catch((error) => {
-      expect(error).to.equal("bad request - filterType input error"); //Has to be changed to filterValue
     });
 });
 

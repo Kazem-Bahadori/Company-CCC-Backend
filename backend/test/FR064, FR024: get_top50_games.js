@@ -236,28 +236,6 @@ it('Correct error for no assetType', ()=> {
     });
 });
 
-it('Correct error for no filterType', ()=> {
 
-    const inputs = {
-      query: {assetType: 'games'},
-    }
-
-    return new Promise(function(resolve, reject){
-      Twitch.filters(inputs).exec({
-        error: function (error) {
-          reject(error);
-        },
-        success: function (result) {
-          resolve(result);
-        },
-      });
-    })
-    .then((result) =>{
-
-    })
-    .catch((error) => {
-      expect(error).to.equal("bad request - filterType input error");
-    });
-});
 
 });

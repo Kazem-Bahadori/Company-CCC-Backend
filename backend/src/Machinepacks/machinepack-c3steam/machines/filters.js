@@ -249,35 +249,36 @@ module.exports = {
 
             //The function takes in an array of Steam app_ids, builds a URL for
             //fetching the data for all app_ids in one call to Steam
-          else if (inputs.query.assetType == 'getDetails') {
-            if (inputs.query.filterType == 'app_id') {
-              if (inputs.query.filterValue == undefined) { // Filtervalue kanske inte behöver vara med.
-                url = url.concat('api/appdetails?appids=');
-
-                const ids = inputs.body.data;
-                //If the array has more than 1 app_id the function will iterate over all app_id:s except the last one
-                //to concat the id with a ',' to separate the values. The last app_id will be concatinated without ','
-                //after the loop.
-                if (ids.length > 1){
-                  for (i = 0; i < ids.length-1; i++) {
-                    url = url.concat(ids[i]+',');
+            else if (inputs.query.assetType == 'getDetails') {
+              if (inputs.query.filterType == 'app_id') {
+                if (inputs.query.filterValue == undefined) { // Filtervalue kanske inte behöver vara med.
+                  url = url.concat('api/appdetails?appids=');
+                  const ids = inputs.body['data'];
+                  //If the array has more than 1 app_id the function will iterate over all app_id:s except the last one
+                  //to concat the id with a ',' to separate the values. The last app_id will be concatinated without ','
+                  //after the loop
+                  var i;
+                  if (ids.length > 1){
+                    for (i = 0; i < ids.length-1; i++) {
+                      url = url.concat(ids[i]+',');
+                    }
                   }
+                  url = url.concat(ids[ids.length-1]);
+                  url = url.concat('&filters=price_overview');
+                  console.log(url);
+                  fetchFromSteam(url)
+                    .then(response => {
+
+                      return exits.success(response);  // returns the Json to the client
+                    })
+                } else {
+                  return exits.error('bad request - filterValue input error');
                 }
-                url = url.concat(ids[ids.length-1]);
-
-                fetchFromSteam(url)
-                  .then(response => {
-
-                    return exits.success(review);  // returns the Json to the client
-                  })
               } else {
-                return exits.error('bad request - filterValue input error');
+                return exits.error('bad request - filterType input error');
               }
-            } else {
-              return exits.error('bad request - filterType input error');
-            }
-          }else {
-      return exits.error('bad request - assetType input error');
+            }else {
+        return exits.error('bad request - assetType input error');
     }
 
     function fetchFromSteam(url) {
