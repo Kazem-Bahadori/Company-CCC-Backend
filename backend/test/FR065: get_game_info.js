@@ -5,14 +5,15 @@ import Steam from '../src/Machinepacks/machinepack-c3steam';
 
 describe('FR065: get_game_info', () =>{
   it('Response body has correct properties', ()=> {
+    let propertyExists = true;
     const inputs = {
       query: {assetType: 'game_info', filterType: 'app_id', filterValue: '57690'},
     }
 
     return new Promise(function(resolve, reject){
       Steam.filters(inputs).exec({
-        error: function (err) {
-          console.log(err);
+        error: function (error) {
+          console.log(error);
         },
         success: function (result) {
           if(!result.hasOwnProperty('price')){
@@ -42,14 +43,11 @@ describe('FR065: get_game_info', () =>{
           if(!result.hasOwnProperty('genres')){
             propertyExists = false;
           }
-          if(!result.hasOwnProperty('reviews')){
-            propertyExists = false;
-          }
           resolve(propertyExists);
         },
       });
     })
-    .then((result) =>{
+    .then((propertyExists) =>{
       assert.isTrue(propertyExists);
     })
     .catch((error) => {
@@ -57,7 +55,7 @@ describe('FR065: get_game_info', () =>{
     });
 });
 
-it('Response body has exactly 10 properties', ()=> {
+it('Response body has exactly 9 or 10 properties', ()=> {
     const inputs = {
       query: {assetType: 'game_info', filterType: 'app_id', filterValue: '57690'},
     }
@@ -80,7 +78,8 @@ it('Response body has exactly 10 properties', ()=> {
       });
     })
     .then((counter) =>{
-      expect(counter).to.equal(10);
+      expect(counter).to.be.at.most(10);
+      expect(counter).to.be.at.least(9);
     })
     .catch((error) => {
       assert.isNotOk(error);
@@ -100,7 +99,6 @@ let correctFormat = true;
           console.log(error);
         },
         success: function (result) {
-          console.log(result);
           if(typeof(result.trailer) != 'string'){
             correctFormat = false;
           }
@@ -126,6 +124,79 @@ let correctFormat = true;
     })
     .catch((error) => {
       assert.isNotOk(error);
+    });
+});
+
+
+it('Correct error for no filter value', ()=> {
+let correctFormat = true;
+    const inputs = {
+      query: {assetType: 'game_info', filterType: 'app_id'},
+    }
+
+    return new Promise(function(resolve, reject){
+      Steam.filters(inputs).exec({
+        error: function (error) {
+          reject(error);
+        },
+        success: function (result) {
+          resolve(correctFormat);
+        },
+      });
+    })
+    .then((correctFormat) =>{
+      assert.isTrue(correctFormat);
+    })
+    .catch((error) => {
+      expect(error).to.equal("bad request - filterValue input error");
+    });
+});
+
+it('Correct error for no filter type', ()=> {
+let correctFormat = true;
+    const inputs = {
+      query: {assetType: 'game_info'},
+    }
+
+    return new Promise(function(resolve, reject){
+      Steam.filters(inputs).exec({
+        error: function (error) {
+          reject(error);
+        },
+        success: function (result) {
+          resolve(correctFormat);
+        },
+      });
+    })
+    .then((correctFormat) =>{
+      assert.isTrue(correctFormat);
+    })
+    .catch((error) => {
+      expect(error).to.equal("bad request - filterType input error");
+    });
+});
+
+it('Correct error for no assetType', ()=> {
+let correctFormat = true;
+    const inputs = {
+      query: {},
+    }
+
+    return new Promise(function(resolve, reject){
+      Steam.filters(inputs).exec({
+        error: function (error) {
+          reject(error);
+        },
+        success: function (result) {
+          resolve(correctFormat);
+        },
+      });
+    })
+    .then((correctFormat) =>{
+      assert.isTrue(correctFormat);
+    })
+    .catch((error) => {
+      expect(error).to.equal("bad request - assetType input error");
     });
 });
 

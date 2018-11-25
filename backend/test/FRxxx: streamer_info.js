@@ -17,7 +17,6 @@ describe('FRxxx: streamer_info', () =>{
           reject(error)
         },
         success: function (result) {
-          console.log(typeof(result));
           if(typeof(result) != 'object'){
               correctFormat = false;
           }
@@ -44,7 +43,6 @@ it('Correct error for incorrect iser id or filterType not empty', ()=> {
         reject(error)
       },
       success: function (result) {
-        console.log(result);
         resolve(result);
       },
     });
@@ -68,7 +66,6 @@ it('Correct error for incorrect iser id or filterType not empty', ()=> {
         reject(error)
       },
       success: function (result) {
-        console.log(result);
         resolve(result);
       },
     });

@@ -116,6 +116,34 @@ it('Every steamGame should have appId', ()=> {
   });
 });
 
+it('Return appId for correct filterValue', ()=> {
+    let ok = true;
+    const inputs = {
+      query: {assetType: 'games', filterType: 'on_twitch', filterValue: "Dota 2"},
+    }
+
+    return new Promise(function(resolve, reject){
+      Steam.filters(inputs).exec({
+        error: function (error) {
+          reject(error);
+        },
+        success: function (result) {
+          console.log(result);
+          if(result == null || result == undefined){
+            ok = false;
+          }
+          resolve(ok);
+        },
+      });
+    })
+    .then((ok) =>{
+      assert.isTrue(ok);
+    })
+    .catch((error) => {
+      expect(error).to.equal("bad request - filterValue input error");
+    });
+});
+
 it('Correct error handling for filterValue', ()=> {
 
     const inputs = {

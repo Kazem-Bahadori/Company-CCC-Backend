@@ -13,7 +13,6 @@ describe('FRxxx: twitch_health', () =>{
           reject(error)
         },
         success: function (result) {
-          console.log(result);
           resolve(result);
         },
       });

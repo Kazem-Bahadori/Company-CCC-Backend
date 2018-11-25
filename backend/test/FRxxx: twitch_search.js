@@ -5,7 +5,7 @@ import Twitch from '../src/Machinepacks/machinepack-c3twitch';
 
 describe('FRxxx: twitch_search', () =>{
 
-  it('Twitch search', ()=> {
+  it('Response has correct properties', ()=> {
     let propertyExists = true;
     const inputs = {
       query: {assetType: 'games', queryString: 'fifa'},
@@ -14,7 +14,7 @@ describe('FRxxx: twitch_search', () =>{
     return new Promise(function(resolve, reject){
       Twitch.search(inputs).exec({
         error: function (error) {
-          reject(error)
+          reject(error);
         },
         success: function (result) {
           if(!result.hasOwnProperty('games')){
@@ -46,8 +46,7 @@ describe('FRxxx: twitch_search', () =>{
     });
 });
 
-it('Twitch search', ()=> {
-  let propertyExists = true;
+it('Correct error for no query string', ()=> {
   const inputs = {
     query: {assetType: 'games', queryString: ''},
   }
@@ -55,7 +54,7 @@ it('Twitch search', ()=> {
   return new Promise(function(resolve, reject){
     Twitch.search(inputs).exec({
       error: function (error) {
-        reject(error)
+        reject(error);
       },
       success: function (result) {
         resolve(propertyExists);
@@ -63,7 +62,6 @@ it('Twitch search', ()=> {
     });
   })
   .then((propertyExists) =>{
-    assert.isTrue(propertyExists);
   })
   .catch((error) => {
     expect(error.description).to.equal("bad request - queryString input error");
@@ -71,7 +69,7 @@ it('Twitch search', ()=> {
   });
 });
 
-it('Twitch search', ()=> {
+it('Every stream has correct proper', ()=> {
   let propertyExists = true;
   const inputs = {
     query: {assetType: 'streams', queryString: 'fifa'},
@@ -80,7 +78,7 @@ it('Twitch search', ()=> {
   return new Promise(function(resolve, reject){
     Twitch.search(inputs).exec({
       error: function (error) {
-        reject(error)
+        reject(error);
       },
       success: function (result) {
         if(!result.hasOwnProperty('streams')){
@@ -144,8 +142,7 @@ it('Twitch search', ()=> {
   });
 });
 
-it('Twitch search', ()=> {
-  let propertyExists = true;
+it('Correct error for no query string for streams', ()=> {
   const inputs = {
     query: {assetType: 'streams', queryString: ''},
   }
@@ -153,7 +150,7 @@ it('Twitch search', ()=> {
   return new Promise(function(resolve, reject){
     Twitch.search(inputs).exec({
       error: function (error) {
-        reject(error)
+        reject(error);
       },
       success: function (result) {
         resolve(propertyExists);
@@ -161,7 +158,6 @@ it('Twitch search', ()=> {
     });
   })
   .then((propertyExists) =>{
-    assert.isTrue(propertyExists);
   })
   .catch((error) => {
     expect(error.description).to.equal("bad request - queryString input error");
@@ -169,8 +165,7 @@ it('Twitch search', ()=> {
   });
 });
 
-it('Twitch search', ()=> {
-  let propertyExists = true;
+it('Correct error for no assetType', ()=> {
   const inputs = {
     query: {},
   }
@@ -178,7 +173,7 @@ it('Twitch search', ()=> {
   return new Promise(function(resolve, reject){
     Twitch.search(inputs).exec({
       error: function (error) {
-        reject(error)
+        reject(error);
       },
       success: function (result) {
         resolve(propertyExists);
@@ -186,7 +181,6 @@ it('Twitch search', ()=> {
     });
   })
   .then((propertyExists) =>{
-    assert.isTrue(propertyExists);
   })
   .catch((error) => {
     expect(error.description).to.equal("bad request - incorrect assetType");
