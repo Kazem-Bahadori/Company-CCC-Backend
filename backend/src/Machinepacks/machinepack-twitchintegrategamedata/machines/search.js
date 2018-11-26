@@ -1,6 +1,6 @@
 import Steam from '../../machinepack-c3steam';
 import Twitch from '../../machinepack-c3twitch';
-import { promises } from 'fs';
+//import { promises } from 'fs';
 //import { resolve } from 'path';
 //import { get } from 'https';
 
@@ -40,10 +40,10 @@ module.exports = {
   ) {
     if (inputs.query.assetType == "games") { // if you are searching for games on twitch
       if (inputs.query.queryString != undefined) {
-        console.log('test oscar 0')
+       
 
         getTwitchData()
-          .then(function (twitchData) {
+          .then(function (twitchData) {           
             return new Promise((resolve, reject) => {
               let steamInputs = [];
               twitchData.games.forEach(element => {
@@ -58,7 +58,7 @@ module.exports = {
             });
 
           }).then(function (steamInputs) {
-
+            console.log('test oscar 3')
             const promises = [];
             //steamInputs.forEach(element => {
             for (let game in steamInputs) {
@@ -73,11 +73,8 @@ module.exports = {
                   },
                   // OK.
                   success: function (result) {
-                    //console.log('test oscar' + game)
-                    //console.log('promis ' + promises.);
-                    console.log(result);
-                    resolve(result)
-                                       
+                    //console.log(result);
+                    resolve(result)              
                   }
                 })
               })
@@ -87,14 +84,12 @@ module.exports = {
           })
           .then(function (promises) {
             Promise.all(promises)
-
               .then(data => {
-                console.log(data);
+                
+                //console.log(data);
                 return exits.success(data);
               })
-          })
-
-          
+          })          
 
         function getTwitchData() {
 
@@ -106,10 +101,7 @@ module.exports = {
               },
               // OK.
               success: function (result) {
-                console.log('test oscar 1')
-                //twitchData = result;
                 resolve(result);
-
               }
             })
           })
