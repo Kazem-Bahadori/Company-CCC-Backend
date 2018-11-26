@@ -1,5 +1,8 @@
 import Steam from '../../machinepack-c3steam';
 import Twitch from '../../machinepack-c3twitch';
+import { promises } from 'fs';
+//import { resolve } from 'path';
+//import { get } from 'https';
 
 module.exports = {
 
@@ -31,63 +34,71 @@ module.exports = {
     },
   },
 
-  fn: function(inputs, exits
+  fn: function (inputs, exits
     /*``*/
-    
+
   ) {
     if (inputs.query.assetType == "games") { // if you are searching for games on twitch
       if (inputs.query.queryString != undefined) {
+        console.log('test oscar 0')
 
-
-        return new Promise((resolve, reject) => {
-          Twitch.search(inputs).exec({
-            // An unexpected error occurred.
-            error: function (err) {
-              reject(err);
-            },
-            // OK.
-            success: function (result) {
-
-              resolve(result)
-              //console.log(result);
-              //return exits.success(result);
-
-            },
-          });
-        }) 
-        .then (response => {
-
-          response.games.forEach(element => {
-            let steamInputs = {
-              query: {
-                assetType: 'gameId',
-                queryString: element.name
-              }
-            }
-            new Promise((resolve, reject) => {
-              Steam.search(steamInputs).exec({
-                // An unexpected error occurred.
-                error: function (err) {
-                  reject(err);
-                  console.log(err);
-                },
-                // OK.
-                success: function (result) {
-                  //resolve({ 'appid': appId, price: result });
-                  //console.log(result);
-                  if (result.appId != 0) {
-                    element.steamId = result.appId;
+        getTwitchData()
+          .then(function (twitchData) {
+            return new Promise((resolve, reject) => {
+              let steamInputs = [];
+              twitchData.games.forEach(element => {
+                steamInputs.push({
+                  query: {
+                    assetType: 'gameId',
+                    queryString: element.name
                   }
+                });
+              })
+              resolve(steamInputs);
+            });
+
+          }).then(function (steamInputs) {
+
+            const promises = [];
+            //steamInputs.forEach(element => {
+            for (let game in steamInputs) {
+              //console.log(steamInputs[game]);
+              
+              promises.push(new Promise((resolve, reject) => {
+                Steam.search(steamInputs[game]).exec({
+
+                  error: function (err) {
+                    console.log('ERROOORRR')
+                    reject(err);
+                  },
+                  // OK.
+                  success: function (result) {
+                    //console.log('test oscar' + game)
+                    //console.log('promis ' + promises.);
+                    console.log(result);
+                    resolve(result)
+                                       
+                  }
+                })
+              })
+              )              
+            }
+            return promises;
+          })
+          .then(function (promises) {
+            Promise.all(promises)
+
+              .then(data => {
+                console.log(data);
+                return exits.success(data);
+              })
+          })
+
           
-            
-          });
-        })
 
+        function getTwitchData() {
 
-          //console.log("Test Oscar 2");
-          //console.log(inputs);
-         
-          /* let result = new Promise((resolve, reject) => {
+          return new Promise((resolve, reject) => {
             Twitch.search(inputs).exec({
               // An unexpected error occurred.
               error: function (err) {
@@ -95,46 +106,15 @@ module.exports = {
               },
               // OK.
               success: function (result) {
-  
-                //resolve(result)
-                
-                result.games.forEach(element => {
-                  let steamInputs = {
-                    query: {
-                      assetType: 'gameId',
-                      queryString: element.name
-                    }
-                  }
-                  //console.log(element);
-                   new Promise((resolve, reject) => {
-                    Steam.search(steamInputs).exec({
-                      // An unexpected error occurred.
-                      error: function (err) {
-                        reject(err);
-                        console.log(err);
-                      },
-                      // OK.
-                      success: function (result) {
-                        //resolve({ 'appid': appId, price: result });
-                        //console.log(result);
-                        if (result.appId != 0) {
-                          element.steamId = result.appId;
-                        }
-                        console.log(element);
-                      },
-                    });
-                  }); 
-                });             
-              },
+                console.log('test oscar 1')
+                //twitchData = result;
+                resolve(result);
+
+              }
             })
-            //resolve(result)
-          }) */
-          //console.log("result: " + result);        
-          
-          //return exits.success(result);
-        //return exits.success();
+          })
+        }
       }
     }
   }
-
-};
+}
