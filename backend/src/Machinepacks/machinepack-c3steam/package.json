@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Fetches data from steam",
   "scripts": {
-    "test": "node ./node_modules/test-machinepack-mocha/bin/testmachinepack-mocha.js"
+    "test": "node ./node_modules/test-machinepack-mocha/bin/testmachinepack-mocha.js --timeout 10000"
   },
   "keywords": [
     "c3steam",
