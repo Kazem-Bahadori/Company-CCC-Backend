@@ -65,7 +65,8 @@
   "nyc": {
     "include": [
       "**/machinepack-c3twitch/machines/*.js",
-      "**/machinepack-c3steam/machines/*.js"
+      "**/machinepack-c3steam/machines/*.js",
+      "**/machinepack-twitchintegrategamedata/machines/*.js"
     ]
   },
   "bugs": {
