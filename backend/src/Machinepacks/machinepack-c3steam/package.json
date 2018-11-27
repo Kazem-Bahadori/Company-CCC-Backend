@@ -25,7 +25,8 @@
     "machineDir": "machines/",
     "machines": [
       "filters",
-      "search"
+      "search",
+      "health"
     ]
   }
 }
