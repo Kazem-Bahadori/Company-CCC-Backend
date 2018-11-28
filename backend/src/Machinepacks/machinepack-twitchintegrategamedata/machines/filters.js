@@ -91,11 +91,11 @@ module.exports = {
         })
             .then(response => {
               gamesIsOnSale(response.data)
-                
+
                 .then(res => resolve(res))
                 .catch(err => reject(err));
             });
-          
+
         } else {
           return exits.error('bad request - filtervalue for top games must be between 1-100')
         }

@@ -94,17 +94,17 @@ module.exports = {
                 all_info['reviews'] = review_response.query_summary
                 return exits.success(all_info); //Return JSON to the client
 
-              
+
             } else {
               return exits.error('Could not find review data'); //Returns JSON to the client
             }
-            
+
           })
           .catch (err => exits.error(err));
                 } else {
                 return exits.error('Could not find any data');
               }
-              
+
             })
             .catch (err => exits.error(err));
 
@@ -153,7 +153,8 @@ module.exports = {
                 console.log(response[appId]);
                 return exits.error('Could not find price data');
               }
-              
+
+              get_gameprice
             })
             .catch (err => exits.error(err));
         } else {
@@ -199,12 +200,12 @@ module.exports = {
                 linux_requirements: steamResponse.data.linux_requirements
               }
 
-              return exits.success(requirements);  // returns the Json to the client 
+              return exits.success(requirements);  // returns the Json to the client
             } else {
               console.log(response[appId]);
               return exits.error('Could not find requirement data');
             }
-            
+
           })
           .catch (err => exits.error(err));
         } else {
@@ -245,7 +246,7 @@ module.exports = {
               console.log(response[appId]);
               return exits.error('Could not find review data');
             }
-            
+
           })
           .catch (err => exits.error(err));
         } else {
@@ -287,11 +288,11 @@ module.exports = {
             gameObject = games[counter]
 
             if (gameObject.name == name) {
-              return exits.success({ appId: gameObject['appid'] });  // returns the Json to the client 
+              return exits.success({ appId: gameObject['appid'] });  // returns the Json to the client
             }
             counter++
           }
-          return exits.success(false)  // returns the Json to the client 
+          return exits.success(false)  // returns the Json to the client
 
         } else {
           return exits.error('bad request - filterValue input error');
@@ -330,16 +331,16 @@ module.exports = {
 
               if (steamResponse.data != undefined) {
                 let trailer = steamResponse.data.movies[0].webm.max
-                
-                return exits.success(trailer);  // returns the Json to the client 
+
+                return exits.success(trailer);  // returns the Json to the client
               } else {
                 console.log(response[appId]);
                 return exits.error('Could not find trailer data');
               }
-              
+
             })
             .catch (err => exits.error(err));
-    
+
           } else {
             return exits.error('bad request - filterValue input error');
           }
@@ -377,25 +378,22 @@ module.exports = {
                   for (i = 0; i < ids.length-1; i++) {
                     url = url.concat(ids[i]+',');
                   }
+                  url = url.concat(ids[ids.length-1]);
+                  url = url.concat('&filters=price_overview');
+                  console.log(url);
+                  fetchFromSteam(url)
+                    .then(response => {
+
+                      return exits.success(response);  // returns the Json to the client
+                    })
+                } else {
+                  return exits.error('bad request - filterValue input error');
                 }
-                url = url.concat(ids[ids.length-1]);
-                url = url.concat('&filters=price_overview');
-
-                console.log(url);
-
-                fetchFromSteam(url) 
-                  .then(response => {
-      
-                    return exits.success(response);  // returns the Json to the client 
-                  })
               } else {
-                return exits.error('bad request - filterValue input error');
+                return exits.error('bad request - filterType input error');
               }
-            } else {
-              return exits.error('bad request - filterType input error');
-            }
-          }else {
-      return exits.error('bad request - assetType input error');
+            }else {
+        return exits.error('bad request - assetType input error');
     }
 
     function fetchFromSteam(url) {
