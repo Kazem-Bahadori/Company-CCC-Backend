@@ -19,6 +19,7 @@ describe('FR064, FR024: get_top50_games', () =>{
             console.log(err);
           },
           success: function (steamGames) {
+            console.log(steamGames);
             var counter = 0;
             for(var i = 0; i < steamGames.data.length; i++){
               if(steamGames.data[i].id){

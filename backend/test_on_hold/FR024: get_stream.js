@@ -33,6 +33,33 @@ describe('FRxxx: get_stream', () =>{
     });
 });
 
+it('Get stream for game', ()=> {
+  let ok = true;
+  const inputs = {
+    query: {assetType: 'streams', filterType: 'game', filterValue: '506103'},
+  }
+
+  return new Promise(function(resolve, reject){
+    Twitch.filters(inputs).exec({
+      error: function (error) {
+        reject(error)
+      },
+      success: function (result) {
+        if(result == null || result == undefined){
+          ok = false;
+        }
+        resolve(ok);
+      },
+    });
+  })
+  .then((ok) =>{
+    assert.isTrue(ok);
+  })
+  .catch((error) => {
+    expect(error).to.equal("no streams found - check spelling of game_id");
+  });
+});
+
 it('Correct error for no filter input', ()=> {
   let ok = true;
   const inputs = {
@@ -57,6 +84,34 @@ it('Correct error for no filter input', ()=> {
   })
   .catch((error) => {
     expect(error).to.equal("bad request - no game_id is given");
+  });
+});
+
+it('Correct error for no filter_by input', ()=> {
+  let ok = true;
+  const inputs = {
+    query: {assetType: 'games', filterType: 'contextual'},
+    body: {filter_by: 'wrong_filter'}
+  }
+
+  return new Promise(function(resolve, reject){
+    Twitch.filters(inputs).exec({
+      error: function (error) {
+        reject(error)
+      },
+      success: function (result) {
+        if(result == null || result == undefined){
+          ok = false;
+        }
+        resolve(ok);
+      },
+    });
+  })
+  .then((ok) =>{
+    assert.isTrue(ok);
+  })
+  .catch((error) => {
+    expect(error).to.equal("bad request - incorrect filter");
   });
 });
 
