@@ -61,10 +61,10 @@ module.exports = {
         getSteamGames()
           .then(games => {
             for (let game of games) {
-              if (game['name'] == name) {
+              if (game['name'].toLowerCase() === name.toLowerCase() && game['appid']!='0') {
                 //Why does it return zerro when game not found?
                 return exits.success({ appId: game['appid'] });
-              }              
+              }    
             }
             return exits.success(false);
           })
@@ -92,9 +92,8 @@ module.exports = {
       const timeToStoreData = 600000; // Milliseconds 600000 = 10 minutes
       return new Promise(function (resolve, reject) {
         const steamGames = cache.get('steamGames');
-        if (!steamGames || steamGames !== 'updating') { // If data is not in the cache
+        if (!steamGames) { // If data is not in the cache
           console.log('Does not exist, fetching data...');
-          cache.put('steamGames', 'updating', timeToStoreData);
           fetch('http://api.steampowered.com/ISteamApps/GetAppList/v0002/')
             .then(response => response.json())
             .then(data => data['applist']['apps'])
@@ -102,8 +101,7 @@ module.exports = {
               cache.put('steamGames', data, timeToStoreData);
               resolve(data);
             })
-            .catch(err => reject(err));
-                 
+            .catch(err => reject(err));  
         } else {
           resolve(steamGames);  
         }

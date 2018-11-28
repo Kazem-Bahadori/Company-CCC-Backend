@@ -32,6 +32,14 @@ module.exports = {
       variableName: 'result',
       description: 'Done.',
     },
+    error: {
+      example: {
+        description: 'bad request - assetType input error',
+        code: 400
+      },
+      description: 'There was some kind of error',
+      code: 'The status code'
+    }
   },
 
   fn: function (inputs, exits
@@ -40,73 +48,81 @@ module.exports = {
   ) {
     if (inputs.query.assetType == "games") { // if you are searching for games on twitch
       if (inputs.query.queryString != undefined) {
-       
-
-        getTwitchData()
-          .then(function (twitchData) {           
-            return new Promise((resolve, reject) => {
-              let steamInputs = [];
-              twitchData.games.forEach(element => {
-                steamInputs.push({
-                  query: {
-                    assetType: 'gameId',
-                    queryString: element.name
-                  }
-                });
-              })
-              resolve(steamInputs);
-            });
-
-          }).then(function (steamInputs) {
-            console.log('test oscar 3')
-            const promises = [];
-            //steamInputs.forEach(element => {
-            for (let game in steamInputs) {
-              //console.log(steamInputs[game]);
-              
-              promises.push(new Promise((resolve, reject) => {
-                Steam.search(steamInputs[game]).exec({
-
-                  error: function (err) {
-                    console.log('ERROOORRR')
-                    reject(err);
-                  },
-                  // OK.
-                  success: function (result) {
-                    //console.log(result);
-                    resolve(result)              
-                  }
-                })
-              })
-              )              
+        Twitch.search(inputs).exec({
+          // An unexpected error occurred.
+          error: function (err) {
+            return exits.error(err);
+          },
+          // OK.
+          success: function (twitchData) {
+            const someInput = {
+              query: {
+                assetType: 'gameId',
+                queryString: 'Abatron'
+              }
             }
-            return promises;
-          })
-          .then(function (promises) {
-            Promise.all(promises)
-              .then(data => {
-                
-                //console.log(data);
-                return exits.success(data);
-              })
-          })          
-
-        function getTwitchData() {
-
-          return new Promise((resolve, reject) => {
-            Twitch.search(inputs).exec({
-              // An unexpected error occurred.
-              error: function (err) {
-                reject(err);
+            //Trigger download
+            Steam.search(someInput).exec({ // This is used to trigger the download of the steamgames json
+              error: err => {
+                console.log(err)
+                return exits.error(err);
               },
-              // OK.
-              success: function (result) {
-                resolve(result);
+              success: () => { // Runs when list of games is cached
+                let promises = [];
+                twitchData.games.forEach(game => {
+                  const inputs = {
+                    query: {
+                      assetType: 'gameId',
+                      queryString: game.name
+                    }
+                  }
+                  promises.push(new Promise((resolve, reject) => { // Adds promises for searching for Steamgames to a list
+                    Steam.search(inputs).exec({
+                      error: err => {
+                        console.log(err)
+                        reject(err);
+                      },
+                      success: result => {
+                        let aggregated = game;
+                        aggregated.steam = result;
+                        resolve(aggregated);
+                      }
+                    })
+                  }));
+                });
+                Promise.all(promises)
+                  .then(values => { //When all games are searched for, then send response with the data
+                    return exits.success(values);
+                  })
+                  .catch(err => {
+                    return exits.error(err);
+                  });
               }
             })
-          })
-        }
+          }
+        });
+      } else {
+        return exits.error({
+          description: 'bad request - queryString input error',
+          code: 500
+        });
       }
+    } else if (inputs.query.assetType == "streams") {
+      Twitch.search(inputs).exec({
+        // An unexpected error occurred.
+        error: err => {
+          return exits.error(err);
+        },
+        // OK.
+        success: twitchData => {
+          return exits.success(twitchData);
+        }
+      });
+    } else {
+      return exits.error({
+        description: 'bad request - assetType input error',
+        code: 500
+      });
     }
   }
 }
