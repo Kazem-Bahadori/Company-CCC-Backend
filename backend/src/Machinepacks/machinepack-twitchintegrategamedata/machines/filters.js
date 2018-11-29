@@ -87,11 +87,11 @@ module.exports = {
             }
             break;
           default:
-            return exits.error('400 - bad request')
+            return exits.error('bad request - filterType input error')
         }
         break;
       default:
-        return exits.error('400 - bad request')
+        return exits.error('bad request - assetType input error')
     }
 
     /**
