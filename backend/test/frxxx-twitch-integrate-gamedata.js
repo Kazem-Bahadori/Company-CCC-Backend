@@ -5,7 +5,6 @@ import GameData from '../src/Machinepacks/machinepack-twitchintegrategamedata';
 
 describe('FRxxx: twitchintegrategamedata', () =>{
 
-
   it('Get top games', ()=> {
     let ok = true;
     const inputs = {
@@ -83,7 +82,7 @@ it('Correct error for no filterType', ()=> {
     assert.isTrue(ok);
   })
   .catch((error) => {
-    expect(error).to.equal("bad request - filterType input error'");
+    expect(error).to.equal("bad request - filterType input error");
   });
 });
 
