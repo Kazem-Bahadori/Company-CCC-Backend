@@ -94,8 +94,6 @@ module.exports = {
         return exits.error('400 - bad request')
     }
 
-    //------------------------------------- Seperate functions ---------------------------------------------------------------
-
     /**
      * Get the currently top streamed games from twitch and and adds steaminfo for the games that are also on steam
      * 
