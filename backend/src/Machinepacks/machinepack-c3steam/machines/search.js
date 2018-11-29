@@ -88,7 +88,7 @@ module.exports = {
     }
 
     function getSteamGames() {
-      const timeToStoreData = 60000; // Milliseconds 600000 = 10 minutes
+      const timeToStoreData = 600000; // Milliseconds 600000 = 10 minutes
       return new Promise(function (resolve, reject) {
         const steamGames = cache.get('steamGames');
         if (!steamGames) { // If data is not in the cache
