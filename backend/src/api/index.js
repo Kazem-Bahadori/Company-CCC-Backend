@@ -28,6 +28,19 @@ export default ({
 			},
 		});
 	});
+	api.get('/steam/health', (req, res) => {
+		Steam.health().exec({
+
+			// An unexpected error occurred.
+			error: function () {
+				res.sendStatus(500);
+			},
+			// OK.
+			success: function () {
+				res.sendStatus(200);
+			},
+		});
+	});
 	api.get('/twitch/filters', (req, res) => {
 		const inputs = {
 			query: req.query,
@@ -76,7 +89,7 @@ export default ({
 	api.get('/steam/filters', (req, res) => {
 		const inputs = {
 			query: req.query,
-			body: req.body,
+			body:  req.body,
 		}
 		Steam.filters(inputs).exec({
 

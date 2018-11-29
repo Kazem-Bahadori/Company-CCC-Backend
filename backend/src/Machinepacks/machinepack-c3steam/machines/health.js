@@ -53,19 +53,6 @@ module.exports = {
       });
     }
 
-    function fetchFromTwitch() {
-      return new Promise(function (resolve, reject) {
-        let url = 'https://api.twitch.tv/helix/streams';
-        let keys = require('./keys.json');
-        fetch(url, {
-            headers: {
-              'Client-ID': keys[0].Client
-            }
-          })
-        .then(response => resolve(response.json()))
-      });
-    }
-
     function ping(fetchFunction) {
       return new Promise(function (resolve, reject) {
         fetchFunction()
