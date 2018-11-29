@@ -3,7 +3,7 @@ const expect = require('chai').expect; //bringring in the chai library
 import Steam from '../src/Machinepacks/machinepack-c3steam';
 
 
-describe('FR024: get_system_requriments', () =>{
+describe('fr024-get_system_requriments', () =>{
 
     it('Response body has correct properties', ()=> {
       let propertyExists = true;
