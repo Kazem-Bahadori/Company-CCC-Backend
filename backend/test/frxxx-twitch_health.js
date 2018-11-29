@@ -3,7 +3,7 @@ const assert = require('chai').assert; //bringring in the chai library
 const expect = require('chai').expect; //bringring in the chai library
 import Twitch from '../src/Machinepacks/machinepack-c3twitch';
 
-describe('FRxxx: twitch_health', () =>{
+describe('frxxx-twitch_health', () =>{
 
   it('Twitch health', ()=> {
 

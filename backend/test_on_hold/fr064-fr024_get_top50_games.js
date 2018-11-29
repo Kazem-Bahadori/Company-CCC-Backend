@@ -4,7 +4,7 @@ import Twitch from '../src/Machinepacks/machinepack-c3twitch';
 import Steam from '../src/Machinepacks/machinepack-c3steam';
 
 
-describe('FR064, FR024: get_top50_games', () =>{
+describe('fr064-fr024-get_top50_games', () =>{
 
     it('Response body has 49 or 50 id:s', ()=> {
 

@@ -3,7 +3,7 @@ const assert = require('chai').assert; //bringring in the chai library
 const expect = require('chai').expect; //bringring in the chai library
 import GameData from '../src/Machinepacks/machinepack-twitchintegrategamedata';
 
-describe('FRxxx: twitchintegrategamedata', () =>{
+describe('frxxx-twitchintegrategamedata', () =>{
 
   it('Get top games', ()=> {
     let ok = true;
@@ -64,7 +64,6 @@ it('Correct error for no filterType', ()=> {
   const inputs = {
     query: {assetType: 'games'},
   }
-
 
   return new Promise(function(resolve, reject){
     GameData.filters(inputs).exec({

@@ -3,7 +3,7 @@ const assert = require('chai').assert; //bringring in the chai library
 const expect = require('chai').expect; //bringring in the chai library
 import Twitch from '../src/Machinepacks/machinepack-c3twitch';
 
-describe('FRxxx: get_stream', () =>{
+describe('fr025-get_stream', () =>{
 
 
   it('Get stream for game', ()=> {

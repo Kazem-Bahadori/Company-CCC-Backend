@@ -3,7 +3,7 @@ const assert = require('chai').assert; //bringring in the chai library
 const expect = require('chai').expect; //bringring in the chai library
 import Steam from '../src/Machinepacks/machinepack-c3steam';
 
-describe('FRxxx: steam_search', () =>{
+describe('frxxx-steam_search', () =>{
 
   it('Steam search for game that does exist', ()=> {
     let ok = true;

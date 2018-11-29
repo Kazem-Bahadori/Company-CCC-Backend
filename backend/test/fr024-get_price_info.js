@@ -2,7 +2,7 @@ const assert = require('chai').assert; //bringring in the chai library
 const expect = require('chai').expect; //bringring in the chai library
 import Steam from '../src/Machinepacks/machinepack-c3steam';
 
-describe('FR029: get_price_info', () =>{
+describe('fr029-get_price_info', () =>{
     it('Response body has correct properties', ()=> {
     let propertyExists = true;
 
