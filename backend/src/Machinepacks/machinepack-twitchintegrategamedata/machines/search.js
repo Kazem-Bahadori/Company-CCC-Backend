@@ -1,8 +1,5 @@
 import Steam from '../../machinepack-c3steam';
 import Twitch from '../../machinepack-c3twitch';
-//import { promises } from 'fs';
-//import { resolve } from 'path';
-//import { get } from 'https';
 
 module.exports = {
 
