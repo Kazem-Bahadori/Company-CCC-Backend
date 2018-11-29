@@ -65,6 +65,7 @@ it('Correct error for no filterType', ()=> {
     query: {assetType: 'games'},
   }
 
+
   return new Promise(function(resolve, reject){
     GameData.filters(inputs).exec({
       error: function (error) {
