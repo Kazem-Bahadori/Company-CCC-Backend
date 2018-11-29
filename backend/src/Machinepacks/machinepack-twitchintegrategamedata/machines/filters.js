@@ -61,7 +61,7 @@ module.exports = {
       case 'games':
         switch (inputs.query.filterType) {
           case 'top':
-            const amount = inputs.query.filterValue != undefined ? inputs.query.filterValue : 20; //if no input, default to 20
+            const amount = inputs.query.filterValue !== undefined ? inputs.query.filterValue : 20; //if no input, default to 20
             getTopGames(amount)
               .then(games => {
                 return exits.success(games);
@@ -75,7 +75,7 @@ module.exports = {
             if (inputs.query.filterValue === 'steamGame') {
               getTopGames(100)
                 .then(games => {
-                  let steamGames = games.filter(game => game.steam != false);
+                  let steamGames = games.filter(game => game.steam !== false);
                   if (Object.keys(steamGames).length > 20) {
                     steamGames = steamGames.slice(0, 20);
                   }
@@ -87,11 +87,11 @@ module.exports = {
             }
             break;
           default:
-            return exits.error('bad request - filterType input error')
+            return exits.error('bad request - filterType input error');
         }
         break;
       default:
-        return exits.error('bad request - assetType input error')
+        return exits.error('bad request - assetType input error');
     }
 
     /**
@@ -109,7 +109,7 @@ module.exports = {
               filterType: 'top',
               filterValue: amount
             }
-          }
+          };
           return new Promise((resolve, reject) => {
             Twitch.filters(inputs).exec({
               // An unexpected error occurred.
@@ -119,7 +119,7 @@ module.exports = {
               // OK.
               success: function (result) {
 
-                resolve(result)
+                resolve(result);
                 //return exits.success(result);
 
               },
@@ -133,9 +133,9 @@ module.exports = {
             });
 
         } else {
-          return exits.error('bad request - filtervalue for top games must be between 1-100')
+          return exits.error('bad request - filtervalue for top games must be between 1-100');
         }
-      })
+      });
     }
 
     /**
@@ -151,11 +151,11 @@ module.exports = {
           filterType: 'on_twitch',
           filterValue: nameOfGames
         }
-      }
+      };
       const promises = [];
       nameOfGames.data.forEach(function (element) {
         promises.push(new Promise(function (resolve, reject) {
-          inputs.query.filterValue = element.name
+          inputs.query.filterValue = element.name;
           Steam.filters(inputs).exec({
             // An unexpected error occurred.
             error: function (err) {
@@ -165,7 +165,7 @@ module.exports = {
             success: function (result) {
               resolve(result);
             }
-          })
+          });
         })
         );
       });
@@ -173,10 +173,10 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Promise.all(promises).then(values => {
           for (let i = 0; i < nameOfGames.data.length; i++) {
-            nameOfGames.data[i]['steam'] = { 'appid': values[i].appId };
+            nameOfGames.data[i].steam = { 'appid': values[i].appId };
           }
           resolve(nameOfGames);
-        })
+        });
       });
     }
 
@@ -193,44 +193,44 @@ module.exports = {
 
       return new Promise((resolve, reject) => {
         games.forEach(function (element) {
-          names.data.push({ 'name': element.name })
+          names.data.push({ 'name': element.name });
         });
         getSteamID(names) // calls function to check if the names matches games on steam
           .then(response => {
             for (let i = 0; i < games.length; i++) { 
-              if (response.data[i].steam.appid != undefined) {
-                games[i].steam = response.data[i].steam
-                IDs.push(response.data[i].steam.appid) // adds the appids to a list to use later
+              if (response.data[i].steam.appid !== undefined) {
+                games[i].steam = response.data[i].steam;
+                IDs.push(response.data[i].steam.appid); // adds the appids to a list to use later
               } else {
-                games[i].steam = false
+                games[i].steam = false;
               }
             }
           })
           .then(function () {
             getSteamData(IDs) //calls function to request the information on all the appids
               .then(response => {
-                 let count = 0 // variable used to itterate over the response-list
+                 let count = 0; // variable used to itterate over the response-list
                 for(var key in games) {
-                  if (games[key].steam != false){ // if it's false game doesn't exist on steam so it skips it
+                  if (games[key].steam !== false){ // if it's false game doesn't exist on steam so it skips it
                     if (count > response.length) { // if count is bigger than the response-list the there are no more games to add so it breaks the loop
-                      break
+                      break;
                     } else  {
-                      if(response[IDs[count]].success == false){ // if appid exists but game is not actually on steam set entry to false
-                        games[key].steam = false
-                        count++
-                      } else if(isEmpty(response[IDs[count]].data) && response[IDs[count]].success != false){ // if game is free set price to '0'
-                        games[key].steam.price = '0'
-                        count++
+                      if(response[IDs[count]].success === false){ // if appid exists but game is not actually on steam set entry to false
+                        games[key].steam = false;
+                        count++;
+                      } else if(isEmpty(response[IDs[count]].data) && response[IDs[count]].success !== false){ // if game is free set price to '0'
+                        games[key].steam.price = 0;
+                        count++;
                       } else { // if data exists add it to the response
-                        games[key].steam.price = response[IDs[count]].data
-                        count++
+                        games[key].steam.price = response[IDs[count]].data;
+                        count++;
                       }
                     }
                   }
                 }  
-                return exits.success(games)
-              })
-          })
+                return exits.success(games);
+              });
+          });
       });
     }
 
@@ -249,7 +249,7 @@ module.exports = {
         body: {
           data: appId
         }
-      }
+      };
       return new Promise((resolve, reject) => {
 
         Steam.filters(inputs).exec({
@@ -261,7 +261,7 @@ module.exports = {
           success: function (result) {
             resolve(result);
           }
-        })
+        });
       });
     }
 
