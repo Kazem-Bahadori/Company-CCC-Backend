@@ -102,7 +102,7 @@ module.exports = {
             })
             .catch(err => reject(err));
         } else {
-          resolve(steamGames);  
+          resolve(steamGames);
         }
       });
     }
