@@ -219,7 +219,10 @@ module.exports = {
                         games[key].steam = false;
                         count++;
                       } else if(isEmpty(response[IDs[count]].data) && response[IDs[count]].success !== false){ // if game is free set price to '0'
-                        games[key].steam.price = 0;
+                        games[key].steam.price = {
+                          'final': 0,
+                          'discount_percent': 0
+                        };
                         count++;
                       } else { // if data exists add it to the response
                         games[key].steam.price = response[IDs[count]].data;
