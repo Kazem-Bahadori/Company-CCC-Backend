@@ -386,6 +386,9 @@ module.exports = {
         return exits.error('bad request - assetType input error');
     }
 
+//------------------------------------- Seperate functions ---------------------------------------------------------------
+
+    //Does the call towards the twitch api
     function fetchFromSteam(url) {
       return new Promise(function (resolve, reject) {
         fetch(url)
