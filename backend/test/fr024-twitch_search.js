@@ -3,7 +3,7 @@ const assert = require('chai').assert; //bringring in the chai library
 const expect = require('chai').expect; //bringring in the chai library
 import Twitch from '../src/Machinepacks/machinepack-c3twitch';
 
-describe('FRxxx: twitch_search', () =>{
+describe('fr024-twitch_search', () =>{
 
   it('Response has correct properties', ()=> {
     let propertyExists = true;
@@ -166,6 +166,7 @@ it('Correct error for no query string for streams', ()=> {
 });
 
 it('Correct error for no assetType', ()=> {
+  let ok = true;
   const inputs = {
     query: {},
   }
@@ -176,11 +177,15 @@ it('Correct error for no assetType', ()=> {
         reject(error);
       },
       success: function (result) {
-        resolve(propertyExists);
+        if(result == null || result == undefined){
+          ok = false;
+        }
+        resolve(ok);
       },
     });
   })
-  .then((propertyExists) =>{
+  .then((ok) =>{
+    assert.isTrue(ok);
   })
   .catch((error) => {
     expect(error.description).to.equal("bad request - incorrect assetType");

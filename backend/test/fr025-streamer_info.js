@@ -3,7 +3,7 @@ const assert = require('chai').assert; //bringring in the chai library
 const expect = require('chai').expect; //bringring in the chai library
 import Twitch from '../src/Machinepacks/machinepack-c3twitch';
 
-describe('FRxxx: streamer_info', () =>{
+describe('fr025-streamer_info', () =>{
 
   it('Correct fetch of streamer_info', ()=> {
     let correctFormat = true;

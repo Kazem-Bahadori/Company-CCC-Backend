@@ -3,8 +3,7 @@ const assert = require('chai').assert; //bringring in the chai library
 const expect = require('chai').expect; //bringring in the chai library
 import GameData from '../src/Machinepacks/machinepack-twitchintegrategamedata';
 
-describe('FRxxx: twitchintegrategamedata', () =>{
-
+describe('frxxx-twitchintegrategamedata', () =>{
 
   it('Get top games', ()=> {
     let ok = true;
@@ -83,7 +82,7 @@ it('Correct error for no filterType', ()=> {
     assert.isTrue(ok);
   })
   .catch((error) => {
-    expect(error).to.equal("bad request - filterType input error'");
+    expect(error).to.equal("bad request - filterType input error");
   });
 });
 

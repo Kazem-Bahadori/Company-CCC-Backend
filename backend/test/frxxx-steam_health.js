@@ -1,14 +1,14 @@
 let propertyExists = true;
 const assert = require('chai').assert; //bringring in the chai library
 const expect = require('chai').expect; //bringring in the chai library
-import Twitch from '../src/Machinepacks/machinepack-c3twitch';
+import Steam from '../src/Machinepacks/machinepack-c3steam';
 
-describe('frxxx-twitch_health', () =>{
+describe('frxxx-steam_health', () =>{
 
-  it('Twitch health', ()=> {
+  it('Steam health', ()=> {
     let ok = true;
     return new Promise(function(resolve, reject){
-      Twitch.health().exec({
+      Steam.health().exec({
         error: function (error) {
           reject(error)
         },
@@ -20,7 +20,7 @@ describe('frxxx-twitch_health', () =>{
         },
       });
     })
-    .then((result) =>{
+    .then((ok) =>{
       //assert.isTrue(ok);
     })
     .catch((error) => {
