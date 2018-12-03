@@ -1,5 +1,4 @@
 const fetch = require('node-fetch')
-import Steam from '../../machinepack-c3steam';
 
 module.exports = {
 
