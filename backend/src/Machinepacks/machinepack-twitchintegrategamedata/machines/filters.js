@@ -62,7 +62,7 @@ module.exports = {
         switch (inputs.query.filterType) {
           case 'top':
             const amount = inputs.query.filterValue !== undefined ? inputs.query.filterValue : 20; //if no input, default to 20
-            getTopGames(amount)
+            getTopGames(amount, false)
               .then(games => {
                 return exits.success(games);
               })
@@ -73,7 +73,7 @@ module.exports = {
 
           case 'category':
             if (inputs.query.filterValue === 'steamGame') {
-              getTopGames(100)
+              getTopGames(100, false)
                 .then(games => {
                   let steamGames = games.filter(game => game.steam !== false);
                   if (Object.keys(steamGames).length > 20) {
@@ -86,6 +86,39 @@ module.exports = {
                 });
             }
             break;
+          case 'contextual':
+            if (isEmpty(inputs.body)) {
+              return exits.error('bad request - No context given')
+            }
+            switch (inputs.body.filter_by) { // Checks the content of body 
+              case 'top_games':
+                getTopGames(20, inputs.body)
+                  .then(games => {
+                    return exits.success(games);
+                  })
+                  .catch(err => {
+                    return exits.error(err);
+                  });
+                break;
+
+              case 'steamgame':
+                getTopGames(100, inputs.body)
+                  .then(games => {
+                    let steamGames = games.filter(game => game.steam != false);
+                    if (Object.keys(steamGames).length > 20) {
+                      steamGames = steamGames.slice(0, 20);
+                    }
+                    return exits.success(steamGames);
+                  })
+                  .catch(err => {
+                    return exits.error(err);
+                  });
+                break;
+              default:
+                return exits.error('bad request - body filter_by input error')
+            }
+            break;
+
           default:
             return exits.error('bad request - filterType input error');
         }
@@ -100,42 +133,51 @@ module.exports = {
      * @param amount an integer representing the number of games to request from twitch
      * @returns a list containing the top streamed games with steam price information added if the game is available on steam
      */
-    function getTopGames(amount) {
+    function getTopGames(amount, context) {
       return new Promise((resolve, reject) => {
-        if (amount >= 1 && amount <= 100) { // each twitch-call only accepts numbers between 1-100.
-          const inputs = {
+        let inputsi
+        if (context != false) {
+          inputsi = {
+            query: {
+              assetType: 'games',
+              filterType: 'contextual',
+            },
+            body: context
+          }
+        } else if (amount >= 1 && amount <= 100) { // each twitch-call only accepts numbers between 1-100.
+          inputsi = {
             query: {
               assetType: 'games',
               filterType: 'top',
               filterValue: amount
             }
-          };
-          return new Promise((resolve, reject) => {
-            Twitch.filters(inputs).exec({
-              // An unexpected error occurred.
-              error: function (err) {
-                reject(err);
-              },
-              // OK.
-              success: function (result) {
-
-                resolve(result);
-                //return exits.success(result);
-
-              },
-            });
-          })
-            .then(response => {
-              gamesIsOnSale(response.data)
-
-                .then(res => resolve(res))
-                .catch(err => reject(err));
-            });
-
+          } 
         } else {
-          return exits.error('bad request - filtervalue for top games must be between 1-100');
+          return exits.error('bad request - filtervalue for top games must be between 1-100')
         }
-      });
+        console.log(inputsi.body)
+        return new Promise((resolve, reject) => {
+          Twitch.filters(inputsi).exec({
+            // An unexpected error occurred.
+            error: function (err) {
+              reject(err);
+            },
+            // OK.
+            success: function (result) {
+
+              resolve(result)
+              //return exits.success(result);
+
+            },
+          });
+        })
+          .then(response => {
+            console.log(response)
+            gamesIsOnSale(response)
+              .then(res => resolve(res))
+              .catch(err => reject(err));
+          });
+      })
     }
 
     /**
@@ -192,45 +234,45 @@ module.exports = {
       let names = { data: [] }; // list to save the game names in
 
       return new Promise((resolve, reject) => {
-        games.forEach(function (element) {
+        games.data.forEach(function (element) {
           names.data.push({ 'name': element.name });
         });
         getSteamID(names) // calls function to check if the names matches games on steam
           .then(response => {
-            for (let i = 0; i < games.length; i++) { 
+            for (let i = 0; i < games.data.length; i++) {
               if (response.data[i].steam.appid !== undefined) {
-                games[i].steam = response.data[i].steam;
+                games.data[i].steam = response.data[i].steam;
                 IDs.push(response.data[i].steam.appid); // adds the appids to a list to use later
               } else {
-                games[i].steam = false;
+                games.data[i].steam = false;
               }
             }
           })
           .then(function () {
             getSteamData(IDs) //calls function to request the information on all the appids
               .then(response => {
-                 let count = 0; // variable used to itterate over the response-list
-                for(var key in games) {
-                  if (games[key].steam !== false){ // if it's false game doesn't exist on steam so it skips it
+                let count = 0; // variable used to itterate over the response-list
+                for (var key in games.data) {
+                  if (games.data[key].steam !== false) { // if it's false game doesn't exist on steam so it skips it
                     if (count > response.length) { // if count is bigger than the response-list the there are no more games to add so it breaks the loop
                       break;
-                    } else  {
-                      if(response[IDs[count]].success === false){ // if appid exists but game is not actually on steam set entry to false
-                        games[key].steam = false;
+                    } else {
+                      if (response[IDs[count]].success === false) { // if appid exists but game is not actually on steam set entry to false
+                        games.data[key].steam = false;
                         count++;
-                      } else if(isEmpty(response[IDs[count]].data) && response[IDs[count]].success !== false){ // if game is free set price to '0'
-                        games[key].steam.price = {
+                      } else if (isEmpty(response[IDs[count]].data) && response[IDs[count]].success !== false) { // if game is free set price to '0'
+                        games.data[key].steam.price = {
                           'final': 0,
                           'discount_percent': 0
                         };
                         count++;
                       } else { // if data exists add it to the response
-                        games[key].steam.price = response[IDs[count]].data;
+                        games.data[key].steam.price = response[IDs[count]].data;
                         count++;
                       }
                     }
                   }
-                }  
+                }
                 return exits.success(games);
               });
           });
@@ -268,13 +310,13 @@ module.exports = {
       });
     }
 
-     /**
-      * Checks if an object is empty (not having any elements)
-      * 
-      * @param obj the object to be checked
-      * @returns true/false
-      */
-     function isEmpty(obj) {
+    /**
+     * Checks if an object is empty (not having any elements)
+     * 
+     * @param obj the object to be checked
+     * @returns true/false
+     */
+    function isEmpty(obj) {
       for (var key in obj) {
         if (obj.hasOwnProperty(key))
           return false;
