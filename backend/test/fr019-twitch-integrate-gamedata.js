@@ -3,21 +3,20 @@ const assert = require('chai').assert; //bringring in the chai library
 const expect = require('chai').expect; //bringring in the chai library
 import GameData from '../src/Machinepacks/machinepack-twitchintegrategamedata';
 
-describe('frxxx-twitchintegrategamedata-search', () =>{
+describe('fr019-twitchintegrategamedata', () =>{
 
   it('Get top games', ()=> {
     let ok = true;
     const inputs = {
-      query: {assetType: "games", filterType: '', queryString: "fifa"},
+      query: {assetType: 'games', filterType: 'top', filterValue: 5},
     }
 
     return new Promise(function(resolve, reject){
-      GameData.search(inputs).exec({
+      GameData.filters(inputs).exec({
         error: function (error) {
           reject(error)
         },
         success: function (result) {
-          console.log(result);
           if(result == null || result == undefined){
             ok = false;
           }
@@ -29,23 +28,22 @@ describe('frxxx-twitchintegrategamedata-search', () =>{
       assert.isTrue(ok);
     })
     .catch((error) => {
-      expect(error.description).to.equal('');
+      expect(error).to.equal("no streams found - check spelling of game_id");
     });
 });
 
-it('Correct error for no queryString', ()=> {
+it('Get steam games', ()=> {
   let ok = true;
   const inputs = {
-    query: {assetType: "games", filterType: '', queryString: ''},
+    query: {assetType: 'games', filterType: 'category', filterValue: 'steamGame'},
   }
 
   return new Promise(function(resolve, reject){
-    GameData.search(inputs).exec({
+    GameData.filters(inputs).exec({
       error: function (error) {
         reject(error)
       },
       success: function (result) {
-        console.log(result);
         if(result == null || result == undefined){
           ok = false;
         }
@@ -57,23 +55,22 @@ it('Correct error for no queryString', ()=> {
     assert.isTrue(ok);
   })
   .catch((error) => {
-    expect(error.description).to.equal('bad request - queryString input error');
+    expect(error).to.equal("no streams found - check spelling of game_id");
   });
 });
 
-it('Correct error for no assetType', ()=> {
+it('Correct error for no filterType', ()=> {
   let ok = true;
   const inputs = {
-    query: {filterType: ''},
+    query: {assetType: 'games'},
   }
 
   return new Promise(function(resolve, reject){
-    GameData.search(inputs).exec({
+    GameData.filters(inputs).exec({
       error: function (error) {
         reject(error)
       },
       success: function (result) {
-        console.log(result);
         if(result == null || result == undefined){
           ok = false;
         }
@@ -85,7 +82,9 @@ it('Correct error for no assetType', ()=> {
     assert.isTrue(ok);
   })
   .catch((error) => {
-    expect(error.description).to.equal('bad request - assetType input error');
+    expect(error).to.equal("bad request - filterType input error");
   });
 });
+
+
 });

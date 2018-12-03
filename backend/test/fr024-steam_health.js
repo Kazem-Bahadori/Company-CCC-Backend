@@ -3,7 +3,7 @@ const assert = require('chai').assert; //bringring in the chai library
 const expect = require('chai').expect; //bringring in the chai library
 import Steam from '../src/Machinepacks/machinepack-c3steam';
 
-describe('frxxx-steam_health', () =>{
+describe('fr024-steam_health', () =>{
 
   it('Steam health', ()=> {
     let ok = true;

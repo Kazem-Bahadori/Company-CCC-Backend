@@ -1,18 +1,18 @@
 let propertyExists = true;
 const assert = require('chai').assert; //bringring in the chai library
 const expect = require('chai').expect; //bringring in the chai library
-import Steam from '../src/Machinepacks/machinepack-c3steam';
+import GameData from '../src/Machinepacks/machinepack-twitchintegrategamedata';
 
-describe('frxxx-steam_search', () =>{
+describe('fr014-twitchintegrategamedata-search', () =>{
 
-  it('Steam search for game that does exist', ()=> {
+  it('Search for game with integrated data', ()=> {
     let ok = true;
     const inputs = {
-      query: {assetType: 'gameId', queryString: 'Dota 2'},
+      query: {assetType: "games", filterType: '', queryString: "fifa"},
     }
 
     return new Promise(function(resolve, reject){
-      Steam.search(inputs).exec({
+      GameData.search(inputs).exec({
         error: function (error) {
           reject(error)
         },
@@ -29,21 +29,23 @@ describe('frxxx-steam_search', () =>{
       assert.isTrue(ok);
     })
     .catch((error) => {
+      expect(error.description).to.equal('');
     });
 });
 
-it('Steam search for game that does not exist', ()=> {
+it('Correct error for no queryString', ()=> {
   let ok = true;
   const inputs = {
-    query: {assetType: 'gameId', queryString: 'a game that does not exist'},
+    query: {assetType: "games", filterType: '', queryString: ''},
   }
 
   return new Promise(function(resolve, reject){
-    Steam.search(inputs).exec({
+    GameData.search(inputs).exec({
       error: function (error) {
         reject(error)
       },
       success: function (result) {
+        console.log(result);
         if(result == null || result == undefined){
           ok = false;
         }
@@ -52,59 +54,38 @@ it('Steam search for game that does not exist', ()=> {
     });
   })
   .then((ok) =>{
-    assert.isFalse(ok);
+    assert.isTrue(ok);
   })
   .catch((error) => {
-    expect(error.description).to.equal('');
+    expect(error.description).to.equal('bad request - queryString input error');
   });
 });
 
-it('Correct error for no query string', ()=> {
+it('Correct error for no assetType', ()=> {
   let ok = true;
   const inputs = {
-    query: {assetType: 'gameId'},
+    query: {filterType: ''},
   }
 
   return new Promise(function(resolve, reject){
-    Steam.search(inputs).exec({
+    GameData.search(inputs).exec({
       error: function (error) {
         reject(error)
       },
       success: function (result) {
+        console.log(result);
+        if(result == null || result == undefined){
+          ok = false;
+        }
         resolve(ok);
       },
     });
   })
   .then((ok) =>{
-    assert.isFalse(ok);
+    assert.isTrue(ok);
   })
   .catch((error) => {
-    expect(error.description).to.equal("bad request - queryString input error");
+    expect(error.description).to.equal('bad request - assetType input error');
   });
 });
-
-it('Correct error for no asset type', ()=> {
-  let ok = true;
-  const inputs = {
-    query: {assetType: ''},
-  }
-
-  return new Promise(function(resolve, reject){
-    Steam.search(inputs).exec({
-      error: function (error) {
-        reject(error)
-      },
-      success: function (result) {
-        resolve(ok);
-      },
-    });
-  })
-  .then((ok) =>{
-    assert.isFalse(ok);
-  })
-  .catch((error) => {
-    expect(error.description).to.equal("bad request - assetType input error");
-  });
-});
-
 });
