@@ -64,7 +64,7 @@ module.exports = {
               if (game['name'].toLowerCase() === name.toLowerCase() && game['appid']!='0') {
                 //Why does it return zerro when game not found?
                 return exits.success({ appId: game['appid'] });
-              }    
+              }
             }
             return exits.success(false);
           })
@@ -98,10 +98,10 @@ module.exports = {
             .then(response => response.json())
             .then(data => data['applist']['apps'])
             .then(data => {
-              cache.put('steamGames', data, timeToStoreData);
+              cache.put('steamGames', data, timeToStoreData, 5000);
               resolve(data);
             })
-            .catch(err => reject(err));  
+            .catch(err => reject(err));
         } else {
           resolve(steamGames);
         }

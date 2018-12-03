@@ -21,7 +21,6 @@ describe('frxxx-steam_health', () =>{
       });
     })
     .then((ok) =>{
-      //assert.isTrue(ok);
     })
     .catch((error) => {
       expect(error).to.equal("bad request - filterValue input error");
