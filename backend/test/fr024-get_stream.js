@@ -87,11 +87,67 @@ it('Correct error for no filter input', ()=> {
   });
 });
 
+it('Correct error for no filter input for games', ()=> {
+  let ok = true;
+  const inputs = {
+    query: {assetType: 'games', filterType: 'contextual'},
+  }
+
+  return new Promise(function(resolve, reject){
+    Twitch.filters(inputs).exec({
+      error: function (error) {
+        reject(error)
+      },
+      success: function (result) {
+        if(result == null || result == undefined){
+          ok = false;
+        }
+        resolve(ok);
+      },
+    });
+  })
+  .then((ok) =>{
+    assert.isTrue(ok);
+  })
+  .catch((error) => {
+    expect(error).to.equal("bad request - No context given");
+  });
+});
+
+
 it('Correct error for no filter input', ()=> {
   let ok = true;
   const inputs = {
     query: {assetType: 'streams', filterType: 'contextual'},
     body: {filter_by: 'game_id'}
+  }
+
+  return new Promise(function(resolve, reject){
+    Twitch.filters(inputs).exec({
+      error: function (error) {
+        reject(error)
+      },
+      success: function (result) {
+        if(result == null || result == undefined){
+          ok = false;
+        }
+        resolve(ok);
+      },
+    });
+  })
+  .then((ok) =>{
+    assert.isTrue(ok);
+  })
+  .catch((error) => {
+    expect(error).to.equal("bad request - no game_id found");
+  });
+});
+
+it('Correct error for no filter input for games', ()=> {
+  let ok = true;
+  const inputs = {
+    query: {assetType: 'games', filterType: 'contextual'},
+    body: {filter_by: 'top_games', quantity: 50}
   }
 
   return new Promise(function(resolve, reject){

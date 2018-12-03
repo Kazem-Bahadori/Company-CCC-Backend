@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="22.971" tests="69" failures="0">
+  <testsuite name="Root Suite" timestamp="2018-12-03T14:10:01" tests="0" failures="0" time="0">
+  </testsuite>
+  <testsuite name="fr014-twitchintegrategamedata-search" timestamp="2018-12-03T14:10:01" tests="3" file="/Users/hermansvensk/Desktop/Nuvarande kurser/TDDC88/Company-CCC-Backend/backend/test/fr014-twitch-integrate-gamedata-search.js" failures="0" time="0.483">
+    <testcase name="fr014-twitchintegrategamedata-search Search for game with integrated data" time="0.474" classname="Search for game with integrated data">
+    </testcase>
+    <testcase name="fr014-twitchintegrategamedata-search Correct error for no queryString" time="0.008" classname="Correct error for no queryString">
+    </testcase>
+    <testcase name="fr014-twitchintegrategamedata-search Correct error for no assetType" time="0.001" classname="Correct error for no assetType">
+    </testcase>
+  </testsuite>
+  <testsuite name="fr019-twitchintegrategamedata" timestamp="2018-12-03T14:10:02" tests="3" file="/Users/hermansvensk/Desktop/Nuvarande kurser/TDDC88/Company-CCC-Backend/backend/test/fr019-twitch-integrate-gamedata.js" failures="0" time="2.2939999999999996">
+    <testcase name="fr019-twitchintegrategamedata Get top games" time="1.209" classname="Get top games">
+    </testcase>
+    <testcase name="fr019-twitchintegrategamedata Get steam games" time="1.083" classname="Get steam games">
+    </testcase>
+    <testcase name="fr019-twitchintegrategamedata Correct error for no filterType" time="0.002" classname="Correct error for no filterType">
+    </testcase>
+  </testsuite>
+  <testsuite name="fr029-get_price_info" timestamp="2018-12-03T14:10:04" tests="6" file="/Users/hermansvensk/Desktop/Nuvarande kurser/TDDC88/Company-CCC-Backend/backend/test/fr024-get_price_info.js" failures="0" time="3.3909999999999996">
+    <testcase name="fr029-get_price_info Response body has correct properties" time="0.833" classname="Response body has correct properties">
+    </testcase>
+    <testcase name="fr029-get_price_info Response body has exactly 6 properties" time="0.888" classname="Response body has exactly 6 properties">
+    </testcase>
+    <testcase name="fr029-get_price_info Response body properties are correctly formatted" time="0.939" classname="Response body properties are correctly formatted">
+    </testcase>
+    <testcase name="fr029-get_price_info Correct error handling for filterValue" time="0.002" classname="Correct error handling for filterValue">
+    </testcase>
+    <testcase name="fr029-get_price_info Correct error handling for filterType" time="0.002" classname="Correct error handling for filterType">
+    </testcase>
+    <testcase name="fr029-get_price_info Correct error handling for no price information" time="0.727" classname="Correct error handling for no price information">
+    </testcase>
+  </testsuite>
+  <testsuite name="fr024-get_reviews_info" timestamp="2018-12-03T14:10:08" tests="5" file="/Users/hermansvensk/Desktop/Nuvarande kurser/TDDC88/Company-CCC-Backend/backend/test/fr024-get_reviews_info.js" failures="0" time="2.5089999999999995">
+    <testcase name="fr024-get_reviews_info Response body has correct properties" time="0.851" classname="Response body has correct properties">
+    </testcase>
+    <testcase name="fr024-get_reviews_info Response body has exactly 6 properties" time="0.818" classname="Response body has exactly 6 properties">
+    </testcase>
+    <testcase name="fr024-get_reviews_info Response body properties are correctly formatted" time="0.836" classname="Response body properties are correctly formatted">
+    </testcase>
+    <testcase name="fr024-get_reviews_info Correct error handling for filterValue" time="0.002" classname="Correct error handling for filterValue">
+    </testcase>
+    <testcase name="fr024-get_reviews_info Correct error handling for filterType" time="0.002" classname="Correct error handling for filterType">
+    </testcase>
+  </testsuite>
+  <testsuite name="fr025-get_stream" timestamp="2018-12-03T14:10:10" tests="10" file="/Users/hermansvensk/Desktop/Nuvarande kurser/TDDC88/Company-CCC-Backend/backend/test/fr024-get_stream.js" failures="0" time="0.898">
+    <testcase name="fr025-get_stream Get stream for game" time="0.309" classname="Get stream for game">
+    </testcase>
+    <testcase name="fr025-get_stream Correct error for no filter input" time="0.002" classname="Correct error for no filter input">
+    </testcase>
+    <testcase name="fr025-get_stream Correct error for no filter input" time="0.002" classname="Correct error for no filter input">
+    </testcase>
+    <testcase name="fr025-get_stream Correct error for no filter input for games" time="0.002" classname="Correct error for no filter input for games">
+    </testcase>
+    <testcase name="fr025-get_stream Correct error for no filter input" time="0.002" classname="Correct error for no filter input">
+    </testcase>
+    <testcase name="fr025-get_stream Correct error for no filter input for games" time="0.308" classname="Correct error for no filter input for games">
+    </testcase>
+    <testcase name="fr025-get_stream Correct error for no filter input" time="0.002" classname="Correct error for no filter input">
+    </testcase>
+    <testcase name="fr025-get_stream Correct error for no filter input" time="0.268" classname="Correct error for no filter input">
+    </testcase>
+    <testcase name="fr025-get_stream Correct error for no filter input" time="0.002" classname="Correct error for no filter input">
+    </testcase>
+    <testcase name="fr025-get_stream Correct error for no filter input" time="0.001" classname="Correct error for no filter input">
+    </testcase>
+  </testsuite>
+  <testsuite name="fr024-get_system_requriments" timestamp="2018-12-03T14:10:11" tests="5" file="/Users/hermansvensk/Desktop/Nuvarande kurser/TDDC88/Company-CCC-Backend/backend/test/fr024-get_system_requirements.js" failures="0" time="2.5449999999999995">
+    <testcase name="fr024-get_system_requriments Response body has correct properties" time="0.87" classname="Response body has correct properties">
+    </testcase>
+    <testcase name="fr024-get_system_requriments Response body has exactly 3 properties" time="0.837" classname="Response body has exactly 3 properties">
+    </testcase>
+    <testcase name="fr024-get_system_requriments Response body properties contains correct sub-properties" time="0.834" classname="Response body properties contains correct sub-properties">
+    </testcase>
+    <testcase name="fr024-get_system_requriments Correct error handling for filterValue" time="0.002" classname="Correct error handling for filterValue">
+    </testcase>
+    <testcase name="fr024-get_system_requriments Correct error handling for filterType" time="0.002" classname="Correct error handling for filterType">
+    </testcase>
+  </testsuite>
+  <testsuite name="fr024-steam_health" timestamp="2018-12-03T14:10:13" tests="1" file="/Users/hermansvensk/Desktop/Nuvarande kurser/TDDC88/Company-CCC-Backend/backend/test/fr024-steam_health.js" failures="0" time="0.308">
+    <testcase name="fr024-steam_health Steam health" time="0.308" classname="Steam health">
+    </testcase>
+  </testsuite>
+  <testsuite name="fr024-twitch_health" timestamp="2018-12-03T14:10:14" tests="1" file="/Users/hermansvensk/Desktop/Nuvarande kurser/TDDC88/Company-CCC-Backend/backend/test/fr024-twitch_health.js" failures="0" time="0.307">
+    <testcase name="fr024-twitch_health Twitch health" time="0.307" classname="Twitch health">
+    </testcase>
+  </testsuite>
+  <testsuite name="fr024-twitch_search" timestamp="2018-12-03T14:10:14" tests="5" file="/Users/hermansvensk/Desktop/Nuvarande kurser/TDDC88/Company-CCC-Backend/backend/test/fr024-twitch_search.js" failures="0" time="0.749">
+    <testcase name="fr024-twitch_search Response has correct properties" time="0.328" classname="Response has correct properties">
+    </testcase>
+    <testcase name="fr024-twitch_search Correct error for no query string" time="0.002" classname="Correct error for no query string">
+    </testcase>
+    <testcase name="fr024-twitch_search Every stream has correct proper" time="0.414" classname="Every stream has correct proper">
+    </testcase>
+    <testcase name="fr024-twitch_search Correct error for no query string for streams" time="0.003" classname="Correct error for no query string for streams">
+    </testcase>
+    <testcase name="fr024-twitch_search Correct error for no assetType" time="0.002" classname="Correct error for no assetType">
+    </testcase>
+  </testsuite>
+  <testsuite name="fr025-streamer_info" timestamp="2018-12-03T14:10:15" tests="3" file="/Users/hermansvensk/Desktop/Nuvarande kurser/TDDC88/Company-CCC-Backend/backend/test/fr025-streamer_info.js" failures="0" time="0.216">
+    <testcase name="fr025-streamer_info Correct fetch of streamer_info" time="0.213" classname="Correct fetch of streamer_info">
+    </testcase>
+    <testcase name="fr025-streamer_info Correct error for incorrect iser id or filterType not empty" time="0.002" classname="Correct error for incorrect iser id or filterType not empty">
+    </testcase>
+    <testcase name="fr025-streamer_info Correct error for incorrect iser id or filterType not empty" time="0.001" classname="Correct error for incorrect iser id or filterType not empty">
+    </testcase>
+  </testsuite>
+  <testsuite name="fr027-getDetails" timestamp="2018-12-03T14:10:15" tests="4" file="/Users/hermansvensk/Desktop/Nuvarande kurser/TDDC88/Company-CCC-Backend/backend/test/fr027-get_details.js" failures="0" time="0.714">
+    <testcase name="fr027-getDetails Get details of several games" time="0.708" classname="Get details of several games">
+    </testcase>
+    <testcase name="fr027-getDetails Correct error handling for defined filterValue" time="0.002" classname="Correct error handling for defined filterValue">
+    </testcase>
+    <testcase name="fr027-getDetails Correct error handling for defined filterValue" time="0.002" classname="Correct error handling for defined filterValue">
+    </testcase>
+    <testcase name="fr027-getDetails Correct error handling for defined filterValue" time="0.002" classname="Correct error handling for defined filterValue">
+    </testcase>
+  </testsuite>
+  <testsuite name="fr029-steam_search" timestamp="2018-12-03T14:10:16" tests="4" file="/Users/hermansvensk/Desktop/Nuvarande kurser/TDDC88/Company-CCC-Backend/backend/test/fr029-steam_search.js" failures="0" time="0.509">
+    <testcase name="fr029-steam_search Steam search for game that does exist" time="0.194" classname="Steam search for game that does exist">
+    </testcase>
+    <testcase name="fr029-steam_search Steam search for game that does not exist" time="0.311" classname="Steam search for game that does not exist">
+    </testcase>
+    <testcase name="fr029-steam_search Correct error for no query string" time="0.002" classname="Correct error for no query string">
+    </testcase>
+    <testcase name="fr029-steam_search Correct error for no asset type" time="0.002" classname="Correct error for no asset type">
+    </testcase>
+  </testsuite>
+  <testsuite name="fr032-get_trailers" timestamp="2018-12-03T14:10:16" tests="4" file="/Users/hermansvensk/Desktop/Nuvarande kurser/TDDC88/Company-CCC-Backend/backend/test/fr032-get_trailers.js" failures="0" time="1.783">
+    <testcase name="fr032-get_trailers Get details of several games" time="0.944" classname="Get details of several games">
+    </testcase>
+    <testcase name="fr032-get_trailers Correct error handling for filterValue with no trailer" time="0.834" classname="Correct error handling for filterValue with no trailer">
+    </testcase>
+    <testcase name="fr032-get_trailers Correct error handling for defined filterValue" time="0.002" classname="Correct error handling for defined filterValue">
+    </testcase>
+    <testcase name="fr032-get_trailers Correct error handling for defined filterValue" time="0.003" classname="Correct error handling for defined filterValue">
+    </testcase>
+  </testsuite>
+  <testsuite name="fr064-fr024-get_top50_games" timestamp="2018-12-03T14:10:18" tests="9" file="/Users/hermansvensk/Desktop/Nuvarande kurser/TDDC88/Company-CCC-Backend/backend/test/fr064-fr024-get_top50_games.js" failures="0" time="1.143">
+    <testcase name="fr064-fr024-get_top50_games Response body has 49 or 50 id:s" time="0.276" classname="Response body has 49 or 50 id:s">
+    </testcase>
+    <testcase name="fr064-fr024-get_top50_games Every game in response has id, name and box_art_url" time="0.239" classname="Every game in response has id, name and box_art_url">
+    </testcase>
+    <testcase name="fr064-fr024-get_top50_games Every steamGame should have appId" time="0.313" classname="Every steamGame should have appId">
+    </testcase>
+    <testcase name="fr064-fr024-get_top50_games Return appId for correct filterValue" time="0.023" classname="Return appId for correct filterValue">
+    </testcase>
+    <testcase name="fr064-fr024-get_top50_games Correct error handling for filterValue" time="0.008" classname="Correct error handling for filterValue">
+    </testcase>
+    <testcase name="fr064-fr024-get_top50_games Correct error handling for no filterType" time="0" classname="Correct error handling for no filterType">
+    </testcase>
+    <testcase name="fr064-fr024-get_top50_games Correct error handling for no assetType" time="0.002" classname="Correct error handling for no assetType">
+    </testcase>
+    <testcase name="fr064-fr024-get_top50_games Correct error for trying to fetch more than 100 games" time="0.28" classname="Correct error for trying to fetch more than 100 games">
+    </testcase>
+    <testcase name="fr064-fr024-get_top50_games Correct error for no assetType" time="0.002" classname="Correct error for no assetType">
+    </testcase>
+  </testsuite>
+  <testsuite name="fr065-get_game_info" timestamp="2018-12-03T14:10:19" tests="6" file="/Users/hermansvensk/Desktop/Nuvarande kurser/TDDC88/Company-CCC-Backend/backend/test/fr065-get_game_info.js" failures="0" time="5.121999999999999">
+    <testcase name="fr065-get_game_info Response body has correct properties" time="1.775" classname="Response body has correct properties">
+    </testcase>
+    <testcase name="fr065-get_game_info Response body has exactly 9 or 10 properties" time="1.697" classname="Response body has exactly 9 or 10 properties">
+    </testcase>
+    <testcase name="fr065-get_game_info Response body properties are correctly formatted" time="1.644" classname="Response body properties are correctly formatted">
+    </testcase>
+    <testcase name="fr065-get_game_info Correct error for no filter value" time="0.002" classname="Correct error for no filter value">
+    </testcase>
+    <testcase name="fr065-get_game_info Correct error for no filter type" time="0.002" classname="Correct error for no filter type">
+    </testcase>
+    <testcase name="fr065-get_game_info Correct error for no assetType" time="0.002" classname="Correct error for no assetType">
+    </testcase>
+  </testsuite>
+</testsuites>
