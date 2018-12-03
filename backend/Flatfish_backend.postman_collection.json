@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "90a86421-071b-4f6c-ae5e-746c18c38cf4",
+		"_postman_id": "6a7cf74a-961d-470c-9a37-3443a5029515",
 		"name": "Flatfish_backend",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1073,6 +1073,504 @@
 						{
 							"key": "filterValue",
 							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FR024: steam_health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FR029: steam_search",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "650fb264-8341-4b50-bcea-a3768e72d08f",
+						"exec": [
+							"",
+							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.have.status(500);",
+							"});",
+							"",
+							"pm.test(\"Should be OK\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Internal Server Error\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/steam/search?assetType=gameId&queryString=doesnotexist",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"steam",
+						"search"
+					],
+					"query": [
+						{
+							"key": "assetType",
+							"value": "gameId"
+						},
+						{
+							"key": "queryString",
+							"value": "doesnotexist"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FR029: twitch_search",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "650fb264-8341-4b50-bcea-a3768e72d08f",
+						"exec": [
+							"",
+							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/twitch/search?assetType=games&queryString=fifa",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"twitch",
+						"search"
+					],
+					"query": [
+						{
+							"key": "assetType",
+							"value": "games"
+						},
+						{
+							"key": "queryString",
+							"value": "fifa"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FR024: get_stream",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d2d40b8c-6d76-45a3-b40c-cdd81babf49f",
+						"exec": [
+							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.have.status(500);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/twitch/search?assetType=streams&filterType=game&filterValue=57690",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"twitch",
+						"search"
+					],
+					"query": [
+						{
+							"key": "assetType",
+							"value": "streams"
+						},
+						{
+							"key": "filterType",
+							"value": "game"
+						},
+						{
+							"key": "filterValue",
+							"value": "57690"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FR025: streamer_info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d2d40b8c-6d76-45a3-b40c-cdd81babf49f",
+						"exec": [
+							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.have.status(500);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/twitch/filters?assetType=streamer_info&filterType=&filterValue=57690",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"twitch",
+						"filters"
+					],
+					"query": [
+						{
+							"key": "assetType",
+							"value": "streamer_info"
+						},
+						{
+							"key": "filterType",
+							"value": ""
+						},
+						{
+							"key": "filterValue",
+							"value": "57690"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FR027: get_details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "271d0028-8549-43a3-b463-b6acc538175b",
+						"exec": [
+							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.not.be.null;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "data: ['34543,6434,4656,3455']"
+				},
+				"url": {
+					"raw": "localhost:8080/api/steam/filters?assetType=getDetails&filterType=app_id",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"steam",
+						"filters"
+					],
+					"query": [
+						{
+							"key": "assetType",
+							"value": "getDetails"
+						},
+						{
+							"key": "filterType",
+							"value": "app_id"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FR032: get_trailers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "36bed412-7c47-4a51-aca1-ada3678e6652",
+						"exec": [
+							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.not.be.null;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/steam/filters?assetType=trailers&filterType=app_id&filterValue=57690",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"steam",
+						"filters"
+					],
+					"query": [
+						{
+							"key": "assetType",
+							"value": "trailers"
+						},
+						{
+							"key": "filterType",
+							"value": "app_id"
+						},
+						{
+							"key": "filterValue",
+							"value": "57690"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FR064-FR024: get_top50_games",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/twitch/filters?assetType=games&filterType=top&filterValue=50",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"twitch",
+						"filters"
+					],
+					"query": [
+						{
+							"key": "assetType",
+							"value": "games"
+						},
+						{
+							"key": "filterType",
+							"value": "top"
+						},
+						{
+							"key": "filterValue",
+							"value": "50"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FR065: get_game_info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "09e7157c-640c-4931-8521-2a16ea5abed4",
+						"exec": [
+							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/steam/filters?assetType=game_info&filterType=app_id&filterValue=57690",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"steam",
+						"filters"
+					],
+					"query": [
+						{
+							"key": "assetType",
+							"value": "game_info"
+						},
+						{
+							"key": "filterType",
+							"value": "app_id"
+						},
+						{
+							"key": "filterValue",
+							"value": "57690"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FR014: twitch_integrate_data_search",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/twitchintegrategamedata/search?assetType=games&filterType=&queryString=fifa",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"twitchintegrategamedata",
+						"search"
+					],
+					"query": [
+						{
+							"key": "assetType",
+							"value": "games"
+						},
+						{
+							"key": "filterType",
+							"value": ""
+						},
+						{
+							"key": "queryString",
+							"value": "fifa"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FR019: twitch_integrate_data_search",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/twitchintegrategamedata/filters?assetType=games&filterType=top&queryString=5",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"twitchintegrategamedata",
+						"filters"
+					],
+					"query": [
+						{
+							"key": "assetType",
+							"value": "games"
+						},
+						{
+							"key": "filterType",
+							"value": "top"
+						},
+						{
+							"key": "queryString",
+							"value": "5"
 						}
 					]
 				}
