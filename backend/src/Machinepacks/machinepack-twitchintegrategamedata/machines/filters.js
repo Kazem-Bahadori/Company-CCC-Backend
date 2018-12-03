@@ -84,6 +84,8 @@ module.exports = {
                 .catch(err => {
                   return exits.error(err);
                 });
+            } else {
+              return exits.error('bad request - filterValue input error')
             }
             break;
           case 'contextual':
@@ -131,13 +133,14 @@ module.exports = {
      * Get the currently top streamed games from twitch and and adds steaminfo for the games that are also on steam
      * 
      * @param amount an integer representing the number of games to request from twitch
+     * @param context either a body to use for calling twitch machine or false if no body is provided.
      * @returns a list containing the top streamed games with steam price information added if the game is available on steam
      */
     function getTopGames(amount, context) {
       return new Promise((resolve, reject) => {
-        let inputsi
+        let twitchInputs // the inputs to send to twitch machine
         if (context != false) {
-          inputsi = {
+          twitchInputs = {
             query: {
               assetType: 'games',
               filterType: 'contextual',
@@ -145,7 +148,7 @@ module.exports = {
             body: context
           }
         } else if (amount >= 1 && amount <= 100) { // each twitch-call only accepts numbers between 1-100.
-          inputsi = {
+          twitchInputs = {
             query: {
               assetType: 'games',
               filterType: 'top',
@@ -155,9 +158,8 @@ module.exports = {
         } else {
           return exits.error('bad request - filtervalue for top games must be between 1-100')
         }
-        console.log(inputsi.body)
         return new Promise((resolve, reject) => {
-          Twitch.filters(inputsi).exec({
+          Twitch.filters(twitchInputs).exec({
             // An unexpected error occurred.
             error: function (err) {
               reject(err);
@@ -172,7 +174,6 @@ module.exports = {
           });
         })
           .then(response => {
-            console.log(response)
             gamesIsOnSale(response)
               .then(res => resolve(res))
               .catch(err => reject(err));
