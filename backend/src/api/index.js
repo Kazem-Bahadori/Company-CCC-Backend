@@ -64,10 +64,12 @@ export default ({
 	// twitch/search is the url
 	api.get('/twitch/search', (req, res) => {
 		// req.query = ?filterType=games&assetType=top
+		
 		const inputs = {
 			query: req.query,
 			body: req.body,
 		}
+		
 		Twitch.search(inputs).exec({
 
 			// An unexpected error occurred.
@@ -142,5 +144,28 @@ export default ({
 			},
 		});
 	});
+
+	api.get('/aggregation/search', (req, res) => {
+		// req.query = ?filterType=games&assetType=top
+		const inputs = {
+			query: req.query,
+			body: req.body,
+		}
+		TwitchIntegratedData.search(inputs).exec({
+
+			// An unexpected error occurred.
+			error: function (err) {
+
+				console.log(err);
+				res.sendStatus(500);
+			},
+			// OK.
+			success: function (result) {
+
+				res.send(result);
+			},
+		});
+	});
+
 	return api;
 }
