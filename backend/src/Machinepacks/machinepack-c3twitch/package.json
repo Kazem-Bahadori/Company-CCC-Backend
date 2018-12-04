@@ -24,6 +24,7 @@
     "friendlyName": "c3twitch",
     "machineDir": "machines/",
     "machines": [
+      "content",
       "filters",
       "health",
       "search"

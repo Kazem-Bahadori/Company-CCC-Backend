@@ -41,6 +41,32 @@ export default ({
 			},
 		});
 	});
+
+	//A special query key value can be added to the request to enable the content provider to only provide faked values (or at least not using the real backend). Support the usage of fake=true in the querystring.
+	api.post('/twitch/content', (req, res) => {
+		//Example
+		// {
+		// 	"filterType": "top",
+		// 	"assetType": "games",
+		// 	"offset": 0,
+		// 	"limit": 20
+		// }
+		const inputs =  req.body;
+		Twitch.content(inputs).exec({
+
+			// An unexpected error occurred.
+			error: function (err) {
+
+				console.log(err);
+				res.sendStatus(500);
+			},
+			// OK.
+			success: function (result) {
+
+				res.send(result);
+			},
+		});
+	});
 	api.get('/twitch/filters', (req, res) => {
 		const inputs = {
 			query: req.query,
@@ -64,15 +90,40 @@ export default ({
 	// twitch/search is the url
 	api.get('/twitch/search', (req, res) => {
 		// req.query = ?filterType=games&assetType=top
-		
+
 		const inputs = {
 			query: req.query,
 			body: req.body,
 		}
-		
+
 		Twitch.search(inputs).exec({
 
 			// An unexpected error occurred.
+			error: function (err) {
+
+				console.log(err);
+				res.sendStatus(500);
+			},
+			// OK.
+			success: function (result) {
+
+				res.send(result);
+			},
+		});
+	});
+
+	//A special query key value can be added to the request to enable the content provider to only provide faked values (or at least not using the real backend). Support the usage of fake=true in the querystring.
+	api.post('/steam/content', (req, res) => {
+		const inputs = req.body;
+		// Example
+		// {
+		// 	"filterType": "appId",
+		// 	"assetType": "price",
+		// 	"filterValue": 570,
+		// }
+		Steam.content(inputs).exec({
+
+			// An unexpected error occurred	.
 			error: function (err) {
 
 				console.log(err);
@@ -122,6 +173,28 @@ export default ({
 			// OK.
 			success: function (result) {
 				console.log(result);
+				res.send(result);
+			},
+		});
+	});
+	//A special query key value can be added to the request to enable the content provider to only provide faked values (or at least not using the real backend). Support the usage of fake=true in the querystring.
+	api.post('/twitchaggregated/content', (req, res) => {
+		const inputs = req.body;
+		// Example
+		// {
+		// 	"filterType": "top",
+		// 	"assetType": "games",
+		// 	"offset": 0,
+		// 	"limit": 15
+		// }
+		TwitchIntegratedData.content(inputs).exec({
+			// An unexpected error occurred.
+			error: err => {
+				console.log(err);
+				res.sendStatus(500);
+			},
+			// OK.
+			success: function (result) {
 				res.send(result);
 			},
 		});
