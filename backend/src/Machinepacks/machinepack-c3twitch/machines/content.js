@@ -13,11 +13,11 @@ module.exports = {
     },
     assetType: {
       example: 'games',
-      description: 'Category what you want to get',
+      description: 'Specifies which assetType that you want to get',
       require: false
     },
     filterValue: {
-      example: 'related to, action',
+      example: 'related to',
       description: 'if one value is searched for',
       require: false
     },
@@ -184,8 +184,8 @@ module.exports = {
 
     //------------------------------------- Streamer info ---------------------------------------------------------------
 
-    } else if (inputs.assetType == 'streamer_info'){
-      if (inputs.filterType == undefined && inputs.filterValue != undefined) {
+    } else if (inputs.assetType == 'streamerInfo'){
+      if (inputs.filterValue != undefined) {
         url = url.concat('users?id=' + inputs.filterValue)
         console.log(url)
         fetchFromTwitch(url)
