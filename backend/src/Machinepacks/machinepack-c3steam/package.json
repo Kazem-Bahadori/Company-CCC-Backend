@@ -24,6 +24,7 @@
     "friendlyName": "c3steam",
     "machineDir": "machines/",
     "machines": [
+      "content",
       "filters",
       "search",
       "health"

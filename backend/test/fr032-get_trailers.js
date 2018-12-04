@@ -102,4 +102,102 @@ it('Correct error handling for defined filterValue', ()=> {
   });
 });
 
+//Content
+
+it('Content: Get details of several games', ()=> {
+  let ok = true;
+  const inputs = {
+    assetType: 'trailers', filterType: 'appId', filterValue: '57690'
+  }
+
+  return new Promise(function(resolve, reject){
+    Steam.content(inputs).exec({
+      error: function (error) {
+        reject(error)
+      },
+      success: function (result) {
+        if(result == null || result == undefined){
+          ok = false;
+        }
+        resolve(ok);
+      },
+    });
+  })
+  .then((ok) =>{
+    assert.isTrue(ok);
+  })
+  .catch((error) => {
+    expect(error).to.equal("bad request - filterValue input error");
+  });
+});
+
+it('Content: Correct error handling for filterValue with no trailer', ()=> {
+  const inputs = {
+    assetType: 'trailers', filterType: 'appId', filterValue: '11111111'
+  }
+
+  return new Promise(function(resolve, reject){
+    Steam.content(inputs).exec({
+      error: function (error) {
+        reject(error)
+      },
+      success: function (result) {
+        resolve(result);
+      },
+    });
+  })
+  .then((result) =>{
+
+  })
+  .catch((error) => {
+    expect(error).to.equal("Could not find trailer data");
+  });
+});
+
+it('Content: Correct error handling for defined filterValue', ()=> {
+const inputs = {
+  assetType: 'trailers', filterType: 'appId'
+}
+
+return new Promise(function(resolve, reject){
+  Steam.content(inputs).exec({
+    error: function (error) {
+      reject(error)
+    },
+    success: function (result) {
+      resolve(result);
+    },
+  });
+})
+.then((result) =>{
+  assert.isTrue(propertyExists);
+})
+.catch((error) => {
+  expect(error).to.equal("bad request - filterValue input error");
+});
+});
+
+it('Content: Correct error handling for defined filterValue', ()=> {
+const inputs = {
+  assetType: 'trailers'
+}
+
+return new Promise(function(resolve, reject){
+  Steam.content(inputs).exec({
+    error: function (error) {
+      reject(error)
+    },
+    success: function (result) {
+      resolve(result);
+    },
+  });
+})
+.then((result) =>{
+  assert.isTrue(propertyExists);
+})
+.catch((error) => {
+  expect(error).to.equal("bad request - filterType input error");
+});
+});
+
 });
