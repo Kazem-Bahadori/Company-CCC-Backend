@@ -93,6 +93,7 @@ module.exports = {
                   })
                   .catch(err => {
                     return exits.error(err);
+                    
                   });
               }
             })

@@ -229,7 +229,7 @@ export default ({
 			// An unexpected error occurred.
 			error: function (err) {
 
-				console.log(err);
+				console.log('err', err);
 				res.sendStatus(500);
 			},
 			// OK.
