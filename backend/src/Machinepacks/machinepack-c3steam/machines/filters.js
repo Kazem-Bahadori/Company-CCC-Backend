@@ -38,7 +38,7 @@ module.exports = {
   fn: function (inputs, exits
     /*``*/
   ) {
-    //console.log('Steam function triggered!')
+    //('Steam function triggered!')
 
     let url = 'http://store.steampowered.com/'; // the main url of the twitch api
 
@@ -150,7 +150,7 @@ module.exports = {
                 }
                 return exits.success(price); //Returns Json to the client.
               } else {
-                console.log(response[appId]);
+                (response[appId]);
                 return exits.error('Could not find price data');
               }
 
@@ -200,7 +200,7 @@ module.exports = {
 
               return exits.success(requirements);  // returns the Json to the client
             } else {
-              console.log(response[appId]);
+              (response[appId]);
               return exits.error('Could not find requirement data');
             }
 
@@ -239,7 +239,7 @@ module.exports = {
                 return exits.success(response.query_summary); //Returns Json to the client
 
             } else {
-              console.log(response[appId]);
+              (response[appId]);
               return exits.error('Could not find review data');
             }
 
@@ -326,7 +326,7 @@ module.exports = {
 
                 return exits.success(trailer);  // returns the Json to the client
               } else {
-                console.log(response[appId]);
+                (response[appId]);
                 return exits.error('Could not find trailer data');
               }
 
@@ -370,7 +370,7 @@ module.exports = {
                   }
                   url = url.concat(ids[ids.length-1]);
                   url = url.concat('&filters=price_overview');
-                  console.log(url);
+                  (url);
                   fetchFromSteam(url)
                     .then(response => {
 

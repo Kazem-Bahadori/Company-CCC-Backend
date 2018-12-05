@@ -177,7 +177,7 @@ module.exports = {
     } else if (inputs.query.assetType == 'streamer_info'){
       if (inputs.query.filterType == undefined && inputs.query.filterValue != undefined) {
         url = url.concat('users?id=' + inputs.query.filterValue)
-        console.log(url)
+        (url)
         fetchFromTwitch(url)
             .then(response => {
               return exits.success(response);  // returns the Json to the client
@@ -196,7 +196,7 @@ module.exports = {
     function fetchFromTwitch(url) {
       let keys = require('./keys.json');
       return new Promise((resolve, reject) => {
-    /*  console.log(keys[0].Client);*/
+    /*  (keys[0].Client);*/
         fetch(url, { headers: { 'Client-ID': keys[0].Client } })
           .then(function (response) {
             resolve(response.json())

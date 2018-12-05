@@ -13,7 +13,7 @@ describe('fr029-get_price_info', () =>{
         return new Promise(function(resolve, reject){
           Steam.filters(inputs).exec({
             error: function (err) {
-              console.log(err);
+              (err);
             },
             success: function (result) {
               if(!result.hasOwnProperty('currency')){
@@ -57,7 +57,7 @@ describe('fr029-get_price_info', () =>{
           Steam.filters(inputs).exec({
             error: function (err) {
 
-              console.log(err);
+              (err);
             },
             success: function (result) {
               var counter = 0;
@@ -89,7 +89,7 @@ describe('fr029-get_price_info', () =>{
           Steam.filters(inputs).exec({
             error: function (err) {
 
-              console.log(err);
+              (err);
             },
             success: function (result) {
               if(typeof(result.currency) != 'string'){
@@ -213,7 +213,7 @@ describe('fr029-get_price_info', () =>{
         return new Promise(function(resolve, reject){
           Steam.content(inputs).exec({
             error: function (err) {
-              console.log(err);
+              (err);
             },
             success: function (result) {
               if(!result.hasOwnProperty('currency')){
@@ -257,7 +257,7 @@ describe('fr029-get_price_info', () =>{
           Steam.content(inputs).exec({
             error: function (err) {
 
-              console.log(err);
+              (err);
             },
             success: function (result) {
               var counter = 0;
@@ -289,7 +289,7 @@ describe('fr029-get_price_info', () =>{
           Steam.content(inputs).exec({
             error: function (err) {
 
-              console.log(err);
+              (err);
             },
             success: function (result) {
               if(typeof(result.currency) != 'string'){

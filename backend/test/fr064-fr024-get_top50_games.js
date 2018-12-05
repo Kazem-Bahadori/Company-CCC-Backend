@@ -16,7 +16,7 @@ describe('fr064-fr024-get_top50_games', () =>{
         Twitch.filters(inputs).exec({
           error: function (err) {
 
-            console.log(err);
+            (err);
           },
           success: function (steamGames) {
             var counter = 0;
@@ -52,7 +52,7 @@ describe('fr064-fr024-get_top50_games', () =>{
       Twitch.filters(inputs).exec({
         error: function (err) {
 
-          console.log(err);
+          (err);
         },
         success: function (result) {
           var counter = 0;
@@ -93,7 +93,7 @@ it('Every steamGame should have appId', ()=> {
     Twitch.filters(inputs).exec({
       error: function (err) {
 
-        console.log(err);
+        (err);
       },
       success: function (result) {
         var counter = 0;
@@ -275,7 +275,7 @@ it('Content: Response body has 49 or 50 id:s', ()=> {
     Twitch.content(inputs).exec({
       error: function (err) {
 
-        console.log(err);
+        (err);
       },
       success: function (steamGames) {
         var counter = 0;
@@ -311,7 +311,7 @@ return new Promise(function(resolve, reject){
   Twitch.content(inputs).exec({
     error: function (err) {
 
-      console.log(err);
+      (err);
     },
     success: function (result) {
       var counter = 0;
@@ -352,7 +352,7 @@ return new Promise(function(resolve, reject){
 Twitch.content(inputs).exec({
   error: function (err) {
 
-    console.log(err);
+    (err);
   },
   success: function (result) {
     var counter = 0;

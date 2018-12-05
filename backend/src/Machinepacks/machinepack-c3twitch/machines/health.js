@@ -45,7 +45,7 @@ module.exports = {
           const response = {
             data: 'exists'
           };
-          console.log('Fetched data');
+          ('Fetched data');
           resolve(response);
           //reject is for testing if api call does not work
           //reject(404);
@@ -74,12 +74,12 @@ module.exports = {
               resolve();
             } else {
               const status = (response.status != null) ? response.status : 500;
-              console.log('Status: ', status);
+              ('Status: ', status);
               reject();
             }
           })
           .catch(err => {
-            console.log(err);
+            (err);
             reject();
           });
       });

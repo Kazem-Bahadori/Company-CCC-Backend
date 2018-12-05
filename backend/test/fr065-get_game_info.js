@@ -13,7 +13,7 @@ describe('fr065-get_game_info', () =>{
     return new Promise(function(resolve, reject){
       Steam.filters(inputs).exec({
         error: function (error) {
-          console.log(error);
+          (error);
         },
         success: function (result) {
           if(!result.hasOwnProperty('price')){
@@ -64,7 +64,7 @@ it('Response body has exactly 9 or 10 properties', ()=> {
       Steam.filters(inputs).exec({
         error: function (err) {
 
-          console.log(err);
+          (err);
         },
         success: function (result) {
           var counter = 0;
@@ -96,7 +96,7 @@ let correctFormat = true;
       Steam.filters(inputs).exec({
         error: function (error) {
           reject(error);
-          console.log(error);
+          (error);
         },
         success: function (result) {
           if(typeof(result.trailer) != 'string'){
@@ -211,7 +211,7 @@ it('Content: Response body has correct properties', ()=> {
   return new Promise(function(resolve, reject){
     Steam.content(inputs).exec({
       error: function (error) {
-        console.log(error);
+        (error);
       },
       success: function (result) {
         if(!result.hasOwnProperty('price')){
@@ -262,7 +262,7 @@ it('Content: Response body has exactly 9 or 10 properties', ()=> {
     Steam.content(inputs).exec({
       error: function (err) {
 
-        console.log(err);
+        (err);
       },
       success: function (result) {
         var counter = 0;
@@ -294,7 +294,7 @@ let correctFormat = true;
     Steam.content(inputs).exec({
       error: function (error) {
         reject(error);
-        console.log(error);
+        (error);
       },
       success: function (result) {
         if(typeof(result.trailer) != 'string'){

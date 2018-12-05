@@ -15,7 +15,7 @@ describe('fr024-get_reviews_info', () =>{
       return new Promise(function(resolve, reject){
         Steam.filters(inputs).exec({
           error: function (err) {
-            console.log(err);
+            (err);
             reject(err);
           },
           success: function (result) {
@@ -60,7 +60,7 @@ describe('fr024-get_reviews_info', () =>{
         Steam.filters(inputs).exec({
           error: function (err) {
 
-            console.log(err);
+            (err);
           },
           success: function (result) {
             var counter = 0;
@@ -92,7 +92,7 @@ describe('fr024-get_reviews_info', () =>{
         Steam.filters(inputs).exec({
           error: function (err) {
 
-            console.log(err);
+            (err);
           },
           success: function (result) {
             if(typeof(result.num_reviews) != 'number'){
@@ -228,7 +228,7 @@ describe('fr024-get_reviews_info', () =>{
     return new Promise(function(resolve, reject){
       Steam.content(inputs).exec({
         error: function (err) {
-          console.log(err);
+          (err);
           reject(err);
         },
         success: function (result) {
@@ -273,7 +273,7 @@ describe('fr024-get_reviews_info', () =>{
       Steam.content(inputs).exec({
         error: function (err) {
 
-          console.log(err);
+          (err);
         },
         success: function (result) {
           var counter = 0;
@@ -305,7 +305,7 @@ let correctFormat = true;
       Steam.content(inputs).exec({
         error: function (err) {
 
-          console.log(err);
+          (err);
         },
         success: function (result) {
           if(typeof(result.num_reviews) != 'number'){
