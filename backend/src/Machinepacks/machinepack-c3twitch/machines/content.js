@@ -185,17 +185,18 @@ module.exports = {
     //------------------------------------- Streamer info ---------------------------------------------------------------
 
     } else if (inputs.assetType == 'streamerInfo'){
-      if (inputs.filterValue != undefined) {
-        url = url.concat('users?id=' + inputs.filterValue)
-        console.log(url)
-        fetchFromTwitch(url)
-            .then(response => {
-              return exits.success(response);  // returns the Json to the client
-            })
-      } else {
-        return exits.error('bad request - incorrect user id or filterType not empty')
+      if (inputs.filterType == "streamerId") {
+        if (inputs.filterValue != undefined) {
+          url = url.concat('users?id=' + inputs.filterValue)
+          console.log(url)
+          fetchFromTwitch(url)
+              .then(response => {
+                return exits.success(response);  // returns the Json to the client
+              })
+        } else {
+          return exits.error('bad request - incorrect user id or filterType not empty')
+        }
       }
-
     }else {
       return exits.error('bad request - assetType input error')
     }
