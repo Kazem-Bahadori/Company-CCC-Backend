@@ -235,7 +235,7 @@ module.exports = {
           fetchFromSteam(url) //Gets reviews for specified app_id
             .then(response => {
 
-              if (response.sucess != '1') {
+              if (response.success != '1') {
                 return exits.success(response.query_summary); //Returns Json to the client
 
             } else {
