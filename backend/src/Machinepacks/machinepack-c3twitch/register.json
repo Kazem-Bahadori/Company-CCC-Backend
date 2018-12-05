@@ -2,5 +2,5 @@
     "name": "PUM18 C3 – Twitch)",
     "url": "http://backend.c3.netplus.se/api/twitch",
     "assetTypes": ["games", "streams", "streamerInfo"],
-    "filterTypes": ["top", "game"]
+    "filterTypes": ["top", "game", "streamerId"]
 }
