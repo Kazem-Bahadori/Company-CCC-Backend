@@ -61,7 +61,7 @@ it('Correct error for no queryString', ()=> {
   });
 });
 
-it('Correct error for no assetType', ()=> {
+it('Correct error for no filterType', ()=> {
   let ok = true;
   const inputs = {
     query: {filterType: ''},
