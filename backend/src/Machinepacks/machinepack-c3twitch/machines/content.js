@@ -13,11 +13,11 @@ module.exports = {
     },
     assetType: {
       example: 'games',
-      description: 'Category what you want to get',
+      description: 'Specifies which assetType that you want to get',
       require: false
     },
     filterValue: {
-      example: 'related to, action',
+      example: 'related to',
       description: 'if one value is searched for',
       require: false
     },
@@ -234,7 +234,6 @@ module.exports = {
           code: 400
         });
       }
-
     }else {
       return exits.error({
         description: 'bad request - assetType input error',

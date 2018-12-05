@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "90a86421-071b-4f6c-ae5e-746c18c38cf4",
+		"_postman_id": "ef277c5a-9bd6-4676-80be-4aea270dbb65",
 		"name": "Flatfish_backend",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -486,6 +486,50 @@
 			"response": []
 		},
 		{
+			"name": "Check_if_twitchansteam_machine_is_running",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bf89901d-c3d0-4c50-9121-1ca679bf4dd7",
+						"exec": [
+							"",
+							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Should be OK\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"OK\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/twitchandsteam/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"twitchandsteam",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "FR056 get_top_streams_from_gID",
 			"event": [
 				{
@@ -921,6 +965,27 @@
 		},
 		{
 			"name": "Exception test: get_reviews_info_nofilter",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b4a65f3d-92ab-42fa-bd21-547618f97ed5",
+						"exec": [
+							"",
+							"pm.test(\"API call unsuccessfull\", function () {",
+							"    pm.response.to.have.status(500);",
+							"});",
+							"",
+							"pm.test(\"Unsuccessful API response body\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Internal Server Error\");",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
