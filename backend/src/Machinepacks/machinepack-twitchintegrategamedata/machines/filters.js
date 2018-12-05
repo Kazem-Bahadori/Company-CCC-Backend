@@ -83,11 +83,12 @@ module.exports = {
             if (inputs.query.filterValue === 'steamGame') {
               getTopGames(100, false)
                 .then(games => {
-                  let steamGames = games.filter(game => game.steam !== false);
+                  let steamGames = games.data.filter(game => game.steam !== false);
                   if (Object.keys(steamGames).length > 20) {
                     steamGames = steamGames.slice(0, 20);
                   }
-                  return exits.success(steamGames);
+                  games.data = steamGames
+                  return exits.success(games);
                 })
                 .catch(err => {
                   return exits.error(err);
@@ -181,7 +182,7 @@ module.exports = {
           success: function (result) {
             gamesIsOnSale(result)
               .then(res => {
-                resolve(res.data)
+                resolve(res)
               })
               .catch(err => reject(err));
           },
