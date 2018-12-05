@@ -33,7 +33,7 @@ describe('fr025-get_stream', () =>{
     });
 });
 
-it('Correct error for no filter input', ()=> {
+it('Correct error for no filterValue input', ()=> {
   let ok = true;
   const inputs = {
     query: {assetType: 'streams', filterType: 'game'},

@@ -168,4 +168,34 @@ return new Promise(function(resolve, reject){
 });
 
 
+
+
+it('Correct error for no filterValue', ()=> {
+  let ok = true;
+  const inputs = {
+    query: {assetType: 'games', filterType: 'category', filterValue: 'gamefromsteam'},
+  }
+
+  return new Promise(function(resolve, reject){
+    GameData.filters(inputs).exec({
+      error: function (error) {
+        reject(error)
+      },
+      success: function (result) {
+        if(result == null || result == undefined){
+          ok = false;
+        }
+        resolve(ok);
+      },
+    });
+  })
+  .then((ok) =>{
+    assert.isTrue(ok);
+  })
+  .catch((error) => {
+    expect(error).to.equal("bad request - filterValue input error");
+  });
+});
+
+
 });

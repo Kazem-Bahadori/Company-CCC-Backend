@@ -167,6 +167,31 @@ describe('fr024-get_reviews_info', () =>{
       });
   });
 
+
+  it('Correct error handling for non existing game', ()=> {
+
+    const inputs = {
+      query: {assetType: 'reviews', filterType: 'app_id', filterValue: '57691'},
+    }
+
+    return new Promise(function(resolve, reject){
+      Steam.filters(inputs).exec({
+        error: function (error) {
+          reject(error);
+        },
+        success: function (result) {
+          resolve(result);
+        },
+      });
+    })
+    .then((result) =>{
+
+    })
+    .catch((error) => {
+      expect(error).to.equal('Could not find review data');
+    });
+});
+
   it('Correct error handling for filterType', ()=> {
 
       const inputs = {
