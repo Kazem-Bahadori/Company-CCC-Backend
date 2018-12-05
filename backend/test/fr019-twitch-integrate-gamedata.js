@@ -59,6 +59,62 @@ it('Get steam games', ()=> {
   });
 });
 
+it('Get contextual top_games', ()=> {
+  let ok = true;
+  const inputs = {
+    query: {assetType: 'games', filterType: 'contextual'},
+    body: {filter_by: 'top_games'}
+  }
+
+  return new Promise(function(resolve, reject){
+    GameData.filters(inputs).exec({
+      error: function (error) {
+        reject(error)
+      },
+      success: function (result) {
+        if(result == null || result == undefined){
+          ok = false;
+        }
+        resolve(ok);
+      },
+    });
+  })
+  .then((ok) =>{
+    assert.isTrue(ok);
+  })
+  .catch((error) => {
+    expect(error).to.equal("no streams found - check spelling of game_id");
+  });
+});
+
+it('Get correct contextual error', ()=> {
+  let ok = true;
+  const inputs = {
+    query: {assetType: 'games', filterType: 'contextual'},
+    body: {filter_by: 'none'}
+  }
+
+  return new Promise(function(resolve, reject){
+    GameData.filters(inputs).exec({
+      error: function (error) {
+        reject(error)
+      },
+      success: function (result) {
+        if(result == null || result == undefined){
+          ok = false;
+        }
+        resolve(ok);
+      },
+    });
+  })
+  .then((ok) =>{
+    assert.isTrue(ok);
+  })
+  .catch((error) => {
+    expect(error).to.equal("bad request - body filter_by input error");
+  });
+});
+
 it('Correct error for no filterType', ()=> {
   let ok = true;
   const inputs = {
