@@ -232,7 +232,6 @@ describe('fr024-get_reviews_info', () =>{
           reject(err);
         },
         success: function (result) {
-          console.log(result);
           if(!result.hasOwnProperty('num_reviews')){
             propertyExists = false;
           }

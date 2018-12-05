@@ -212,7 +212,6 @@ it('Correct error for no filter input', ()=> {
         reject(error)
       },
       success: function (result) {
-        console.log(result);
         if(result == null || result == undefined){
           ok = false;
         }
@@ -241,7 +240,6 @@ it('Correct error for no filter input', ()=> {
         reject(error)
       },
       success: function (result) {
-        console.log(result);
         if(result == null || result == undefined){
           ok = false;
         }
@@ -269,7 +267,6 @@ it('Correct error for no filter input', ()=> {
         reject(error)
       },
       success: function (result) {
-        console.log(result);
         if(result == null || result == undefined){
           ok = false;
         }
@@ -434,7 +431,6 @@ it('Content: Correct error for no filter input', ()=> {
         reject(error)
       },
       success: function (result) {
-        console.log(result);
         if(result == null || result == undefined){
           ok = false;
         }
@@ -462,7 +458,6 @@ it('Content: Correct error for no filter input', ()=> {
         reject(error)
       },
       success: function (result) {
-        console.log(result);
         if(result == null || result == undefined){
           ok = false;
         }
@@ -490,7 +485,6 @@ it('Content: Correct error for no filter input', ()=> {
         reject(error)
       },
       success: function (result) {
-        console.log(result);
         if(result == null || result == undefined){
           ok = false;
         }

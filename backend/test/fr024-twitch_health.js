@@ -21,7 +21,7 @@ describe('fr024-twitch_health', () =>{
       });
     })
     .then((result) =>{
-      //assert.isTrue(ok);
+
     })
     .catch((error) => {
       expect(error).to.equal("bad request - filterValue input error");

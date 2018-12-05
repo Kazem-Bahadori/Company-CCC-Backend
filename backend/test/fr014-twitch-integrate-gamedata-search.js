@@ -17,7 +17,6 @@ describe('fr014-twitchintegrategamedata-search', () =>{
           reject(error)
         },
         success: function (result) {
-          console.log(result);
           if(result == null || result == undefined){
             ok = false;
           }
@@ -45,7 +44,6 @@ it('Correct error for no queryString', ()=> {
         reject(error)
       },
       success: function (result) {
-        console.log(result);
         if(result == null || result == undefined){
           ok = false;
         }
@@ -73,7 +71,6 @@ it('Correct error for no filterType', ()=> {
         reject(error)
       },
       success: function (result) {
-        console.log(result);
         if(result == null || result == undefined){
           ok = false;
         }

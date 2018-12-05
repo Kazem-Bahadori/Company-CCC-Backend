@@ -48,7 +48,7 @@ it('Correct error for incorrect iser id or filterType not empty', ()=> {
     });
   })
   .then((result) =>{
-    //assert.isTrue(propertyExists);
+
   })
   .catch((error) => {
     expect(error).to.equal("bad request - incorrect user id or filterType not empty");
@@ -71,7 +71,7 @@ it('Correct error for incorrect iser id or filterType not empty', ()=> {
     });
   })
   .then((result) =>{
-    //assert.isTrue(propertyExists);
+
   })
   .catch((error) => {
     expect(error).to.equal("bad request - assetType input error");
@@ -122,7 +122,7 @@ return new Promise(function(resolve, reject){
   });
 })
 .then((result) =>{
-  //assert.isTrue(propertyExists);
+
 })
 .catch((error) => {
   expect(error).to.equal("bad request - incorrect user id or filterType not empty");
@@ -145,7 +145,7 @@ return new Promise(function(resolve, reject){
   });
 })
 .then((result) =>{
-  //assert.isTrue(propertyExists);
+
 })
 .catch((error) => {
   expect(error).to.equal("bad request - assetType input error");

@@ -128,7 +128,6 @@ it('Return appId for correct filterValue', ()=> {
           reject(error);
         },
         success: function (result) {
-          console.log(result);
           if(result == null || result == undefined){
             ok = false;
           }
@@ -388,7 +387,6 @@ return new Promise(function(resolve, reject){
       reject(error);
     },
     success: function (result) {
-      console.log(result);
       if(result == null || result == undefined){
         ok = false;
       }

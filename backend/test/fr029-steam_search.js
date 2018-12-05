@@ -17,7 +17,6 @@ describe('fr029-steam_search', () =>{
           reject(error)
         },
         success: function (result) {
-          console.log(result);
           if(result == null || result == undefined){
             ok = false;
           }

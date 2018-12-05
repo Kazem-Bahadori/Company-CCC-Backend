@@ -19,7 +19,7 @@ describe('fr027-getDetails', () =>{
           reject(error)
         },
         success: function (result) {
-          console.log(result);
+
           if(result == null || result == undefined){
             ok = false;
           }
@@ -117,7 +117,6 @@ it('Content: Get details of several games', ()=> {
         reject(error)
       },
       success: function (result) {
-        console.log(result);
         if(result == null || result == undefined){
           ok = false;
         }
