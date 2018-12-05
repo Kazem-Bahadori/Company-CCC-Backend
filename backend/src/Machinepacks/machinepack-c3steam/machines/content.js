@@ -1,15 +1,14 @@
 const fetch = require('node-fetch');
-const fs = require('fs');
 
 module.exports = {
 
   friendlyName: 'filters',
-  description: 'fetches and filters content from steam',
+  description: 'The function should return a list of json objects representing assets provided by the implemented content provider.',
   cacheable: false,
   sync: false,
   inputs: {
     assetType: {
-      example: 'games',
+      example: 'price',
       description: 'Category what you want to get',
       require: false
     },
@@ -34,12 +33,18 @@ module.exports = {
       variableName: 'result',
       description: 'Done.',
     },
+    error: {
+      example: {
+        description: 'bad request - assetType input error',
+        code: 400
+      },
+      description: 'There was some kind of error',
+      code: 'The status code'
+    }
   },
   fn: function (inputs, exits
     /*``*/
   ) {
-    //console.log('Steam function triggered!')
-
     let url = 'http://store.steampowered.com/'; // the main url of the twitch api
 
 
@@ -57,13 +62,13 @@ module.exports = {
     * Description: Return game information (assetType) by specifying that paremeter is app_id (filterType), about the app_id
     * (filterValue) sent in the query.
     */
-    if (inputs.query.assetType == 'game_info') {
-      if (inputs.query.filterType == 'app_id') {
-        if (inputs.query.filterValue != undefined && inputs.query.filterValue!= null) {
-          url = url.concat('api/appdetails?appids=' + inputs.query.filterValue)
+    if (inputs.assetType == 'gameInfo') {
+      if (inputs.filterType == 'appId') {
+        if (inputs.filterValue != undefined && inputs.filterValue!= null) {
+          url = url.concat('api/appdetails?appids=' + inputs.filterValue)
           fetchFromSteam(url) //Gets all game info about specified app_id.
             .then(response => {
-              const appId = inputs.query.filterValue;
+              const appId = inputs.filterValue;
               const steamResponse = response[appId];
 
               if (steamResponse.data != undefined) {
@@ -110,10 +115,16 @@ module.exports = {
             .catch (err => exits.error(err));
 
           } else {
-            return exits.error('bad request - filterValue input error');
+            return exits.error({
+              description: 'bad request - filterValue input error',
+              code: 400
+            });
           }
         } else {
-          return exits.error('bad request - filterType input error');
+          return exits.error({
+            description: 'bad request - filterType input error',
+            code: 400
+          });
         }
 
       } 
@@ -132,13 +143,13 @@ module.exports = {
     * Description: Return price overivew (assetType) by specifying that paremeter is app_id (filterType), about the app_id
     * (filterValue) sent in the query.
     */
-      else if (inputs.query.assetType == 'price') {
-      if (inputs.query.filterType == 'app_id') {
-        if (inputs.query.filterValue != undefined && inputs.query.filterValue!= null) {
-          url = url.concat('api/appdetails?appids=' + inputs.query.filterValue)
+      else if (inputs.assetType == 'price') {
+      if (inputs.filterType == 'appId') {
+        if (inputs.filterValue != undefined && inputs.filterValue!= null) {
+          url = url.concat('api/appdetails?appids=' + inputs.filterValue)
           fetchFromSteam(url) //Gets price overview for specified app_id
             .then(response => {
-              const appId = inputs.query.filterValue;
+              const appId = inputs.filterValue;
               const steamResponse = response[appId];
               if (steamResponse.data != undefined) {
                 let price = {};
@@ -158,10 +169,17 @@ module.exports = {
             })
             .catch (err => exits.error(err));
         } else {
-          return exits.error('bad request - filterValue input error');
+          return exits.error({
+            description: 'bad request - filterValue input error',
+            code: 400
+          });
+          
         }
       } else {
-        return exits.error('bad request - filterType input error');
+        return exits.error({
+          description: 'bad request - filterType input error',
+          code: 400
+        });
       }
     }
        //~~~~~~~~~~~~~~~~~~~~~~~~~ System requirements ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -179,14 +197,14 @@ module.exports = {
     * Description: Return system requirements (assetType) by specifying that paremeter is app_id (filterType), about the app_id
     * (filterValue) sent in the query.
     */
-    else if (inputs.query.assetType == 'system_requirements') {
-      if (inputs.query.filterType == 'app_id') {
-        if (inputs.query.filterValue != undefined && inputs.query.filterValue!= null) {
-          url = url.concat('api/appdetails?appids=' + inputs.query.filterValue)
+    else if (inputs.assetType == 'systemRequirements') {
+      if (inputs.filterType == 'appId') {
+        if (inputs.filterValue != undefined && inputs.filterValue!= null) {
+          url = url.concat('api/appdetails?appids=' + inputs.filterValue)
           fetchFromSteam(url) //Gets the system requirements for specified app_id
             .then(response => {
 
-              const appId = inputs.query.filterValue;
+              const appId = inputs.filterValue;
               const steamResponse = response[appId]
 
 
@@ -207,10 +225,16 @@ module.exports = {
           })
           .catch (err => exits.error(err));
         } else {
-          return exits.error('bad request - filterValue input error');
+          return exits.error({
+            description: 'bad request - filterValue input error',
+            code: 400
+          });
         }
       } else {
-        return exits.error('bad request - filterType input error');
+        return exits.error({
+          description: 'bad request - filterType input error',
+          code: 400
+        });
       }
     } 
       //~~~~~~~~~~~~~~~~~~~~~~~~~ Reviews ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -228,10 +252,10 @@ module.exports = {
     * Description: Return system reviews (assetType) by specifying that paremeter is app_id (filterType), about the app_id
     * (filterValue) sent in the query.
     */
-    else if (inputs.query.assetType == 'reviews') {
-      if (inputs.query.filterType == 'app_id') {
-        if (inputs.query.filterValue != undefined && inputs.query.filterValue!= null) {
-          url = url.concat('appreviews/' + inputs.query.filterValue + '?json=1')
+    else if (inputs.assetType == 'reviews') {
+      if (inputs.filterType == 'appId') {
+        if (inputs.filterValue != undefined && inputs.filterValue!= null) {
+          url = url.concat('appreviews/' + inputs.filterValue + '?json=1')
           fetchFromSteam(url) //Gets reviews for specified app_id
             .then(response => {
 
@@ -246,10 +270,16 @@ module.exports = {
           })
           .catch (err => exits.error(err));
         } else {
-          return exits.error('bad request - filterValue input error');
+          return exits.error({
+            description: 'bad request - filterValue input error',
+            code: 400
+          });
         }
       } else {
-        return exits.error('bad request - filterType input error');
+        return exits.error({
+          description: 'bad request - filterType input error',
+          code: 400
+        });
       }
     } 
        //~~~~~~~~~~~~~~~~~~~~~~~~~ On twitch ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -267,12 +297,12 @@ module.exports = {
     * Description: Return app_id (assetType) by specifying that paremeter is an app on twitch (filterType), for the name of a game
     * (filterValue) sent in the query.
     */
-    else if (inputs.query.assetType == 'games') {
-      if (inputs.query.filterType == 'on_twitch') {
-        if (inputs.query.filterValue != undefined) {
+    else if (inputs.assetType == 'games') {
+      if (inputs.filterType == 'onTwitch') {
+        if (inputs.filterValue != undefined) {
 
           let games = require('./steam_games.json');
-          let name = inputs.query.filterValue
+          let name = inputs.filterValue
           let gameObject
           let counter = 0;
 
@@ -289,10 +319,16 @@ module.exports = {
           return exits.success(false)  // returns the Json to the client
 
         } else {
-          return exits.error('bad request - filterValue input error');
+          return exits.error({
+            description: 'bad request - filterValue input error',
+            code: 400
+          });
         }
       } else {
-        return exits.error('bad request - filterType input error');
+        return exits.error({
+          description: 'bad request - filterType input error',
+          code: 400
+        });
       }
     } 
       //~~~~~~~~~~~~~~~~~~~~~~~~~ Trailers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -310,15 +346,15 @@ module.exports = {
     * Description: Return trailer (assetType) by specifying that paremeter is app_id (filterType), for the app_id
     * (filterValue) sent in the query.
     */
-    else if (inputs.query.assetType == 'trailers') {
-      if (inputs.query.filterType == 'app_id') {
-        if (inputs.query.filterValue != undefined && inputs.query.filterValue!= null) {
+    else if (inputs.assetType == 'trailers') {
+      if (inputs.filterType == 'appId') {
+        if (inputs.filterValue != undefined && inputs.filterValue!= null) {
 
-          url = url.concat('api/appdetails?appids=' + inputs.query.filterValue)
+          url = url.concat('api/appdetails?appids=' + inputs.filterValue)
           fetchFromSteam(url) //Gets the information of the trailer
             .then(response => {
 
-              const appId = inputs.query.filterValue;
+              const appId = inputs.filterValue;
               const steamResponse = response[appId];
 
               if (steamResponse.data != undefined) {
@@ -334,10 +370,16 @@ module.exports = {
             .catch (err => exits.error(err));
 
           } else {
-            return exits.error('bad request - filterValue input error');
+            return exits.error({
+              description: 'bad request - filterValue input error',
+              code: 400
+            });
           }
         } else {
-          return exits.error('bad request - filterType input error');
+          return exits.error({
+            description: 'bad request - filterType input error',
+            code: 400
+          });
         }
           }    //~~~~~~~~~~~~~~~~~~~~~~~~~ getDetails ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           /*
@@ -354,11 +396,11 @@ module.exports = {
           * Description: Return system requirements (assetType) by specifying that paremeter is app_id (filterType), about the app_id
           * (filterValue) sent in the query.
           */ 
-            else if (inputs.query.assetType == 'getDetails') {
-              if (inputs.query.filterType == 'app_id') {
-                if (inputs.query.filterValue == undefined) { // Filtervalue kanske inte behöver vara med.
+            else if (inputs.assetType == 'details') {
+              if (inputs.filterType == 'appId') {
+                if (inputs.filterValue == undefined) { // Filtervalue kanske inte behöver vara med.
                   url = url.concat('api/appdetails?appids=');
-                  const ids = inputs.body['data'];
+                  const ids = inputs['data'];
                   //If the array has more than 1 app_id the function will iterate over all app_id:s except the last one
                   //to concat the id with a ',' to separate the values. The last app_id will be concatinated without ','
                   //after the loop
@@ -377,13 +419,22 @@ module.exports = {
                       return exits.success(response);  // returns the Json to the client
                     })
                 } else {
-                  return exits.error('bad request - filterValue input error');
+                  return exits.error({
+                    description: 'bad request - filterValue input error',
+                    code: 400
+                  });
                 }
               } else {
-                return exits.error('bad request - filterType input error');
+                return exits.error({
+                  description: 'bad request - filterType input error',
+                  code: 400
+                });
               }
             }else {
-        return exits.error('bad request - assetType input error');
+              return exits.error({
+                description: 'bad request - assetType input error',
+                code: 400
+              });
     }
 
 //------------------------------------- Seperate functions ---------------------------------------------------------------

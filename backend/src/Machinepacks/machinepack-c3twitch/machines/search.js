@@ -1,5 +1,4 @@
 const fetch = require('node-fetch')
-import Steam from '../../machinepack-c3steam';
 
 module.exports = {
 
@@ -49,7 +48,7 @@ module.exports = {
     if (inputs.query.assetType == "games") { // if you are searching for games on twitch
 
       if (inputs.query.queryString != "" && inputs.query.queryString != undefined) { //Checks that queryString isn't left empty
-        url = url.concat('games?query=' + inputs.query.queryString) //adds the searchword to the url
+      url = url.concat('games?query=' + inputs.query.queryString) //adds the searchword to the url
         searchOnTwitch(url) //calls the searchOnTwitch function
           .then(response => { //takes the response from the searchOnTwitch function
 
@@ -94,7 +93,6 @@ module.exports = {
       if (inputs.query.queryString != "" && inputs.query.queryString != undefined) { //Checks that queryString isn't left empty
         url = url.concat('streams/?query=' + inputs.query.queryString + '&limit=' + limit) //adds the searchword to the url
         console.log(url);
-          console.log('ajaj');
         searchOnTwitch(url) //calls the searchOnTwitch function
           .then(response => { //takes the response from the searchOnTwitch function
 

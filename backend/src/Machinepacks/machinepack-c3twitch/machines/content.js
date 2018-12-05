@@ -1,29 +1,39 @@
 const fetch = require('node-fetch')
 module.exports = {
 
-  friendlyName: 'filters',
-  description: 'fetches and filters content from twitch',
+  friendlyName: 'content',
+  description: 'The function should return a list of json objects representing assets provided by the implemented content provider.',
   cacheable: false,
   sync: false,
   inputs: {
-    assetType: {
-      example: 'games',
-      description: 'Category what you want to get',
-      require: false
-    },
     filterType: {
       example: 'top, contexual',
       description: 'specifies what you want within the selected category. Can also be contextual if the call is complex',
       require: true
     },
+    assetType: {
+      example: 'games',
+      description: 'Specifies which assetType that you want to get',
+      require: false
+    },
     filterValue: {
-      example: 'related to, action',
+      example: 'related to',
       description: 'if one value is searched for',
       require: false
     },
     context: {
       example: '20',
       description: 'The body. Context to specify what is wanted',
+      require: false
+    },
+    offset: {
+      example: '0',
+      description: 'Number of element to skip at beginning of result',
+      require: false
+    },
+    limit: {
+      example: '20',
+      description: 'Number of elements to include in the result',
       require: false
     },
   },
@@ -63,11 +73,11 @@ module.exports = {
     * (filterValue) return to 5 games
     */
 
-    if (inputs.query.assetType == 'games') {
-      if (inputs.query.filterType == 'top') {
+    if (inputs.assetType == 'games') {
+      if (inputs.filterType == 'top') {
         url = url.concat('games/top')
-        if (inputs.query.filterValue != undefined) {
-          url = url.concat('?first=' + inputs.query.filterValue)
+        if (inputs.limit != undefined) {
+          url = url.concat('?first=' + inputs.limit)
           fetchFromTwitch(url) //gets the top streamed games on twitch.
             .then(response => {
               return exits.success(response);  // returns the Json to the client
@@ -80,29 +90,30 @@ module.exports = {
         }
 
         //~~~~~~~~~~~~~~~~~~~~~~~~~ game contextual ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      } else if (inputs.query.filterType == 'contextual') {
-        if (isEmpty(inputs.body)) { //Checks if body is empty
+      } else if (inputs.filterType == 'contextual') {
+        if (isEmpty(inputs)) { //Checks if body is empty
           return exits.error({
             description: 'bad request - No context given',
-            code: 400});
+            code: 400
+          });
         }
 
-        if (inputs.body.hasOwnProperty('filter_by')) {
+        if (inputs.hasOwnProperty('filter_by')) {
 
-          if (inputs.body.filter_by == 'top_games') {
+          if (inputs.filter_by == 'top_games') {
             url = url.concat('games/top?')
             let checkFirst = false; //A check to see if a parameter has been added so subsequent parameters adds '&'
 
-            if (inputs.body.hasOwnProperty('quantity') && inputs.body.quantity >= 1 && inputs.body.quantity <= 100) {
-              url = url.concat('first=' + inputs.body.quantity) //twitch only supports 1-100 items each call
+            if (inputs.hasOwnProperty('quantity') && inputs.quantity >= 1 && inputs.quantity <= 100) {
+              url = url.concat('first=' + inputs.quantity) //twitch only supports 1-100 items each call
               checkFirst = true
             }
-            if (inputs.body.hasOwnProperty('page_after')) {
+            if (inputs.hasOwnProperty('page_after')) {
               //adds pagination. Makes it so you can make a call to get a continous list of data where a previous one ended
               if (checkFirst == true) { //checks if there is something before it incase it needs to add '&'
-                url = url.concat('&after=' + inputs.body.page_after)
+                url = url.concat('&after=' + inputs.page_after)
               } else {
-                url = url.concat('after=' + inputs.body.page_after)
+                url = url.concat('after=' + inputs.page_after)
               }
             }
 
@@ -113,7 +124,8 @@ module.exports = {
           } else {
             return exits.error({
               description: 'bad request - incorrect filter',
-              code: 400});
+              code: 400
+            });
           }
         }
       }
@@ -131,53 +143,10 @@ module.exports = {
     * Description: Return streams (assetType) filtered by Twitch's one specified game (filterType),
     * limit (filterValue) return to a Twitch game ID
     */
-    } else if (inputs.query.assetType == 'streams') {
-      if (inputs.query.filterType == 'game') {
-        if (inputs.query.filterValue != undefined) {
-          url = url.concat('streams?game_id=' + inputs.query.filterValue)
-          fetchFromTwitch(url) // Gets the tops streams on a specific game
-            .then(response => {
-
-              if (Object.keys(response.data).length == 0) { //Checks if the response is empty
-                return exits.error({
-                  description: 'no streams found - check spelling of game_id',
-                  code: 400});
-                
-              }
-              return exits.success(response);  // returns the Json to the client
-            })
-          } else {
-            return exits.error({
-              description: 'bad request - no game_id is given',
-              code: 400});            
-          }
-      //~~~~~~~~~~~~~~~~~~~~~~~~ stream contextual ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      } else if (inputs.query.filterType == 'contextual') {
-
-        if (isEmpty(inputs.body)) { //Checks if body is empty
-          return exits.error({
-            description: 'bad request - No context given',
-            code: 400});  
-        }
-
-        if (inputs.body.filter_by == 'game_id') {
-          if (inputs.body.hasOwnProperty('game_id')) { //Checks if game_id exists within body
-            url = url.concat('streams?game_id=' + inputs.body.game_id)
-          } else {
-            return exits.error({
-              description: 'bad request - no game_id found',
-              code: 400}); 
-          }
-          if (inputs.body.hasOwnProperty('quantity') && inputs.body.quantity >= 1 && inputs.body.quantity <= 100) {
-            url = url.concat('&first=' + inputs.body.quantity)
-          } else {
-            return exits.error('bad request - quantity must be between 1-100')
-          }
-          if (inputs.body.hasOwnProperty('page_after')) {
-            //adds pagination. Makes it so you can make a call to get a continous list of data where a previous one ended
-            url = url.concat('&after=' + inputs.body.page_after)
-          }
-
+    } else if (inputs.assetType == 'streams') {
+      if (inputs.filterType == 'game') {
+        if (inputs.filterValue != undefined) {
+          url = url.concat('streams?game_id=' + inputs.filterValue)
           fetchFromTwitch(url) // Gets the tops streams on a specific game
             .then(response => {
 
@@ -186,29 +155,90 @@ module.exports = {
               }
               return exits.success(response);  // returns the Json to the client
             })
+          } else {
+            return exits.error({
+              description: 'bad request - no game_id is given',
+              code: 400
+            });
+          }
+      //~~~~~~~~~~~~~~~~~~~~~~~~ stream contextual ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      } else if (inputs.filterType == 'contextual') {
+
+        if (isEmpty(inputs)) { //Checks if body is empty
+          return exits.error({
+            description: 'bad request - No context given',
+            code: 400
+          });
+        }
+
+        if (inputs.filter_by == 'game_id') {
+          if (inputs.hasOwnProperty('game_id')) { //Checks if game_id exists within body
+            url = url.concat('streams?game_id=' + inputs.game_id)
+          } else {
+            return exits.error({
+              description: 'bad request - no game_id found',
+              code: 400
+            });
+          }
+          if (inputs.hasOwnProperty('quantity') && inputs.quantity >= 1 && inputs.quantity <= 100) {
+            url = url.concat('&first=' + inputs.quantity)
+          } else {
+            return exits.error({
+              description: 'bad request - quantity must be between 1-100',
+              code: 400
+            });
+          }
+          if (inputs.hasOwnProperty('page_after')) {
+            //adds pagination. Makes it so you can make a call to get a continous list of data where a previous one ended
+            url = url.concat('&after=' + inputs.page_after)
+          }
+
+          fetchFromTwitch(url) // Gets the tops streams on a specific game
+            .then(response => {
+
+              if (Object.keys(response.data).length == 0) { //Checks if the response is empty
+                return exits.error({
+                  description: 'no streams found - check spelling of game_id',
+                  code: 400
+                });
+                
+              }
+              return exits.success(response);  // returns the Json to the client
+            })
         } else {
-          return exits.error('bad request - incorrect filter')
+          return exits.error({
+            description: 'bad request - incorrect filter',
+            code: 400
+          });
         }
       } else {
-        return exits.error('bad request - filterType input error')
+        return exits.error({
+          description: 'bad request - filterType input error',
+          code: 400
+        });
       }
 
     //------------------------------------- Streamer info ---------------------------------------------------------------
 
-    } else if (inputs.query.assetType == 'streamer_info'){
-      if (inputs.query.filterType == undefined && inputs.query.filterValue != undefined) {
-        url = url.concat('users?id=' + inputs.query.filterValue)
+    } else if (inputs.assetType == 'streamer_info'){
+      if (inputs.filterType == undefined && inputs.filterValue != undefined) {
+        url = url.concat('users?id=' + inputs.filterValue)
         console.log(url)
         fetchFromTwitch(url)
             .then(response => {
               return exits.success(response);  // returns the Json to the client
             })
       } else {
-        return exits.error('bad request - incorrect user id or filterType not empty')
+        return exits.error({
+          description: 'bad request - incorrect user id or filterType not empty',
+          code: 400
+        });
       }
-
     }else {
-      return exits.error('bad request - assetType input error')
+      return exits.error({
+        description: 'bad request - assetType input error',
+        code: 400
+      });
     }
 
     //------------------------------------- Seperate functions ---------------------------------------------------------------
