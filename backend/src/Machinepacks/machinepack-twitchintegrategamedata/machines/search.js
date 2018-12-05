@@ -93,6 +93,7 @@ module.exports = {
                   })
                   .catch(err => {
                     return exits.error(err);
+                    
                   });
               }
             })
@@ -101,7 +102,7 @@ module.exports = {
       } else {
         return exits.error({
           description: 'bad request - queryString input error',
-          code: 500
+          code: 400
         });
       }
     } else if (inputs.query.assetType == "streams") {
@@ -118,7 +119,7 @@ module.exports = {
     } else {
       return exits.error({
         description: 'bad request - assetType input error',
-        code: 500
+        code: 400
       });
     }
   }

@@ -34,6 +34,14 @@ module.exports = {
       variableName: 'result',
       description: 'Done.',
     },
+    error: {
+      example: {
+        description: 'bad request - assetType input error',
+        code: 400
+      },
+      description: 'There was some kind of error',
+      code: 'The status code'
+    }
 
   },
 
@@ -126,7 +134,9 @@ module.exports = {
         }
         break;
       default:
-        return exits.error('bad request - assetType input error');
+        return exits.error({
+          description: 'bad request - assetType input error',
+          code: 400});
     }
 
     /**
@@ -156,7 +166,9 @@ module.exports = {
             }
           } 
         } else {
-          return exits.error('bad request - filtervalue for top games must be between 1-100')
+          return exits.error({
+            description: 'bad request - filtervalue for top games must be between 1-100',
+            code: 400});
         }
         return new Promise((resolve, reject) => {
           Twitch.filters(twitchInputs).exec({
