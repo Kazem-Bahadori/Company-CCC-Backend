@@ -41,6 +41,19 @@ export default ({
 			},
 		});
 	});
+	api.get('/twitchandsteam/health', (req, res) => {
+		TwitchIntegratedData.health().exec({
+
+			// An unexpected error occurred.
+			error: function () {
+				res.sendStatus(500);
+			},
+			// OK.
+			success: function () {
+				res.sendStatus(200);
+			},
+		});
+	});
 
 	//A special query key value can be added to the request to enable the content provider to only provide faked values (or at least not using the real backend). Support the usage of fake=true in the querystring.
 	api.post('/twitch/content', (req, res) => {
@@ -178,7 +191,7 @@ export default ({
 		});
 	});
 	//A special query key value can be added to the request to enable the content provider to only provide faked values (or at least not using the real backend). Support the usage of fake=true in the querystring.
-	api.post('/twitchaggregated/content', (req, res) => {
+	api.post('/twitchandsteam/content', (req, res) => {
 		const inputs = req.body;
 		// Example
 		// {
@@ -218,7 +231,7 @@ export default ({
 		});
 	});
 
-	api.get('/aggregation/search', (req, res) => {
+	api.get('/twitchandsteam/search', (req, res) => {
 		// req.query = ?filterType=games&assetType=top
 		const inputs = {
 			query: req.query,
@@ -230,6 +243,28 @@ export default ({
 			error: function (err) {
 
 				console.log(err);
+				res.sendStatus(500);
+			},
+			// OK.
+			success: function (result) {
+
+				res.send(result);
+			},
+		});
+	});
+
+	api.get('/aggregation/search', (req, res) => {
+		// req.query = ?filterType=games&assetType=top
+		const inputs = {
+			query: req.query,
+			body: req.body,
+		}
+		TwitchIntegratedData.search(inputs).exec({
+
+			// An unexpected error occurred.
+			error: function (err) {
+
+				console.log('err', err);
 				res.sendStatus(500);
 			},
 			// OK.

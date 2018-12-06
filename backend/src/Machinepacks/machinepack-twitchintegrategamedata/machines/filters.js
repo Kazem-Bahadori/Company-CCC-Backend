@@ -34,6 +34,14 @@ module.exports = {
       variableName: 'result',
       description: 'Done.',
     },
+    error: {
+      example: {
+        description: 'bad request - assetType input error',
+        code: 400
+      },
+      description: 'There was some kind of error',
+      code: 'The status code'
+    }
 
   },
 
@@ -75,11 +83,12 @@ module.exports = {
             if (inputs.query.filterValue === 'steamGame') {
               getTopGames(100, false)
                 .then(games => {
-                  let steamGames = games.filter(game => game.steam !== false);
+                  let steamGames = games.data.filter(game => game.steam !== false);
                   if (Object.keys(steamGames).length > 20) {
                     steamGames = steamGames.slice(0, 20);
                   }
-                  return exits.success(steamGames);
+                  games.data = steamGames
+                  return exits.success(games);
                 })
                 .catch(err => {
                   return exits.error(err);
@@ -126,7 +135,10 @@ module.exports = {
         }
         break;
       default:
-        return exits.error('bad request - assetType input error');
+        return exits.error({
+          description: 'bad request - assetType input error',
+          code: 400
+        });
     }
 
     /**
@@ -137,47 +149,44 @@ module.exports = {
      * @returns a list containing the top streamed games with steam price information added if the game is available on steam
      */
     function getTopGames(amount, context) {
-      return new Promise((resolve, reject) => {
-        let twitchInputs // the inputs to send to twitch machine
-        if (context != false) {
-          twitchInputs = {
-            query: {
-              assetType: 'games',
-              filterType: 'contextual',
-            },
-            body: context
-          }
-        } else if (amount >= 1 && amount <= 100) { // each twitch-call only accepts numbers between 1-100.
-          twitchInputs = {
-            query: {
-              assetType: 'games',
-              filterType: 'top',
-              filterValue: amount
-            }
-          } 
-        } else {
-          return exits.error('bad request - filtervalue for top games must be between 1-100')
+      let twitchInputs // the inputs to send to twitch machine
+      if (context != false) {
+        twitchInputs = {
+          query: {
+            assetType: 'games',
+            filterType: 'contextual',
+          },
+          body: context
         }
-        return new Promise((resolve, reject) => {
-          Twitch.filters(twitchInputs).exec({
-            // An unexpected error occurred.
-            error: function (err) {
-              reject(err);
-            },
-            // OK.
-            success: function (result) {
-
-              resolve(result)
-              //return exits.success(result);
-
-            },
-          });
-        })
-          .then(response => {
-            gamesIsOnSale(response)
-              .then(res => resolve(res))
+      } else if (amount >= 1 && amount <= 100) { // each twitch-call only accepts numbers between 1-100.
+        twitchInputs = {
+          query: {
+            assetType: 'games',
+            filterType: 'top',
+            filterValue: amount
+          }
+        }
+      } else {
+        return exits.error({
+          description: 'bad request - filtervalue for top games must be between 1-100',
+          code: 400
+        });
+      }
+      return new Promise((resolve, reject) => {
+        Twitch.filters(twitchInputs).exec({
+          // An unexpected error occurred.
+          error: function (err) {
+            reject(err);
+          },
+          // OK.
+          success: function (result) {
+            gamesIsOnSale(result)
+              .then(res => {
+                resolve(res)
+              })
               .catch(err => reject(err));
-          });
+          },
+        });
       })
     }
 
@@ -230,11 +239,10 @@ module.exports = {
      * @returns the list of games with with price and steam appid added
     */
     function gamesIsOnSale(twitchGames) {
-      const games = twitchGames;
-      let IDs = []; // list to save appid's in
-      let names = { data: [] }; // list to save the game names in
-
       return new Promise((resolve, reject) => {
+        const games = twitchGames;
+        let IDs = []; // list to save appid's in
+        let names = { data: [] }; // list to save the game names in
         games.data.forEach(function (element) {
           names.data.push({ 'name': element.name });
         });
@@ -274,9 +282,9 @@ module.exports = {
                     }
                   }
                 }
-                return exits.success(games);
-              });
-          });
+                resolve(games);
+              })
+          })
       });
     }
 

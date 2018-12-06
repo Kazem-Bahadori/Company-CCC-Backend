@@ -32,6 +32,14 @@ module.exports = {
       variableName: 'result',
       description: 'Done.',
     },
+    error: {
+      example: {
+        description: 'bad request - assetType input error',
+        code: 400
+      },
+      description: 'There was some kind of error',
+      code: 'The status code'
+    }
   },
   fn: function (inputs, exits
     /*``*/
@@ -74,7 +82,9 @@ module.exports = {
         //~~~~~~~~~~~~~~~~~~~~~~~~~ game contextual ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       } else if (inputs.query.filterType == 'contextual') {
         if (isEmpty(inputs.body)) { //Checks if body is empty
-          return exits.error('bad request - No context given')
+          return exits.error({
+            description: 'bad request - No context given',
+            code: 400});
         }
 
         if (inputs.body.hasOwnProperty('filter_by')) {
@@ -101,7 +111,9 @@ module.exports = {
                 return exits.success(response);  // returns the Json to the client
               })
           } else {
-            return exits.error('bad request - incorrect filter')
+            return exits.error({
+              description: 'bad request - incorrect filter',
+              code: 400});
           }
         }
       }
@@ -127,25 +139,34 @@ module.exports = {
             .then(response => {
 
               if (Object.keys(response.data).length == 0) { //Checks if the response is empty
-                return exits.error('no streams found - check spelling of game_id')
+                return exits.error({
+                  description: 'no streams found - check spelling of game_id',
+                  code: 400});
+                
               }
               return exits.success(response);  // returns the Json to the client
             })
           } else {
-            return exits.error('bad request - no game_id is given')
+            return exits.error({
+              description: 'bad request - no game_id is given',
+              code: 400});            
           }
       //~~~~~~~~~~~~~~~~~~~~~~~~ stream contextual ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       } else if (inputs.query.filterType == 'contextual') {
 
         if (isEmpty(inputs.body)) { //Checks if body is empty
-          return exits.error('bad request - No context given')
+          return exits.error({
+            description: 'bad request - No context given',
+            code: 400});  
         }
 
         if (inputs.body.filter_by == 'game_id') {
           if (inputs.body.hasOwnProperty('game_id')) { //Checks if game_id exists within body
             url = url.concat('streams?game_id=' + inputs.body.game_id)
           } else {
-            return exits.error('bad request - no game_id found')
+            return exits.error({
+              description: 'bad request - no game_id found',
+              code: 400}); 
           }
           if (inputs.body.hasOwnProperty('quantity') && inputs.body.quantity >= 1 && inputs.body.quantity <= 100) {
             url = url.concat('&first=' + inputs.body.quantity)
