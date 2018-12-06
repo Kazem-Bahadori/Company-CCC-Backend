@@ -28,7 +28,7 @@ describe('fr019-twitch-integrate-data', () =>{
       assert.isTrue(ok);
     })
     .catch((error) => {
-      expect(error).to.equal("no streams found - check spelling of game_id");
+      expect(error.description).to.equal("no streams found - check spelling of game_id");
     });
 });
 
@@ -55,7 +55,7 @@ it('Get steam games with filters.js', ()=> {
     assert.isTrue(ok);
   })
   .catch((error) => {
-    expect(error).to.equal("no streams found - check spelling of game_id");
+    expect(error.description).to.equal("no streams found - check spelling of game_id");
   });
 });
 
@@ -83,7 +83,7 @@ it('Get contextual top_games with filters.js', ()=> {
     assert.isTrue(ok);
   })
   .catch((error) => {
-    expect(error).to.equal("no streams found - check spelling of game_id");
+    expect(error.description).to.equal("no streams found - check spelling of game_id");
   });
 });
 
@@ -111,7 +111,7 @@ it('Correct expected error when no value for filter_by with filters.js', ()=> {
     assert.isTrue(ok);
   })
   .catch((error) => {
-    expect(error).to.equal("bad request - body filter_by input error");
+    expect(error.description).to.equal("bad request - body filter_by input error");
   });
 });
 
@@ -138,7 +138,7 @@ it('Correct expected error when no value for filterType with filters.js', ()=> 
     assert.isTrue(ok);
   })
   .catch((error) => {
-    expect(error).to.equal("bad request - filterType input error");
+    expect(error.description).to.equal("bad request - filterType input error");
   });
 });
 
@@ -165,7 +165,7 @@ it('Get top 5 games with content.js', ()=> {
     assert.isTrue(ok);
   })
   .catch((error) => {
-    expect(error).to.equal("no streams found - check spelling of game_id");
+    expect(error.description).to.equal("no streams found - check spelling of game_id");
   });
 });
 
@@ -192,7 +192,7 @@ return new Promise(function(resolve, reject){
   assert.isTrue(ok);
 })
 .catch((error) => {
-  expect(error).to.equal("no streams found - check spelling of game_id");
+  expect(error.description).to.equal("no streams found - check spelling of game_id");
 });
 });
 
@@ -219,7 +219,7 @@ return new Promise(function(resolve, reject){
   assert.isTrue(ok);
 })
 .catch((error) => {
-  expect(error).to.equal("bad request - filterType input error");
+  expect(error.description).to.equal("bad request - filterType input error");
 });
 });
 
@@ -246,7 +246,7 @@ it('Correct expected error when no value for filterValue with content.js', ()=>�
     assert.isTrue(ok);
   })
   .catch((error) => {
-    expect(error).to.equal("bad request - filterValue input error");
+    expect(error.description).to.equal("bad request - filterValue input error");
   });
 });
 

@@ -13,11 +13,11 @@ module.exports = {
     },
     assetType: {
       example: 'games',
-      description: 'Category what you want to get',
+      description: 'Specifies which assetType that you want to get',
       require: false
     },
     filterValue: {
-      example: 'related to, action',
+      example: 'related to',
       description: 'if one value is searched for',
       require: false
     },
@@ -42,6 +42,14 @@ module.exports = {
       variableName: 'result',
       description: 'Done.',
     },
+    error: {
+      example: {
+        description: 'bad request - assetType input error',
+        code: 400
+      },
+      description: 'There was some kind of error',
+      code: 'The status code'
+    }
   },
   fn: function (inputs, exits
     /*``*/
@@ -84,7 +92,10 @@ module.exports = {
         //~~~~~~~~~~~~~~~~~~~~~~~~~ game contextual ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       } else if (inputs.filterType == 'contextual') {
         if (isEmpty(inputs)) { //Checks if body is empty
-          return exits.error('bad request - No context given')
+          return exits.error({
+            description: 'bad request - No context given',
+            code: 400
+          });
         }
 
         if (inputs.hasOwnProperty('filter_by')) {
@@ -111,7 +122,10 @@ module.exports = {
                 return exits.success(response);  // returns the Json to the client
               })
           } else {
-            return exits.error('bad request - incorrect filter')
+            return exits.error({
+              description: 'bad request - incorrect filter',
+              code: 400
+            });
           }
         }
       }
@@ -142,25 +156,37 @@ module.exports = {
               return exits.success(response);  // returns the Json to the client
             })
           } else {
-            return exits.error('bad request - no game_id is given')
+            return exits.error({
+              description: 'bad request - no game_id is given',
+              code: 400
+            });
           }
       //~~~~~~~~~~~~~~~~~~~~~~~~ stream contextual ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       } else if (inputs.filterType == 'contextual') {
 
         if (isEmpty(inputs)) { //Checks if body is empty
-          return exits.error('bad request - No context given')
+          return exits.error({
+            description: 'bad request - No context given',
+            code: 400
+          });
         }
 
         if (inputs.filter_by == 'game_id') {
           if (inputs.hasOwnProperty('game_id')) { //Checks if game_id exists within body
             url = url.concat('streams?game_id=' + inputs.game_id)
           } else {
-            return exits.error('bad request - no game_id found')
+            return exits.error({
+              description: 'bad request - no game_id found',
+              code: 400
+            });
           }
           if (inputs.hasOwnProperty('quantity') && inputs.quantity >= 1 && inputs.quantity <= 100) {
             url = url.concat('&first=' + inputs.quantity)
           } else {
-            return exits.error('bad request - quantity must be between 1-100')
+            return exits.error({
+              description: 'bad request - quantity must be between 1-100',
+              code: 400
+            });
           }
           if (inputs.hasOwnProperty('page_after')) {
             //adds pagination. Makes it so you can make a call to get a continous list of data where a previous one ended
@@ -171,15 +197,25 @@ module.exports = {
             .then(response => {
 
               if (Object.keys(response.data).length == 0) { //Checks if the response is empty
-                return exits.error('no streams found - check spelling of game_id')
+                return exits.error({
+                  description: 'no streams found - check spelling of game_id',
+                  code: 400
+                });
+
               }
               return exits.success(response);  // returns the Json to the client
             })
         } else {
-          return exits.error('bad request - incorrect filter')
+          return exits.error({
+            description: 'bad request - incorrect filter',
+            code: 400
+          });
         }
       } else {
-        return exits.error('bad request - filterType input error')
+        return exits.error({
+          description: 'bad request - filterType input error',
+          code: 400
+        });
       }
 
     //------------------------------------- Streamer info ---------------------------------------------------------------
@@ -193,11 +229,16 @@ module.exports = {
               return exits.success(response);  // returns the Json to the client
             })
       } else {
-        return exits.error('bad request - incorrect user id or filterType not empty')
+        return exits.error({
+          description: 'bad request - incorrect user id or filterType not empty',
+          code: 400
+        });
       }
-
     }else {
-      return exits.error('bad request - assetType input error')
+      return exits.error({
+        description: 'bad request - assetType input error',
+        code: 400
+      });
     }
 
     //------------------------------------- Seperate functions ---------------------------------------------------------------

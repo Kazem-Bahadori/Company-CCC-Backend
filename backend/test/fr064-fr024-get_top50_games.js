@@ -139,7 +139,7 @@ it('Every game should return an app id for correct filterValue with filters.js',
       assert.isTrue(ok);
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - filterValue input error");
+      expect(error.description).to.equal("bad request - filterValue input error");
     });
 });
 
@@ -163,7 +163,7 @@ it('Correct expected error when undefined value for filterValue with filters.js'
 
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - filterValue input error");
+      expect(error.description).to.equal("bad request - filterValue input error");
     });
 });
 
@@ -187,7 +187,7 @@ it('Correct expected error when no value for filterType with filters.js', ()=> 
 
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - filterType input error");
+      expect(error.description).to.equal("bad request - filterType input error");
     });
 });
 
@@ -211,7 +211,7 @@ it('Correct expected error when no value for assetType with filters.js', ()=> {
 
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - assetType input error");
+      expect(error.description).to.equal("bad request - assetType input error");
     });
 });
 
@@ -235,7 +235,7 @@ it('Correct expected error when trying to fetch more than 100 games with filters
 
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - filtervalue for top games must be between 1-100");
+      expect(error.description).to.equal("bad request - filtervalue for top games must be between 1-100");
     });
 });
 
@@ -259,7 +259,7 @@ it('Correct expected error when no value for assetType with filters.js', ()=> {
 
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - assetType input error");
+      expect(error.description).to.equal("bad request - assetType input error");
     });
 });
 
@@ -398,7 +398,7 @@ return new Promise(function(resolve, reject){
   assert.isTrue(ok);
 })
 .catch((error) => {
-  expect(error).to.equal("bad request - filterValue input error");
+  expect(error.description).to.equal("bad request - filterValue input error");
 });
 });
 
@@ -422,7 +422,7 @@ return new Promise(function(resolve, reject){
 
 })
 .catch((error) => {
-  expect(error).to.equal("bad request - filterValue input error");
+  expect(error.description).to.equal("bad request - filterValue input error");
 });
 });
 
@@ -446,7 +446,7 @@ return new Promise(function(resolve, reject){
 
 })
 .catch((error) => {
-  expect(error).to.equal("bad request - filterType input error");
+  expect(error.description).to.equal("bad request - filterType input error");
 });
 });
 
@@ -470,7 +470,7 @@ return new Promise(function(resolve, reject){
 
 })
 .catch((error) => {
-  expect(error).to.equal("bad request - assetType input error");
+  expect(error.description).to.equal("bad request - assetType input error");
 });
 });
 
@@ -494,7 +494,7 @@ return new Promise(function(resolve, reject){
 
 })
 .catch((error) => {
-  expect(error).to.equal("bad request - filtervalue for top games must be between 1-100");
+  expect(error.description).to.equal("bad request - filtervalue for top games must be between 1-100");
 });
 });
 
@@ -518,7 +518,7 @@ return new Promise(function(resolve, reject){
 
 })
 .catch((error) => {
-  expect(error).to.equal("bad request - assetType input error");
+  expect(error.description).to.equal("bad request - assetType input error");
 });
 });
 

@@ -42,7 +42,7 @@ describe('fr024-twitch_search', () =>{
       assert.isTrue(propertyExists);
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - filterValue input error");
+      expect(error.description).to.equal("bad request - filterValue input error");
     });
 });
 

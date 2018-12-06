@@ -1,0 +1,6 @@
+{
+    "name": "PUM18 C3 – Steam)",
+    "url": "http://backend.c3.netplus.se/api/steam",
+    "assetTypes": ["gameInfo", "price", "systemRequirements", "reviews", "games", "trailers", "details"],
+    "filterTypes": ["appId", "onTwitch"]
+}

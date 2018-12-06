@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "355d2131-5a54-4b3c-8cc6-99ccc04cd687",
+		"_postman_id": "ef277c5a-9bd6-4676-80be-4aea270dbb65",
 		"name": "Flatfish_backend",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -479,6 +479,50 @@
 					"path": [
 						"api",
 						"steam",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check_if_twitchansteam_machine_is_running",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bf89901d-c3d0-4c50-9121-1ca679bf4dd7",
+						"exec": [
+							"",
+							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Should be OK\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"OK\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/twitchandsteam/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"twitchandsteam",
 						"health"
 					]
 				}

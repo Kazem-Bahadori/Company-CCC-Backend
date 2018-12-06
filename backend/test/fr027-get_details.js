@@ -31,7 +31,7 @@ describe('fr027-getDetails', () =>{
       assert.isTrue(ok);
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - filterValue input error");
+      expect(error.description).to.equal("bad request - filterValue input error");
     });
 });
 
@@ -54,7 +54,7 @@ describe('fr027-getDetails', () =>{
       assert.isTrue(propertyExists);
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - filterValue input error");
+      expect(error.description).to.equal("bad request - filterValue input error");
     });
 });
 
@@ -77,7 +77,7 @@ it('Correct expected error when no value for filterType with filters.js', ()=> 
     assert.isTrue(propertyExists);
   })
   .catch((error) => {
-    expect(error).to.equal("bad request - filterType input error");
+    expect(error.description).to.equal("bad request - filterType input error");
   });
 });
 
@@ -100,7 +100,7 @@ it('Correct expected error when no value for assetType with filters.js', ()=> {
     assert.isTrue(propertyExists);
   })
   .catch((error) => {
-    expect(error).to.equal("bad request - assetType input error");
+    expect(error.description).to.equal("bad request - assetType input error");
   });
 });
 
@@ -128,7 +128,7 @@ it('Get details of several games with content.js', ()=> {
     assert.isTrue(ok);
   })
   .catch((error) => {
-    expect(error).to.equal("bad request - filterValue input error");
+    expect(error.description).to.equal("bad request - filterValue input error");
   });
 });
 
@@ -151,7 +151,7 @@ it('Correct expected error when incorrect filterValue with content.js', ()=> {
     assert.isTrue(propertyExists);
   })
   .catch((error) => {
-    expect(error).to.equal("bad request - filterValue input error");
+    expect(error.description).to.equal("bad request - filterValue input error");
   });
 });
 
@@ -174,7 +174,7 @@ return new Promise(function(resolve, reject){
   assert.isTrue(propertyExists);
 })
 .catch((error) => {
-  expect(error).to.equal("bad request - filterType input error");
+  expect(error.description).to.equal("bad request - filterType input error");
 });
 });
 
@@ -197,7 +197,7 @@ return new Promise(function(resolve, reject){
   assert.isTrue(propertyExists);
 })
 .catch((error) => {
-  expect(error).to.equal("bad request - assetType input error");
+  expect(error.description).to.equal("bad request - assetType input error");
 });
 });
 

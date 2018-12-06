@@ -15,7 +15,7 @@ describe('fr024-get_system_requriments', () =>{
       return new Promise(function(resolve, reject){
         Steam.filters(inputs).exec({
           error: function (err) {
-            (err);
+
           },
           success: function (result) {
             if(!result.hasOwnProperty('pc_requirements')){
@@ -82,7 +82,6 @@ describe('fr024-get_system_requriments', () =>{
         Steam.filters(inputs).exec({
           error: function (err) {
 
-            (err);
           },
           success: function (result) {
             if(result.pc_requirements.length != 0){
@@ -152,7 +151,7 @@ describe('fr024-get_system_requriments', () =>{
 
       })
       .catch((error) => {
-        expect(error).to.equal("bad request - filterValue input error");
+        expect(error.description).to.equal("bad request - filterValue input error");
       });
   });
 
@@ -176,7 +175,7 @@ describe('fr024-get_system_requriments', () =>{
 
       })
       .catch((error) => {
-        expect(error).to.equal("bad request - filterType input error");
+        expect(error.description).to.equal("bad request - filterType input error");
       });
   });
 
@@ -192,7 +191,7 @@ describe('fr024-get_system_requriments', () =>{
     return new Promise(function(resolve, reject){
       Steam.content(inputs).exec({
         error: function (err) {
-          (err);
+
         },
         success: function (result) {
           if(!result.hasOwnProperty('pc_requirements')){
@@ -227,7 +226,7 @@ describe('fr024-get_system_requriments', () =>{
       Steam.content(inputs).exec({
         error: function (err) {
 
-          (err);
+
         },
         success: function (result) {
           var counter = 0;
@@ -259,7 +258,7 @@ let correctFormat = true;
       Steam.content(inputs).exec({
         error: function (err) {
 
-          (err);
+      
         },
         success: function (result) {
           if(result.pc_requirements.length != 0){
@@ -329,7 +328,7 @@ it('Correct expected error when no value for filterValue with content.js', ()=>Â
 
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - filterValue input error");
+      expect(error.description).to.equal("bad request - filterValue input error");
     });
 });
 
@@ -353,7 +352,7 @@ it('Correct expected error when no value for filterType with content.js', ()=>Â 
 
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - filterType input error");
+      expect(error.description).to.equal("bad request - filterType input error");
     });
 });
 

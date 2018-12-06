@@ -2,7 +2,7 @@ const assert = require('chai').assert; //bringring in the chai library
 const expect = require('chai').expect; //bringring in the chai library
 import Steam from '../src/Machinepacks/machinepack-c3steam';
 
-describe('fr029-get_price_info', () =>{
+describe('fr024-get_price_info', () =>{
 
     it('JSON response body has correct properties when fetching price with filters.js', ()=> {
     let propertyExists = true;
@@ -14,7 +14,7 @@ describe('fr029-get_price_info', () =>{
         return new Promise(function(resolve, reject){
           Steam.filters(inputs).exec({
             error: function (err) {
-              (err);
+
             },
             success: function (result) {
               if(!result.hasOwnProperty('currency')){
@@ -58,7 +58,6 @@ describe('fr029-get_price_info', () =>{
           Steam.filters(inputs).exec({
             error: function (err) {
 
-              (err);
             },
             success: function (result) {
               var counter = 0;
@@ -90,7 +89,6 @@ describe('fr029-get_price_info', () =>{
           Steam.filters(inputs).exec({
             error: function (err) {
 
-              (err);
             },
             success: function (result) {
               if(typeof(result.currency) != 'string'){
@@ -152,7 +150,7 @@ describe('fr029-get_price_info', () =>{
 
         })
         .catch((error) => {
-          expect(error).to.equal("bad request - filterValue input error");
+          expect(error.description).to.equal("bad request - filterValue input error");
         });
     });
 
@@ -176,7 +174,7 @@ describe('fr029-get_price_info', () =>{
 
         })
         .catch((error) => {
-          expect(error).to.equal("bad request - filterType input error");
+          expect(error.description).to.equal("bad request - filterType input error");
         });
     });
 
@@ -200,7 +198,7 @@ describe('fr029-get_price_info', () =>{
 
         })
         .catch((error) => {
-          expect(error).to.equal("Could not find price data");
+          expect(error.description).to.equal("Could not find price data");
         });
     });
 
@@ -214,7 +212,6 @@ describe('fr029-get_price_info', () =>{
         return new Promise(function(resolve, reject){
           Steam.content(inputs).exec({
             error: function (err) {
-              (err);
             },
             success: function (result) {
               if(!result.hasOwnProperty('currency')){
@@ -258,7 +255,6 @@ describe('fr029-get_price_info', () =>{
           Steam.content(inputs).exec({
             error: function (err) {
 
-              (err);
             },
             success: function (result) {
               var counter = 0;
@@ -290,7 +286,6 @@ describe('fr029-get_price_info', () =>{
           Steam.content(inputs).exec({
             error: function (err) {
 
-              (err);
             },
             success: function (result) {
               if(typeof(result.currency) != 'string'){
@@ -352,7 +347,7 @@ describe('fr029-get_price_info', () =>{
 
         })
         .catch((error) => {
-          expect(error).to.equal("bad request - filterValue input error");
+          expect(error.description).to.equal("bad request - filterValue input error");
         });
     });
 
@@ -376,7 +371,7 @@ describe('fr029-get_price_info', () =>{
 
         })
         .catch((error) => {
-          expect(error).to.equal("bad request - filterType input error");
+          expect(error.description).to.equal("bad request - filterType input error");
         });
     });
 

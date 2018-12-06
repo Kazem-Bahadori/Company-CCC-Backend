@@ -28,7 +28,7 @@ describe('fr025-streamer_info', () =>{
       assert.isTrue(correctFormat);
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - filterValue input error");
+      expect(error.description).to.equal("bad request - filterValue input error");
     });
 });
 
@@ -51,7 +51,7 @@ it('Correct expected error when incorrect user id or filterType not empty with f
 
   })
   .catch((error) => {
-    expect(error).to.equal("bad request - incorrect user id or filterType not empty");
+    expect(error.description).to.equal("bad request - incorrect user id or filterType not empty");
   });
 });
 
@@ -74,7 +74,7 @@ it('Correct expected error when incorrect user id or filterType not empty with f
 
   })
   .catch((error) => {
-    expect(error).to.equal("bad request - assetType input error");
+    expect(error.description).to.equal("bad request - assetType input error");
   });
 });
 
@@ -102,7 +102,7 @@ it('Correct fetch of streamer_info with content.js', ()=> {
     assert.isTrue(correctFormat);
   })
   .catch((error) => {
-    expect(error).to.equal("bad request - filterValue input error");
+    expect(error.description).to.equal("bad request - filterValue input error");
   });
 });
 
@@ -125,7 +125,7 @@ return new Promise(function(resolve, reject){
 
 })
 .catch((error) => {
-  expect(error).to.equal("bad request - incorrect user id or filterType not empty");
+  expect(error.description).to.equal("bad request - incorrect user id or filterType not empty");
 });
 });
 
@@ -148,7 +148,7 @@ return new Promise(function(resolve, reject){
 
 })
 .catch((error) => {
-  expect(error).to.equal("bad request - assetType input error");
+  expect(error.description).to.equal("bad request - assetType input error");
 });
 });
 

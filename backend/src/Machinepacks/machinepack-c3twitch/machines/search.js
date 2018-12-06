@@ -48,7 +48,7 @@ module.exports = {
     if (inputs.query.assetType == "games") { // if you are searching for games on twitch
 
       if (inputs.query.queryString != "" && inputs.query.queryString != undefined) { //Checks that queryString isn't left empty
-        url = url.concat('games?query=' + inputs.query.queryString) //adds the searchword to the url
+      url = url.concat('games?query=' + inputs.query.queryString) //adds the searchword to the url
         searchOnTwitch(url) //calls the searchOnTwitch function
           .then(response => { //takes the response from the searchOnTwitch function
 

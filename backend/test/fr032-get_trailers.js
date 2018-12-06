@@ -29,7 +29,7 @@ describe('fr032-get_trailers', () =>{
       assert.isTrue(ok);
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - filterValue input error");
+      expect(error.description).to.equal("bad request - filterValue input error");
     });
 });
 
@@ -52,7 +52,7 @@ describe('fr032-get_trailers', () =>{
 
     })
     .catch((error) => {
-      expect(error).to.equal("Could not find trailer data");
+      expect(error.description).to.equal("Could not find trailer data");
     });
 });
 
@@ -75,7 +75,7 @@ it('Correct expected error when no value for filterValue with filters.js', ()=>�
     assert.isTrue(propertyExists);
   })
   .catch((error) => {
-    expect(error).to.equal("bad request - filterValue input error");
+    expect(error.description).to.equal("bad request - filterValue input error");
   });
 });
 
@@ -98,7 +98,7 @@ it('Correct expected error when no value for filterType with filters.js', ()=> 
     assert.isTrue(propertyExists);
   })
   .catch((error) => {
-    expect(error).to.equal("bad request - filterType input error");
+    expect(error.description).to.equal("bad request - filterType input error");
   });
 });
 
@@ -127,7 +127,7 @@ it('Get trailer of game with content.js', ()=> {
     assert.isTrue(ok);
   })
   .catch((error) => {
-    expect(error).to.equal("bad request - filterValue input error");
+    expect(error.description).to.equal("bad request - filterValue input error");
   });
 });
 
@@ -150,7 +150,7 @@ it('Correct expected error when filterValue gave no trailer with content.js', ()
 
   })
   .catch((error) => {
-    expect(error).to.equal("Could not find trailer data");
+    expect(error.description).to.equal("Could not find trailer data");
   });
 });
 
@@ -173,7 +173,7 @@ return new Promise(function(resolve, reject){
   assert.isTrue(propertyExists);
 })
 .catch((error) => {
-  expect(error).to.equal("bad request - filterValue input error");
+  expect(error.description).to.equal("bad request - filterValue input error");
 });
 });
 
@@ -196,7 +196,7 @@ return new Promise(function(resolve, reject){
   assert.isTrue(propertyExists);
 })
 .catch((error) => {
-  expect(error).to.equal("bad request - filterType input error");
+  expect(error.description).to.equal("bad request - filterType input error");
 });
 });
 

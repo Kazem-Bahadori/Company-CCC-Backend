@@ -15,7 +15,7 @@ describe('fr024-get_reviews_info', () =>{
       return new Promise(function(resolve, reject){
         Steam.filters(inputs).exec({
           error: function (err) {
-            (err);
+
             reject(err);
           },
           success: function (result) {
@@ -60,7 +60,6 @@ describe('fr024-get_reviews_info', () =>{
         Steam.filters(inputs).exec({
           error: function (err) {
 
-            (err);
           },
           success: function (result) {
             var counter = 0;
@@ -92,7 +91,6 @@ describe('fr024-get_reviews_info', () =>{
         Steam.filters(inputs).exec({
           error: function (err) {
 
-            (err);
           },
           success: function (result) {
             if(typeof(result.num_reviews) != 'number'){
@@ -188,7 +186,7 @@ describe('fr024-get_reviews_info', () =>{
 
     })
     .catch((error) => {
-      expect(error).to.equal('Could not find review data');
+      expect(error.description).to.equal('Could not find review data');
     });
 });
 
@@ -212,7 +210,7 @@ describe('fr024-get_reviews_info', () =>{
 
       })
       .catch((error) => {
-        expect(error).to.equal("bad request - filterType input error");
+        expect(error.description).to.equal("bad request - filterType input error");
       });
   });
 
@@ -228,7 +226,6 @@ describe('fr024-get_reviews_info', () =>{
     return new Promise(function(resolve, reject){
       Steam.content(inputs).exec({
         error: function (err) {
-          (err);
           reject(err);
         },
         success: function (result) {
@@ -273,7 +270,6 @@ describe('fr024-get_reviews_info', () =>{
       Steam.content(inputs).exec({
         error: function (err) {
 
-          (err);
         },
         success: function (result) {
           var counter = 0;
@@ -304,8 +300,7 @@ let correctFormat = true;
     return new Promise(function(resolve, reject){
       Steam.content(inputs).exec({
         error: function (err) {
-
-          (err);
+          
         },
         success: function (result) {
           if(typeof(result.num_reviews) != 'number'){
@@ -376,7 +371,7 @@ it('Correct expected error when no value for filterValue with content.js', ()=>Â
 
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - filterValue input error");
+      expect(error.description).to.equal("bad request - filterValue input error");
     });
 });
 
@@ -400,7 +395,7 @@ it('Correct expected error when no value for filterType with content.js', ()=>Â 
 
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - filterType input error");
+      expect(error.description).to.equal("bad request - filterType input error");
     });
 });
 

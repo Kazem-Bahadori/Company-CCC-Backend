@@ -149,7 +149,7 @@ let correctFormat = true;
       assert.isTrue(correctFormat);
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - filterValue input error");
+      expect(error.description).to.equal("bad request - filterValue input error");
     });
 });
 
@@ -173,7 +173,7 @@ let correctFormat = true;
       assert.isTrue(correctFormat);
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - filterType input error");
+      expect(error.description).to.equal("bad request - filterType input error");
     });
 });
 
@@ -197,7 +197,7 @@ let correctFormat = true;
       assert.isTrue(correctFormat);
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - assetType input error");
+      expect(error.description).to.equal("bad request - assetType input error");
     });
 });
 
@@ -347,7 +347,7 @@ let correctFormat = true;
     assert.isTrue(correctFormat);
   })
   .catch((error) => {
-    expect(error).to.equal("bad request - filterValue input error");
+    expect(error.description).to.equal("bad request - filterValue input error");
   });
 });
 
@@ -371,7 +371,7 @@ let correctFormat = true;
     assert.isTrue(correctFormat);
   })
   .catch((error) => {
-    expect(error).to.equal("bad request - filterType input error");
+    expect(error.description).to.equal("bad request - filterType input error");
   });
 });
 
@@ -395,7 +395,7 @@ let correctFormat = true;
     assert.isTrue(correctFormat);
   })
   .catch((error) => {
-    expect(error).to.equal("bad request - assetType input error");
+    expect(error.description).to.equal("bad request - assetType input error");
   });
 });
 
