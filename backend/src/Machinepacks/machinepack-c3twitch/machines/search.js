@@ -92,8 +92,7 @@ module.exports = {
       let limit = 20; //Sets the limit of streams shown.
       if (inputs.query.queryString != "" && inputs.query.queryString != undefined) { //Checks that queryString isn't left empty
         url = url.concat('streams/?query=' + inputs.query.queryString + '&limit=' + limit) //adds the searchword to the url
-        (url);
-          ('ajaj');
+
         searchOnTwitch(url) //calls the searchOnTwitch function
           .then(response => { //takes the response from the searchOnTwitch function
 

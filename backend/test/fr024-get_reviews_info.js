@@ -5,7 +5,7 @@ import Steam from '../src/Machinepacks/machinepack-c3steam';
 
 describe('fr024-get_reviews_info', () =>{
 
-    it('Response body has correct properties', ()=> {
+    it('JSON response body has correct properties when fetching reviews with filters.js', ()=> {
       let propertyExists = true;
 
       const inputs = {
@@ -49,7 +49,7 @@ describe('fr024-get_reviews_info', () =>{
       });
     });
 
-    it('Response body has exactly 6 properties', ()=> {
+    it('JSON response body has exactly 6 properties when fetching reviews with filters.js', ()=> {
       let propertyExists = false;
 
       const inputs = {
@@ -81,7 +81,7 @@ describe('fr024-get_reviews_info', () =>{
       });
   });
 
-  it('Response body properties are correctly formatted', ()=> {
+  it('JSON response body properties are correctly formatted when fetching reviews with filters.js', ()=> {
   let correctFormat = true;
 
       const inputs = {
@@ -143,7 +143,7 @@ describe('fr024-get_reviews_info', () =>{
       });
   });
 
-  it('Correct error handling for filterValue', ()=> {
+  it('Correct expected error when no value for filterValue with filters.js', ()=> {
 
       const inputs = {
         query: {assetType: 'reviews', filterType: 'app_id'},
@@ -168,7 +168,7 @@ describe('fr024-get_reviews_info', () =>{
   });
 
 
-  it('Correct error handling for non existing game', ()=> {
+  it('Correct expected error when no value for existing game with filters.js', ()=> {
 
     const inputs = {
       query: {assetType: 'reviews', filterType: 'app_id', filterValue: '57691'},
@@ -192,7 +192,7 @@ describe('fr024-get_reviews_info', () =>{
     });
 });
 
-  it('Correct error handling for filterType', ()=> {
+  it('Correct expected error when no value for filterType with filters.js', ()=> {
 
       const inputs = {
         query: {assetType: 'reviews'},
@@ -218,7 +218,7 @@ describe('fr024-get_reviews_info', () =>{
 
   //Content
 
-  it('Content: Response body has correct properties', ()=> {
+  it('JSON response body has correct properties when fetching reviews with content.js', ()=> {
     let propertyExists = true;
 
     const inputs = {
@@ -262,7 +262,7 @@ describe('fr024-get_reviews_info', () =>{
     });
   });
 
-  it('Content: Response body has exactly 6 properties', ()=> {
+  it('JSON response body has exactly 6 properties when fetching reviews with content.js', ()=> {
     let propertyExists = false;
 
     const inputs = {
@@ -294,7 +294,7 @@ describe('fr024-get_reviews_info', () =>{
     });
 });
 
-it('Content: Response body properties are correctly formatted', ()=> {
+it('JSON response body properties are correctly formatted when fetching reviews with content.js', ()=> {
 let correctFormat = true;
 
     const inputs = {
@@ -356,7 +356,7 @@ let correctFormat = true;
     });
 });
 
-it('Content: Correct error handling for filterValue', ()=> {
+it('Correct expected error when no value for filterValue with content.js', ()=> {
 
     const inputs = {
       assetType: 'reviews', filterType: 'appId'
@@ -380,7 +380,7 @@ it('Content: Correct error handling for filterValue', ()=> {
     });
 });
 
-it('Content: Correct error handling for filterType', ()=> {
+it('Correct expected error when no value for filterType with content.js', ()=> {
 
     const inputs = {
       assetType: 'reviews'

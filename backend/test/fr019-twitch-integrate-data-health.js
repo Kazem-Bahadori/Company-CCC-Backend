@@ -5,7 +5,7 @@ import GameData from '../src/Machinepacks/machinepack-twitchintegrategamedata';
 
 describe('fr019-twitch-integrate-data-health', () =>{
 
-  it('Twitch integrate data health', ()=> {
+  it('Test health.js for twitch-integrate-data machine', ()=> {
     let ok = true;
     return new Promise(function(resolve, reject){
       GameData.health().exec({

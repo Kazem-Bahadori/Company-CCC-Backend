@@ -6,7 +6,7 @@ import Steam from '../src/Machinepacks/machinepack-c3steam';
 describe('fr027-getDetails', () =>{
 
 
-  it('Get details of several games', ()=> {
+  it('Get details of several games with filters.js', ()=> {
     let ok = true;
     const inputs = {
       query: {assetType: 'getDetails', filterType: 'app_id'},
@@ -35,7 +35,7 @@ describe('fr027-getDetails', () =>{
     });
 });
 
-  it('Correct error handling for defined filterValue', ()=> {
+  it('Correct expected error when incorrect filterValue with filters.js', ()=> {
     const inputs = {
       query: {assetType: 'getDetails', filterType: 'app_id', filterValue: 'defined'},
     }
@@ -58,7 +58,7 @@ describe('fr027-getDetails', () =>{
     });
 });
 
-it('Correct error handling for defined filterValue', ()=> {
+it('Correct expected error when no value for filterType with filters.js', ()=> {
   const inputs = {
     query: {assetType: 'getDetails'},
   }
@@ -81,7 +81,7 @@ it('Correct error handling for defined filterValue', ()=> {
   });
 });
 
-it('Correct error handling for defined filterValue', ()=> {
+it('Correct expected error when no value for assetType with filters.js', ()=> {
   const inputs = {
     query: {},
   }
@@ -105,7 +105,7 @@ it('Correct error handling for defined filterValue', ()=> {
 });
 
 //content
-it('Content: Get details of several games', ()=> {
+it('Get details of several games with content.js', ()=> {
   let ok = true;
   const inputs = {
     assetType: 'details', filterType: 'appId', data: ['34543,6434,4656,3455']
@@ -132,7 +132,7 @@ it('Content: Get details of several games', ()=> {
   });
 });
 
-it('Content: Correct error handling for defined filterValue', ()=> {
+it('Correct expected error when incorrect filterValue with content.js', ()=> {
   const inputs = {
     assetType: 'details', filterType: 'appId', filterValue: 'defined'
   }
@@ -155,7 +155,7 @@ it('Content: Correct error handling for defined filterValue', ()=> {
   });
 });
 
-it('Content: Correct error handling for defined filterValue', ()=> {
+it('Correct expected error when no value for filterType with content.js', ()=> {
 const inputs = {
   assetType: 'details'
 }
@@ -178,7 +178,7 @@ return new Promise(function(resolve, reject){
 });
 });
 
-it('Content: Correct error handling for defined filterValue', ()=> {
+it('Correct expected error when no value for assetType with content.js', ()=> {
 const inputs = {
 
 }

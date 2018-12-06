@@ -5,7 +5,7 @@ import Twitch from '../src/Machinepacks/machinepack-c3twitch';
 
 describe('fr025-streamer_info', () =>{
 
-  it('Correct fetch of streamer_info', ()=> {
+  it('Correct fetch of streamer_info with filters.js', ()=> {
     let correctFormat = true;
     const inputs = {
       query: {assetType: 'streamer_info', filterType: undefined, filterValue: 57690},
@@ -32,7 +32,7 @@ describe('fr025-streamer_info', () =>{
     });
 });
 
-it('Correct error for incorrect iser id or filterType not empty', ()=> {
+it('Correct expected error when incorrect user id or filterType not empty with filters.js', ()=> {
   const inputs = {
     query: {assetType: 'streamer_info', filterType: 'defined', filterValue: 57690},
   }
@@ -55,7 +55,7 @@ it('Correct error for incorrect iser id or filterType not empty', ()=> {
   });
 });
 
-it('Correct error for incorrect iser id or filterType not empty', ()=> {
+it('Correct expected error when incorrect user id or filterType not empty with filters.js', ()=> {
   const inputs = {
     query: {},
   }
@@ -79,7 +79,7 @@ it('Correct error for incorrect iser id or filterType not empty', ()=> {
 });
 
 //content
-it('Content: Correct fetch of streamer_info', ()=> {
+it('Correct fetch of streamer_info with content.js', ()=> {
   let correctFormat = true;
   const inputs = {
     assetType: 'streamer_info', filterType: undefined, filterValue: 57690
@@ -106,7 +106,7 @@ it('Content: Correct fetch of streamer_info', ()=> {
   });
 });
 
-it('Content: Correct error for incorrect iser id or filterType not empty', ()=> {
+it('Correct expected error when incorrect user id or filterType not empty with content.js', ()=> {
 const inputs = {
   assetType: 'streamer_info', filterType: 'defined', filterValue: 57690
 }
@@ -129,7 +129,7 @@ return new Promise(function(resolve, reject){
 });
 });
 
-it('Correct error for incorrect iser id or filterType not empty', ()=> {
+it('Correct expected error when incorrect user id or filterType not empty with content.js', ()=> {
 const inputs = {
 
 }

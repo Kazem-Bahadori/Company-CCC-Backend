@@ -5,7 +5,7 @@ import Twitch from '../src/Machinepacks/machinepack-c3twitch';
 
 describe('fr024-twitch_health', () =>{
 
-  it('Twitch health', ()=> {
+  it('Test health.js for Twitch machine', ()=> {
     let ok = true;
     return new Promise(function(resolve, reject){
       Twitch.health().exec({

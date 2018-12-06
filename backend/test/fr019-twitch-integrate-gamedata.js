@@ -3,9 +3,9 @@ const assert = require('chai').assert; //bringring in the chai library
 const expect = require('chai').expect; //bringring in the chai library
 import GameData from '../src/Machinepacks/machinepack-twitchintegrategamedata';
 
-describe('fr019-twitchintegrategamedata', () =>{
+describe('fr019-twitch-integrate-data', () =>{
 
-  it('Get top games', ()=> {
+  it('Get top 5 games with filters.js', ()=> {
     let ok = true;
     const inputs = {
       query: {assetType: 'games', filterType: 'top', filterValue: 5},
@@ -32,7 +32,7 @@ describe('fr019-twitchintegrategamedata', () =>{
     });
 });
 
-it('Get steam games', ()=> {
+it('Get steam games with filters.js', ()=> {
   let ok = true;
   const inputs = {
     query: {assetType: 'games', filterType: 'category', filterValue: 'steamGame'},
@@ -59,7 +59,7 @@ it('Get steam games', ()=> {
   });
 });
 
-it('Get contextual top_games', ()=> {
+it('Get contextual top_games with filters.js', ()=> {
   let ok = true;
   const inputs = {
     query: {assetType: 'games', filterType: 'contextual'},
@@ -87,7 +87,7 @@ it('Get contextual top_games', ()=> {
   });
 });
 
-it('Get correct contextual error', ()=> {
+it('Correct expected error when no value for filter_by with filters.js', ()=> {
   let ok = true;
   const inputs = {
     query: {assetType: 'games', filterType: 'contextual'},
@@ -115,7 +115,7 @@ it('Get correct contextual error', ()=> {
   });
 });
 
-it('Correct error for no filterType', ()=> {
+it('Correct expected error when no value for filterType with filters.js', ()=> {
   let ok = true;
   const inputs = {
     query: {assetType: 'games'},
@@ -142,7 +142,7 @@ it('Correct error for no filterType', ()=> {
   });
 });
 
-it('Content: Get top games', ()=> {
+it('Get top 5 games with content.js', ()=> {
   let ok = true;
   const inputs = {
     assetType: 'games', filterType: 'top', filterValue: 5
@@ -169,7 +169,7 @@ it('Content: Get top games', ()=> {
   });
 });
 
-it('Content: Get steam games', ()=> {
+it('Get steam games with content.js', ()=> {
 let ok = true;
 const inputs = {
   assetType: 'games', filterType: 'category', filterValue: 'steamGame'
@@ -196,7 +196,7 @@ return new Promise(function(resolve, reject){
 });
 });
 
-it('Content: Correct error for no filterType', ()=> {
+it('Correct expected error when no value for filterType with content.js', ()=> {
 let ok = true;
 const inputs = {
   assetType: 'games'
@@ -223,10 +223,7 @@ return new Promise(function(resolve, reject){
 });
 });
 
-
-
-
-it('Correct error for no filterValue', ()=> {
+it('Correct expected error when no value for filterValue with content.js', ()=> {
   let ok = true;
   const inputs = {
     query: {assetType: 'games', filterType: 'category', filterValue: 'gamefromsteam'},
@@ -252,6 +249,5 @@ it('Correct error for no filterValue', ()=> {
     expect(error).to.equal("bad request - filterValue input error");
   });
 });
-
 
 });

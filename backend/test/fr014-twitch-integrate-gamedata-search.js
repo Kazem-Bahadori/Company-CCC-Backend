@@ -3,9 +3,9 @@ const assert = require('chai').assert; //bringring in the chai library
 const expect = require('chai').expect; //bringring in the chai library
 import GameData from '../src/Machinepacks/machinepack-twitchintegrategamedata';
 
-describe('fr014-twitchintegrategamedata-search', () =>{
+describe('fr014-twitch-integrate-data-search', () =>{
 
-  it('Search for game with integrated data', ()=> {
+  it('Search for a game with twitch-integrate-game-data', ()=> {
     let ok = true;
     const inputs = {
       query: {assetType: "games", filterType: '', queryString: "fifa"},
@@ -32,7 +32,7 @@ describe('fr014-twitchintegrategamedata-search', () =>{
     });
 });
 
-it('Correct error for no queryString', ()=> {
+it('Correct expected error when no value for queryString', ()=> {
   let ok = true;
   const inputs = {
     query: {assetType: "games", filterType: '', queryString: ''},
@@ -59,7 +59,7 @@ it('Correct error for no queryString', ()=> {
   });
 });
 
-it('Correct error for no filterType', ()=> {
+it('Correct expected error when no value for filterType', ()=> {
   let ok = true;
   const inputs = {
     query: {filterType: ''},

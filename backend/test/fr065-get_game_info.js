@@ -4,7 +4,8 @@ const expect = require('chai').expect; //bringring in the chai library
 import Steam from '../src/Machinepacks/machinepack-c3steam';
 
 describe('fr065-get_game_info', () =>{
-  it('Response body has correct properties', ()=> {
+
+  it('JSON response body has correct properties when fetching game info with filters.js', ()=> {
     let propertyExists = true;
     const inputs = {
       query: {assetType: 'game_info', filterType: 'app_id', filterValue: '57690'},
@@ -55,7 +56,7 @@ describe('fr065-get_game_info', () =>{
     });
 });
 
-it('Response body has exactly 9 or 10 properties', ()=> {
+it('JSON response body has exactly 9 or 10 properties when fetching game info with filters.js', ()=> {
     const inputs = {
       query: {assetType: 'game_info', filterType: 'app_id', filterValue: '57690'},
     }
@@ -86,7 +87,7 @@ it('Response body has exactly 9 or 10 properties', ()=> {
     });
 });
 
-it('Response body properties are correctly formatted', ()=> {
+it('JSON response body properties are correctly formatted when fetching game info with filters.js', ()=> {
 let correctFormat = true;
     const inputs = {
       query: {assetType: 'game_info', filterType: 'app_id', filterValue: '57690'},
@@ -128,7 +129,7 @@ let correctFormat = true;
 });
 
 
-it('Correct error for no filter value', ()=> {
+it('Correct expected error when no value for filterValue with filters.js', ()=> {
 let correctFormat = true;
     const inputs = {
       query: {assetType: 'game_info', filterType: 'app_id'},
@@ -152,7 +153,7 @@ let correctFormat = true;
     });
 });
 
-it('Correct error for no filter type', ()=> {
+it('Correct expected error when no value for filterType with filters.js', ()=> {
 let correctFormat = true;
     const inputs = {
       query: {assetType: 'game_info'},
@@ -176,7 +177,7 @@ let correctFormat = true;
     });
 });
 
-it('Correct error for no assetType', ()=> {
+it('Correct expected error when no value for assetType with filter.js', ()=> {
 let correctFormat = true;
     const inputs = {
       query: {},
@@ -202,7 +203,7 @@ let correctFormat = true;
 
 //Content
 
-it('Content: Response body has correct properties', ()=> {
+it('JSON response body has correct properties when fetching game info with content.js', ()=> {
   let propertyExists = true;
   const inputs = {
     assetType: 'gameInfo', filterType: 'appId', filterValue: '57690'
@@ -253,7 +254,7 @@ it('Content: Response body has correct properties', ()=> {
   });
 });
 
-it('Content: Response body has exactly 9 or 10 properties', ()=> {
+it('JSON response body has exactly 9 or 10 properties when fetching game info with content.js', ()=> {
   const inputs = {
     assetType: 'gameInfo', filterType: 'appId', filterValue: '57690'
   }
@@ -284,7 +285,7 @@ it('Content: Response body has exactly 9 or 10 properties', ()=> {
   });
 });
 
-it('Content: Response body properties are correctly formatted', ()=> {
+it('JSON response body properties are correctly formatted when fetching game info with content.js', ()=> {
 let correctFormat = true;
   const inputs = {
     assetType: 'gameInfo', filterType: 'appId', filterValue: '57690'
@@ -326,7 +327,7 @@ let correctFormat = true;
 });
 
 
-it('Content: Correct error for no filter value', ()=> {
+it('Correct expected error when no value for filterValue with content.js', ()=> {
 let correctFormat = true;
   const inputs = {
     assetType: 'gameInfo', filterType: 'appId'
@@ -350,7 +351,7 @@ let correctFormat = true;
   });
 });
 
-it('Content: Correct error for no filter type', ()=> {
+it('Correct error when no value for filterType with content.js', ()=> {
 let correctFormat = true;
   const inputs = {
     assetType: 'gameInfo'
@@ -374,7 +375,7 @@ let correctFormat = true;
   });
 });
 
-it('Content: Correct error for no assetType', ()=> {
+it('Correct expected error when no value for assetType with content.js', ()=> {
 let correctFormat = true;
   const inputs = {
 

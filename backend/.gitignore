@@ -6,3 +6,4 @@
 /newman
 /coverage
 .nyc_output
+*.xml

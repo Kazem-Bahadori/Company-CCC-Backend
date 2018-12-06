@@ -5,7 +5,7 @@ import Steam from '../src/Machinepacks/machinepack-c3steam';
 
 describe('fr029-steam_search', () =>{
 
-  it('Steam search for game that does exist', ()=> {
+  it('Test Steam search for game that does exist', ()=> {
     let ok = true;
     const inputs = {
       query: {assetType: 'gameId', queryString: 'Dota 2'},
@@ -31,7 +31,7 @@ describe('fr029-steam_search', () =>{
     });
 });
 
-it('Steam search for game that does not exist', ()=> {
+it('Test Steam search for game that does not exist', ()=> {
   let ok = true;
   const inputs = {
     query: {assetType: 'gameId', queryString: 'a game that does not exist'},
@@ -58,7 +58,7 @@ it('Steam search for game that does not exist', ()=> {
   });
 });
 
-it('Correct error for no query string', ()=> {
+it('Correct expected error when no value for queryString', ()=> {
   let ok = true;
   const inputs = {
     query: {assetType: 'gameId'},
@@ -82,7 +82,7 @@ it('Correct error for no query string', ()=> {
   });
 });
 
-it('Correct error for no asset type', ()=> {
+it('Correct expected error when no value for assetType', ()=> {
   let ok = true;
   const inputs = {
     query: {assetType: ''},

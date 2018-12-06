@@ -74,12 +74,11 @@ module.exports = {
               resolve();
             } else {
               const status = (response.status != null) ? response.status : 500;
-              ('Status: ', status);
               reject();
             }
           })
           .catch(err => {
-            (err);
+
             reject();
           });
       });

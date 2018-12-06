@@ -5,7 +5,7 @@ import Steam from '../src/Machinepacks/machinepack-c3steam';
 
 describe('fr024-steam_health', () =>{
 
-  it('Steam health', ()=> {
+  it('Test health.js for Steam machine', ()=> {
     let ok = true;
     return new Promise(function(resolve, reject){
       Steam.health().exec({

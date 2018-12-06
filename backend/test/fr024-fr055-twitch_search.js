@@ -69,7 +69,7 @@ it('Correct error for no query string', ()=> {
   });
 });
 
-it('Every stream has correct proper', ()=> {
+it('Every stream has correct property', ()=> {
   let propertyExists = true;
   const inputs = {
     query: {assetType: 'streams', queryString: 'fifa'},

@@ -6,7 +6,7 @@ import Twitch from '../src/Machinepacks/machinepack-c3twitch';
 describe('fr025-get_stream', () =>{
 
 
-  it('Get stream for game', ()=> {
+  it('Get stream for game with filters.js', ()=> {
     let ok = true;
     const inputs = {
       query: {assetType: 'streams', filterType: 'game', filterValue: '57690'},
@@ -33,7 +33,7 @@ describe('fr025-get_stream', () =>{
     });
 });
 
-it('Correct error for no filterValue input', ()=> {
+it('Correct expected error when no value for filterValue with filters.js', ()=> {
   let ok = true;
   const inputs = {
     query: {assetType: 'streams', filterType: 'game'},
@@ -60,7 +60,7 @@ it('Correct error for no filterValue input', ()=> {
   });
 });
 
-it('Correct error for no filter input', ()=> {
+it('Correct expected error when no context is given for streams with filters.js', ()=> {
   let ok = true;
   const inputs = {
     query: {assetType: 'streams', filterType: 'contextual'},
@@ -87,7 +87,7 @@ it('Correct error for no filter input', ()=> {
   });
 });
 
-it('Correct error for no filter input for games', ()=> {
+it('Correct expected error when no context is given for games with filters.js', ()=> {
   let ok = true;
   const inputs = {
     query: {assetType: 'games', filterType: 'contextual'},
@@ -115,7 +115,7 @@ it('Correct error for no filter input for games', ()=> {
 });
 
 
-it('Correct error for no filter input', ()=> {
+it('Correct expected error when no game_id is found for streams with filters.js', ()=> {
   let ok = true;
   const inputs = {
     query: {assetType: 'streams', filterType: 'contextual'},
@@ -143,7 +143,7 @@ it('Correct error for no filter input', ()=> {
   });
 });
 
-it('Correct error for no filter input for games', ()=> {
+it('Correct expected error when no game_id is found for games with filters.js', ()=> {
   let ok = true;
   const inputs = {
     query: {assetType: 'games', filterType: 'contextual'},
@@ -171,7 +171,7 @@ it('Correct error for no filter input for games', ()=> {
   });
 });
 
-it('Correct error for no filter input', ()=> {
+it('Correct expected error when requesting more than 100 streams with filters.js', ()=> {
   let ok = true;
   const inputs = {
     query: {assetType: 'streams', filterType: 'contextual'},
@@ -199,7 +199,7 @@ it('Correct error for no filter input', ()=> {
   });
 });
 
-it('Correct error for no filter input', ()=> {
+it('Correct expected error when for no streams exist for chosen game_id with filters.js', ()=> {
   let ok = true;
   const inputs = {
     query: {assetType: 'streams', filterType: 'contextual'},
@@ -227,7 +227,7 @@ it('Correct error for no filter input', ()=> {
   });
 });
 
-it('Correct error for no filter input', ()=> {
+it('Correct expected error when incorrect filter_by with filters.js', ()=> {
   let ok = true;
   const inputs = {
     query: {assetType: 'streams', filterType: 'contextual'},
@@ -255,7 +255,7 @@ it('Correct error for no filter input', ()=> {
   });
 });
 
-it('Correct error for no filter input', ()=> {
+it('Correct expected error when no value for filterType with filters.js', ()=> {
   let ok = true;
   const inputs = {
     query: {assetType: 'streams'},
@@ -282,9 +282,7 @@ it('Correct error for no filter input', ()=> {
   });
 });
 
-//Content
-
-  it('Content: Get stream for game', ()=> {
+  it('Get stream for game with content.js', ()=> {
     let ok = true;
     const inputs = {
       assetType: 'streams', filterType: 'game', filterValue: '57690'
@@ -311,7 +309,7 @@ it('Correct error for no filter input', ()=> {
     });
 });
 
-it('Content: Correct error for no filter input', ()=> {
+it('Correct expected error when no value for filterValue with content.js', ()=> {
   let ok = true;
   const inputs = {
     assetType: 'streams', filterType: 'game'
@@ -338,7 +336,7 @@ it('Content: Correct error for no filter input', ()=> {
   });
 });
 
-it('Content: Correct error for no filter input', ()=> {
+it('Correct expected error when no game_id is found for streams with content.js', ()=> {
   let ok = true;
   const inputs = {
     assetType: 'streams', filterType: 'contextual', filter_by: 'game_id'
@@ -365,7 +363,7 @@ it('Content: Correct error for no filter input', ()=> {
   });
 });
 
-it('Content: Correct error for no filter input for games', ()=> {
+it('Correct expected error when no game_id is found for games with content.js', ()=> {
   let ok = true;
   const inputs = {
     assetType: 'games', filterType: 'contextual', filter_by: 'top_games', quantity: 50
@@ -392,7 +390,7 @@ it('Content: Correct error for no filter input for games', ()=> {
   });
 });
 
-it('Content: Correct error for no filter input', ()=> {
+it('Correct expected error when requesting more than 100 streams with filters.js', ()=> {
   let ok = true;
   const inputs = {
     assetType: 'streams', filterType: 'contextual', filter_by: 'game_id', game_id: '57690', quantity: 101
@@ -419,7 +417,7 @@ it('Content: Correct error for no filter input', ()=> {
   });
 });
 
-it('Content: Correct error for no filter input', ()=> {
+it('Correct expected error when for no streams exist for chosen game_id with filters.js', ()=> {
   let ok = true;
   const inputs = {
     assetType: 'streams', filterType: 'contextual', filter_by: 'game_id', game_id: '57690', quantity: 10
@@ -446,7 +444,7 @@ it('Content: Correct error for no filter input', ()=> {
   });
 });
 
-it('Content: Correct error for no filter input', ()=> {
+it('Correct expected error when incorrect filter_by with content.js', ()=> {
   let ok = true;
   const inputs = {
     assetType: 'streams', filterType: 'contextual', filter_by: 'not_game_id'
@@ -473,7 +471,7 @@ it('Content: Correct error for no filter input', ()=> {
   });
 });
 
-it('Content: Correct error for no filter input', ()=> {
+it('Correct expected error when no value for filterType with content.js', ()=> {
   let ok = true;
   const inputs = {
     assetType: 'streams'

@@ -6,7 +6,7 @@ import Steam from '../src/Machinepacks/machinepack-c3steam';
 describe('fr032-get_trailers', () =>{
 
 
-  it('Get details of several games', ()=> {
+  it('Get trailer of game with filters.js', ()=> {
     let ok = true;
     const inputs = {
       query: {assetType: 'trailers', filterType: 'app_id', filterValue: '57690'},
@@ -33,7 +33,7 @@ describe('fr032-get_trailers', () =>{
     });
 });
 
-  it('Correct error handling for filterValue with no trailer', ()=> {
+  it('Correct expected error when filterValue gave no trailer with filters.js', ()=> {
     const inputs = {
       query: {assetType: 'trailers', filterType: 'app_id', filterValue: '11111111'},
     }
@@ -56,7 +56,7 @@ describe('fr032-get_trailers', () =>{
     });
 });
 
-it('Correct error handling for defined filterValue', ()=> {
+it('Correct expected error when no value for filterValue with filters.js', ()=> {
   const inputs = {
     query: {assetType: 'trailers', filterType: 'app_id'},
   }
@@ -79,7 +79,7 @@ it('Correct error handling for defined filterValue', ()=> {
   });
 });
 
-it('Correct error handling for defined filterValue', ()=> {
+it('Correct expected error when no value for filterType with filters.js', ()=> {
   const inputs = {
     query: {assetType: 'trailers'},
   }
@@ -104,7 +104,7 @@ it('Correct error handling for defined filterValue', ()=> {
 
 //Content
 
-it('Content: Get details of several games', ()=> {
+it('Get trailer of game with content.js', ()=> {
   let ok = true;
   const inputs = {
     assetType: 'trailers', filterType: 'appId', filterValue: '57690'
@@ -131,7 +131,7 @@ it('Content: Get details of several games', ()=> {
   });
 });
 
-it('Content: Correct error handling for filterValue with no trailer', ()=> {
+it('Correct expected error when filterValue gave no trailer with content.js', ()=> {
   const inputs = {
     assetType: 'trailers', filterType: 'appId', filterValue: '11111111'
   }
@@ -154,7 +154,7 @@ it('Content: Correct error handling for filterValue with no trailer', ()=> {
   });
 });
 
-it('Content: Correct error handling for defined filterValue', ()=> {
+it('Correct expected error when no value for filterValue with content.js', ()=> {
 const inputs = {
   assetType: 'trailers', filterType: 'appId'
 }
@@ -177,7 +177,7 @@ return new Promise(function(resolve, reject){
 });
 });
 
-it('Content: Correct error handling for defined filterValue', ()=> {
+it('Correct expected error when no value for filterType with content.js', ()=> {
 const inputs = {
   assetType: 'trailers'
 }

@@ -3,7 +3,8 @@ const expect = require('chai').expect; //bringring in the chai library
 import Steam from '../src/Machinepacks/machinepack-c3steam';
 
 describe('fr029-get_price_info', () =>{
-    it('Response body has correct properties', ()=> {
+
+    it('JSON response body has correct properties when fetching price with filters.js', ()=> {
     let propertyExists = true;
 
         const inputs = {
@@ -46,7 +47,7 @@ describe('fr029-get_price_info', () =>{
         });
     });
 
-    it('Response body has exactly 6 properties', ()=> {
+    it('JSON response body has exactly 6 properties when fetching price with filters.js', ()=> {
     let propertyExists = false;
 
         const inputs = {
@@ -78,7 +79,7 @@ describe('fr029-get_price_info', () =>{
         });
     });
 
-    it('Response body properties are correctly formatted', ()=> {
+    it('JSON response body properties are correctly formatted when fetching price with filters.js', ()=> {
     let correctFormat = true;
 
         const inputs = {
@@ -131,7 +132,7 @@ describe('fr029-get_price_info', () =>{
         });
     });
 
-    it('Correct error handling for filterValue', ()=> {
+    it('Correct expected error when no value for filterValue with filters.js', ()=> {
 
         const inputs = {
           query: {assetType: 'price', filterType: 'app_id'},
@@ -155,7 +156,7 @@ describe('fr029-get_price_info', () =>{
         });
     });
 
-    it('Correct error handling for filterType', ()=> {
+    it('Correct expected error handling for filterType with filters.js', ()=> {
 
         const inputs = {
           query: {assetType: 'price'},
@@ -179,7 +180,7 @@ describe('fr029-get_price_info', () =>{
         });
     });
 
-    it('Correct error handling for no price information', ()=> {
+    it('Correct expected error when no value for price information with filters.js', ()=> {
 
         const inputs = {
           query: {assetType: 'price', filterType: 'app_id', filterValue: '21779'},
@@ -203,7 +204,7 @@ describe('fr029-get_price_info', () =>{
         });
     });
 
-    it('Content: Response body has correct properties', ()=> {
+    it('JSON response body has correct properties when fetching price with content.js', ()=> {
     let propertyExists = true;
 
         const inputs = {
@@ -246,7 +247,7 @@ describe('fr029-get_price_info', () =>{
         });
     });
 
-    it('Content: Response body has exactly 6 properties', ()=> {
+    it('JSON response body has exactly 6 properties when fetching price with content.js', ()=> {
     let propertyExists = false;
 
         const inputs = {
@@ -278,7 +279,7 @@ describe('fr029-get_price_info', () =>{
         });
     });
 
-    it('Content: Response body properties are correctly formatted', ()=> {
+    it('JSON response body properties are correctly formatted when fetching price with content.js', ()=> {
     let correctFormat = true;
 
         const inputs = {
@@ -331,7 +332,7 @@ describe('fr029-get_price_info', () =>{
         });
     });
 
-    it('Content: Correct error handling for filterValue', ()=> {
+    it('Correct expected error when no value for filterValue with content.js', ()=> {
 
         const inputs = {
           assetType: 'price', filterType: 'appId'
@@ -355,7 +356,7 @@ describe('fr029-get_price_info', () =>{
         });
     });
 
-    it('Content: Correct error handling for filterType', ()=> {
+    it('Correct expected error when no value for filterType with content.js', ()=> {
 
         const inputs = {
           assetType: 'price'
@@ -379,7 +380,7 @@ describe('fr029-get_price_info', () =>{
         });
     });
 
-    it('Content: Correct error handling for no price information', ()=> {
+    it('Correct expected error when no value for price information with content.js', ()=> {
 
         const inputs = {
           assetType: 'price', filterType: 'appId', filterValue: '21779'

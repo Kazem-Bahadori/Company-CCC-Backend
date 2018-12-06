@@ -5,7 +5,7 @@ import Steam from '../src/Machinepacks/machinepack-c3steam';
 
 describe('fr024-get_system_requriments', () =>{
 
-    it('Response body has correct properties', ()=> {
+    it('JSON response body has correct properties when fetching system requirements with filters.js', ()=> {
       let propertyExists = true;
 
       const inputs = {
@@ -39,7 +39,7 @@ describe('fr024-get_system_requriments', () =>{
       });
     });
 
-    it('Response body has exactly 3 properties', ()=> {
+    it('JSON response body has exactly 3 properties when fetching system requirements with filters.js', ()=> {
       let propertyExists = false;
 
       const inputs = {
@@ -71,7 +71,7 @@ describe('fr024-get_system_requriments', () =>{
       });
   });
 
-  it('Response body properties contains correct sub-properties', ()=> {
+  it('JSON response body properties are correctly formatted when fetching system requirements with filters.js', ()=> {
   let correctFormat = true;
 
       const inputs = {
@@ -132,7 +132,7 @@ describe('fr024-get_system_requriments', () =>{
       });
   });
 
-  it('Correct error handling for filterValue', ()=> {
+  it('Correct expected error when no value for filterValue with filters.js', ()=> {
 
       const inputs = {
         query: {assetType: 'system_requirements', filterType: 'app_id'},
@@ -156,7 +156,7 @@ describe('fr024-get_system_requriments', () =>{
       });
   });
 
-  it('Correct error handling for filterType', ()=> {
+  it('Correct expected error when no value for filterType with filters.js', ()=> {
 
       const inputs = {
         query: {assetType: 'system_requirements'},
@@ -182,7 +182,7 @@ describe('fr024-get_system_requriments', () =>{
 
   //Content
 
-  it('Content: Response body has correct properties', ()=> {
+  it('JSON response body has correct properties when fetching system requirements with content.js', ()=> {
     let propertyExists = true;
 
     const inputs = {
@@ -216,7 +216,7 @@ describe('fr024-get_system_requriments', () =>{
     });
   });
 
-  it('Content: Response body has exactly 3 properties', ()=> {
+  it('JSON response body has exactly 3 properties when fetching system requirements with content.js', ()=> {
     let propertyExists = false;
 
     const inputs = {
@@ -248,7 +248,7 @@ describe('fr024-get_system_requriments', () =>{
     });
 });
 
-it('Content: Response body properties contains correct sub-properties', ()=> {
+it('JSON response body properties are correctly formatted when fetching system requirements with content.js', ()=> {
 let correctFormat = true;
 
     const inputs = {
@@ -309,7 +309,7 @@ let correctFormat = true;
     });
 });
 
-it('Content: Correct error handling for filterValue', ()=> {
+it('Correct expected error when no value for filterValue with content.js', ()=> {
 
     const inputs = {
       assetType: 'systemRequirements', filterType: 'appId'
@@ -333,7 +333,7 @@ it('Content: Correct error handling for filterValue', ()=> {
     });
 });
 
-it('Content: Correct error handling for filterType', ()=> {
+it('Correct expected error when no value for filterType with content.js', ()=> {
 
     const inputs = {
       assetType: 'systemRequirements'

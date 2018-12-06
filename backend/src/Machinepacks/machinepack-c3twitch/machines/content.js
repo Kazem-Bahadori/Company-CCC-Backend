@@ -47,7 +47,7 @@ module.exports = {
     /*``*/
   ) {
 
-    
+
     let url = 'https://api.twitch.tv/helix/' // URL of the Twitch api
 
     /**
@@ -55,11 +55,11 @@ module.exports = {
     *
     * Base: /api/twitch/filters
     * Options:
-    * 
+    *
     *   - `assetType` specify type of output - input value: string (allowed: games)
     *   - `filterType` specify how games should be sorted - input value: string (allowed: top)
     *   - `filterValue` return specified amount of games - input value: integer (allowed: 1-100)
-    * 
+    *
     * Example URL: ?assetType=games&filterType=top&filterValue=5
     * Description: Return games (assetType) filtered by Twitch's top games (filterType), limit
     * (filterValue) return to 5 games
@@ -120,11 +120,11 @@ module.exports = {
     *
     * Base: /api/twitch/filters
     * Options:
-    * 
+    *
     *   - `assetType` specify type of output - input value: string (allowed: streams)
     *   - `filterType` specify how games should be sorted - input value: string (allowed: game)
     *   - `filterValue` return specified game id - input value: integer (allowed: any)
-    * 
+    *
     * Example URL: ?assetType=streams&filterType=game&filterValue=21779
     * Description: Return streams (assetType) filtered by Twitch's one specified game (filterType),
     * limit (filterValue) return to a Twitch game ID
@@ -187,7 +187,7 @@ module.exports = {
     } else if (inputs.assetType == 'streamer_info'){
       if (inputs.filterType == undefined && inputs.filterValue != undefined) {
         url = url.concat('users?id=' + inputs.filterValue)
-        (url)
+
         fetchFromTwitch(url)
             .then(response => {
               return exits.success(response);  // returns the Json to the client
