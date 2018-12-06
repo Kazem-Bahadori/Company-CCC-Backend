@@ -98,9 +98,9 @@ module.exports = {
           });
         }
 
-        if (inputs.hasOwnProperty('filter_by')) {
+        if (inputs.hasOwnProperty('filterBy')) {
 
-          if (inputs.filter_by == 'top_games') {
+          if (inputs.filterBy == 'topGames') {
             url = url.concat('games/top?')
             let checkFirst = false; //A check to see if a parameter has been added so subsequent parameters adds '&'
 
@@ -108,12 +108,12 @@ module.exports = {
               url = url.concat('first=' + inputs.quantity) //twitch only supports 1-100 items each call
               checkFirst = true
             }
-            if (inputs.hasOwnProperty('page_after')) {
+            if (inputs.hasOwnProperty('pageAfter')) {
               //adds pagination. Makes it so you can make a call to get a continous list of data where a previous one ended
               if (checkFirst == true) { //checks if there is something before it incase it needs to add '&'
-                url = url.concat('&after=' + inputs.page_after)
+                url = url.concat('&after=' + inputs.pageAfter)
               } else {
-                url = url.concat('after=' + inputs.page_after)
+                url = url.concat('after=' + inputs.pageAfter)
               }
             }
 
@@ -146,18 +146,18 @@ module.exports = {
     } else if (inputs.assetType == 'streams') {
       if (inputs.filterType == 'game') {
         if (inputs.filterValue != undefined) {
-          url = url.concat('streams?game_id=' + inputs.filterValue)
+          url = url.concat('streams?gameId=' + inputs.filterValue)
           fetchFromTwitch(url) // Gets the tops streams on a specific game
             .then(response => {
 
               if (Object.keys(response.data).length == 0) { //Checks if the response is empty
-                return exits.error('no streams found - check spelling of game_id')
+                return exits.error('no streams found - check spelling of gameId')
               }
               return exits.success(response);  // returns the Json to the client
             })
           } else {
             return exits.error({
-              description: 'bad request - no game_id is given',
+              description: 'bad request - no gameId is given',
               code: 400
             });
           }
@@ -171,12 +171,12 @@ module.exports = {
           });
         }
 
-        if (inputs.filter_by == 'game_id') {
-          if (inputs.hasOwnProperty('game_id')) { //Checks if game_id exists within body
-            url = url.concat('streams?game_id=' + inputs.game_id)
+        if (inputs.filterBy == 'gameId') {
+          if (inputs.hasOwnProperty('gameId')) { //Checks if gameId exists within body
+            url = url.concat('streams?gameId=' + inputs.gameId)
           } else {
             return exits.error({
-              description: 'bad request - no game_id found',
+              description: 'bad request - no gameId found',
               code: 400
             });
           }
@@ -188,9 +188,9 @@ module.exports = {
               code: 400
             });
           }
-          if (inputs.hasOwnProperty('page_after')) {
+          if (inputs.hasOwnProperty('pageAfter')) {
             //adds pagination. Makes it so you can make a call to get a continous list of data where a previous one ended
-            url = url.concat('&after=' + inputs.page_after)
+            url = url.concat('&after=' + inputs.pageAfter)
           }
 
           fetchFromTwitch(url) // Gets the tops streams on a specific game
@@ -198,7 +198,7 @@ module.exports = {
 
               if (Object.keys(response.data).length == 0) { //Checks if the response is empty
                 return exits.error({
-                  description: 'no streams found - check spelling of game_id',
+                  description: 'no streams found - check spelling of gameId',
                   code: 400
                 });
                 
@@ -220,8 +220,9 @@ module.exports = {
 
     //------------------------------------- Streamer info ---------------------------------------------------------------
 
-    } else if (inputs.assetType == 'streamer_info'){
-      if (inputs.filterType == undefined && inputs.filterValue != undefined) {
+    } else if (inputs.assetType == 'streamerInfo'){
+      if (inputs.filterType == 'streamerId') {
+        if (inputs.filterValue != undefined) {
         url = url.concat('users?id=' + inputs.filterValue)
         console.log(url)
         fetchFromTwitch(url)

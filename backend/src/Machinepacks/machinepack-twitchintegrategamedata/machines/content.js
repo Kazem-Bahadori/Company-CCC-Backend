@@ -232,7 +232,7 @@ module.exports = {
                       } else if (isEmpty(response[IDs[count]].data) && response[IDs[count]].success !== false) { // if game is free set price to '0'
                         games.data[key].steam.price = {
                           'final': 0,
-                          'discount_percent': 0
+                          'discountPercent': 0
                         };
                         count++;
                       } else { // if data exists add it to the response
@@ -257,7 +257,7 @@ module.exports = {
       const inputs = {
         query: {
           assetType: 'getDetails',
-          filterType: 'app_id'
+          filterType: 'appId'
         },
         body: {
           data: appId
