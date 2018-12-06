@@ -1,12 +1,12 @@
 {
 	"info": {
-		"_postman_id": "ef277c5a-9bd6-4676-80be-4aea270dbb65",
+		"_postman_id": "6a7cf74a-961d-470c-9a37-3443a5029515",
 		"name": "Flatfish_backend",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "FR029: get_price_info",
+			"name": "FR029: get_price_info_filters",
 			"event": [
 				{
 					"listen": "test",
@@ -486,50 +486,6 @@
 			"response": []
 		},
 		{
-			"name": "Check_if_twitchansteam_machine_is_running",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "bf89901d-c3d0-4c50-9121-1ca679bf4dd7",
-						"exec": [
-							"",
-							"pm.test(\"API call successfull\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"Should be OK\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"OK\");",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "http://localhost:8080/api/twitchandsteam/health",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"twitchandsteam",
-						"health"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "FR056 get_top_streams_from_gID",
 			"event": [
 				{
@@ -675,18 +631,6 @@
 							"      // pm.expect(jsonData.data[i].tag_ids).to.be.a('string');",
 							"   } ",
 							"});",
-							"",
-							"// display_name existerar inte längre",
-							"/*pm.test(\"Makes sure user_name and display_name are the same\", function(){",
-							"    var user_name;",
-							"    var display_name;",
-							"    ",
-							"   for(var i = 0; i < jsonData.data.length; i++){",
-							"       user_name = jsonData.data[i].user_name;",
-							"       display_name = jsonData.data[i].display_name;",
-							"       pm.expect(user_name).to.equal(display_name);",
-							"   } ",
-							"});*/",
 							"",
 							""
 						],
@@ -964,187 +908,6 @@
 			"response": []
 		},
 		{
-			"name": "Exception test: get_reviews_info_nofilter",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "b4a65f3d-92ab-42fa-bd21-547618f97ed5",
-						"exec": [
-							"",
-							"pm.test(\"API call unsuccessfull\", function () {",
-							"    pm.response.to.have.status(500);",
-							"});",
-							"",
-							"pm.test(\"Unsuccessful API response body\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Internal Server Error\");",
-							"});",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "localhost:8080/api/steam/filters?assetType=reviews&filterType=appid&filterValue=",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"steam",
-						"filters"
-					],
-					"query": [
-						{
-							"key": "assetType",
-							"value": "reviews"
-						},
-						{
-							"key": "filterType",
-							"value": "appid"
-						},
-						{
-							"key": "filterValue",
-							"value": ""
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Exception test: get_price_info_nofilter",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "a456f592-3388-4f7e-83b3-02be029e74b2",
-						"exec": [
-							"",
-							"pm.test(\"API call unsuccessfull \", function () {",
-							"    pm.response.to.have.status(500);",
-							"});",
-							"",
-							"pm.test(\"Unsuccessful API response body\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Internal Server Error\");",
-							"});",
-							"          ",
-							"          ",
-							"    ",
-							"    ",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "http://localhost:8080/api/steam/filters?assetType=price&filterType=app_id&filterValue=",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"steam",
-						"filters"
-					],
-					"query": [
-						{
-							"key": "assetType",
-							"value": "price"
-						},
-						{
-							"key": "filterType",
-							"value": "app_id"
-						},
-						{
-							"key": "filterValue",
-							"value": ""
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Exception test: get_system_req_nofilter",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "b9395235-1aa5-4a43-9ab2-56c1800b735c",
-						"exec": [
-							"",
-							"pm.test(\"API call unsuccessfull\", function () {",
-							"    pm.response.to.have.status(500);",
-							"});",
-							"",
-							"pm.test(\"Unsuccessful API response body\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Internal Server Error\");",
-							"});",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "localhost:8080/api/steam/filters?assetType=systemrequirements&filterType=appid&filterValue=",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"steam",
-						"filters"
-					],
-					"query": [
-						{
-							"key": "assetType",
-							"value": "systemrequirements"
-						},
-						{
-							"key": "filterType",
-							"value": "appid"
-						},
-						{
-							"key": "filterValue",
-							"value": ""
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "FR024: steam_health",
 			"request": {
 				"method": "GET",
@@ -1213,18 +976,36 @@
 			"response": []
 		},
 		{
-			"name": "FR029: twitch_search",
+			"name": "FR024, FR055: twitch_search",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"id": "650fb264-8341-4b50-bcea-a3768e72d08f",
 						"exec": [
+							"const jsonData = JSON.parse(responseBody);",
+							"",
 							"",
 							"pm.test(\"API call successfull\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
-							""
+							"",
+							"pm.test(\"JSON response contains games property\", function(){",
+							"    pm.expect(jsonData).to.have.property('games');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body consists of exactly 4 properties\", function(){",
+							"    var counter = 0;",
+							"    for(var i = 0; i < jsonData.length; i++){",
+							"        for (var property in jsonData[i]){",
+							"        if(jsonData[i].hasOwnProperty(property)) {",
+							"            counter++;",
+							"        }",
+							"    }",
+							"    pm.expect(counter).to.equal(4);",
+							"    }",
+							"    ",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -1256,58 +1037,6 @@
 						{
 							"key": "queryString",
 							"value": "fifa"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "FR024: get_stream",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "d2d40b8c-6d76-45a3-b40c-cdd81babf49f",
-						"exec": [
-							"pm.test(\"API call successfull\", function () {",
-							"    pm.response.to.have.status(500);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "localhost:8080/api/twitch/search?assetType=streams&filterType=game&filterValue=57690",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"twitch",
-						"search"
-					],
-					"query": [
-						{
-							"key": "assetType",
-							"value": "streams"
-						},
-						{
-							"key": "filterType",
-							"value": "game"
-						},
-						{
-							"key": "filterValue",
-							"value": "57690"
 						}
 					]
 				}
@@ -1432,7 +1161,12 @@
 					"script": {
 						"id": "36bed412-7c47-4a51-aca1-ada3678e6652",
 						"exec": [
+							"",
 							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is a link to trailer\", function () {",
 							"    pm.response.to.not.be.null;",
 							"});"
 						],
@@ -1477,44 +1211,6 @@
 			"response": []
 		},
 		{
-			"name": "FR064-FR024: get_top50_games",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "localhost:8080/api/twitch/filters?assetType=games&filterType=top&filterValue=50",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"twitch",
-						"filters"
-					],
-					"query": [
-						{
-							"key": "assetType",
-							"value": "games"
-						},
-						{
-							"key": "filterType",
-							"value": "top"
-						},
-						{
-							"key": "filterValue",
-							"value": "50"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "FR065: get_game_info",
 			"event": [
 				{
@@ -1522,8 +1218,46 @@
 					"script": {
 						"id": "09e7157c-640c-4931-8521-2a16ea5abed4",
 						"exec": [
+							"const jsonData = JSON.parse(responseBody);",
+							"",
 							"pm.test(\"API call successfull\", function () {",
 							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains price property\", function(){",
+							"    pm.expect(jsonData).to.have.property('price');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains pc_requirements property\", function(){",
+							"    pm.expect(jsonData).to.have.property('pc_requirements');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains linux_requirements property\", function(){",
+							"    pm.expect(jsonData).to.have.property('linux_requirements');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains trailer property\", function(){",
+							"    pm.expect(jsonData).to.have.property('trailer');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains description property\", function(){",
+							"    pm.expect(jsonData).to.have.property('description');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains developer property\", function(){",
+							"    pm.expect(jsonData).to.have.property('developer');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains publisher property\", function(){",
+							"    pm.expect(jsonData).to.have.property('publisher');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains genres property\", function(){",
+							"    pm.expect(jsonData).to.have.property('genres');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains reviews property\", function(){",
+							"    pm.expect(jsonData).to.have.property('reviews');",
 							"});"
 						],
 						"type": "text/javascript"
@@ -1605,7 +1339,32 @@
 			"response": []
 		},
 		{
-			"name": "FR019: twitch_integrate_data_search",
+			"name": "FR019: twitch_integrate_data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9920fe2b-d2e7-49d0-bc52-45ee4dc842ff",
+						"exec": [
+							"const jsonData = pm.response.json();",
+							"",
+							"pm.test(\"API call successfull\", function () { //makes sure that the response was successful",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains data property\", function(){",
+							"    pm.expect(jsonData).to.have.property(\"data\");",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains pagination property\", function(){",
+							"    pm.expect(jsonData).to.have.property(\"pagination\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -1614,14 +1373,14 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "localhost:8080/api/twitchintegrategamedata/filters?assetType=games&filterType=top&queryString=5",
+					"raw": "localhost:8080/api/aggregation/filters?assetType=games&filterType=top&queryString=5",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"api",
-						"twitchintegrategamedata",
+						"aggregation",
 						"filters"
 					],
 					"query": [
