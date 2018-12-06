@@ -5,7 +5,7 @@ import Twitch from '../src/Machinepacks/machinepack-c3twitch';
 
 describe('fr024-twitch_search', () =>{
 
-  it('Response has correct properties', ()=> {
+  it('JSON response body has correct properties', ()=> {
     let propertyExists = true;
     const inputs = {
       query: {assetType: 'games', queryString: 'fifa'},
@@ -46,7 +46,7 @@ describe('fr024-twitch_search', () =>{
     });
 });
 
-it('Correct error for no query string', ()=> {
+it('Correct expected error when no value for queryString', ()=> {
   const inputs = {
     query: {assetType: 'games', queryString: ''},
   }
@@ -142,7 +142,7 @@ it('Every stream has correct property', ()=> {
   });
 });
 
-it('Correct error for no query string for streams', ()=> {
+it('Correct expected error when no value for queryString', ()=> {
   const inputs = {
     query: {assetType: 'streams', queryString: ''},
   }
@@ -165,7 +165,7 @@ it('Correct error for no query string for streams', ()=> {
   });
 });
 
-it('Correct error for no assetType', ()=> {
+it('Correct expected error when no value for assetType', ()=> {
   let ok = true;
   const inputs = {
     query: {},
