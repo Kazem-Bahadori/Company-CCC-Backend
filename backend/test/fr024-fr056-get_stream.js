@@ -390,7 +390,7 @@ it('Correct expected error when no game_id is found for games with content.js', 
   });
 });
 
-it('Correct expected error when requesting more than 100 streams with filters.js', ()=> {
+it('Correct expected error when requesting more than 100 streams with content.js', ()=> {
   let ok = true;
   const inputs = {
     assetType: 'streams', filterType: 'contextual', filter_by: 'game_id', game_id: '57690', quantity: 101

@@ -151,7 +151,10 @@ module.exports = {
             .then(response => {
 
               if (Object.keys(response.data).length == 0) { //Checks if the response is empty
-                return exits.error('no streams found - check spelling of game_id')
+                return exits.error({
+                  description: 'no streams found - check spelling of game_id',
+                  code: 400
+                });
               }
               return exits.success(response);  // returns the Json to the client
             })
@@ -182,6 +185,7 @@ module.exports = {
           }
           if (inputs.hasOwnProperty('quantity') && inputs.quantity >= 1 && inputs.quantity <= 100) {
             url = url.concat('&first=' + inputs.quantity)
+            console.log("")
           } else {
             return exits.error({
               description: 'bad request - quantity must be between 1-100',

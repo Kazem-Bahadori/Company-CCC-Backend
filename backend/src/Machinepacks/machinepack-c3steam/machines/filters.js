@@ -110,10 +110,14 @@ module.exports = {
             .catch (err => exits.error(err));
 
           } else {
-            return exits.error('bad request - filterValue input error');
+            return exits.error({
+              description: 'bad request - filterValue input error',
+              code: 400});
           }
         } else {
-          return exits.error('bad request - filterType input error');
+          return exits.error({
+            description: 'bad request - filterType input error',
+            code: 400});
         }
 
       }
@@ -151,17 +155,23 @@ module.exports = {
                 return exits.success(price); //Returns Json to the client.
               } else {
                 (response[appId]);
-                return exits.error('Could not find price data');
+                return exits.error({
+                  description: 'Could not find price data',
+                  code: 400});
               }
 
               get_gameprice
             })
             .catch (err => exits.error(err));
         } else {
-          return exits.error('bad request - filterValue input error');
+          return exits.error({
+            description: 'bad request - filterValue input error',
+            code: 400});
         }
       } else {
-        return exits.error('bad request - filterType input error');
+        return exits.error({
+          description: 'bad request - filterType input error',
+          code: 400});
       }
     }
        //~~~~~~~~~~~~~~~~~~~~~~~~~ System requirements ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -207,10 +217,14 @@ module.exports = {
           })
           .catch (err => exits.error(err));
         } else {
-          return exits.error('bad request - filterValue input error');
+          return exits.error({
+          description: 'bad request - filterValue input error',
+          code: 400});
         }
       } else {
-        return exits.error('bad request - filterType input error');
+        return exits.error({
+          description: 'bad request - filterType input error',
+          code: 400});
       }
     }
       //~~~~~~~~~~~~~~~~~~~~~~~~~ Reviews ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -246,10 +260,14 @@ module.exports = {
           })
           .catch (err => exits.error(err));
         } else {
-          return exits.error('bad request - filterValue input error');
+          return exits.error({
+            description: 'bad request - filterValue input error',
+            code: 400});
         }
       } else {
-        return exits.error('bad request - filterType input error');
+        return exits.error({
+          description: 'bad request - filterType input error',
+          code: 400});
       }
     }
        //~~~~~~~~~~~~~~~~~~~~~~~~~ On twitch ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -289,10 +307,14 @@ module.exports = {
           return exits.success(false)  // returns the Json to the client
 
         } else {
-          return exits.error('bad request - filterValue input error');
+          return exits.error({
+            description: 'bad request - filterValue input error',
+            code: 400});
         }
       } else {
-        return exits.error('bad request - filterType input error');
+        return exits.error({
+          description: 'bad request - filterType input error',
+          code: 400});
       }
     }
       //~~~~~~~~~~~~~~~~~~~~~~~~~ Trailers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -327,17 +349,23 @@ module.exports = {
                 return exits.success(trailer);  // returns the Json to the client
               } else {
                 (response[appId]);
-                return exits.error('Could not find trailer data');
+                return exits.error({
+                  description: 'Could not find trailer data',
+                  code: 400});
               }
 
             })
             .catch (err => exits.error(err));
 
           } else {
-            return exits.error('bad request - filterValue input error');
+            return exits.error({
+              description: 'bad request - filterValue input error',
+              code: 400});
           }
         } else {
-          return exits.error('bad request - filterType input error');
+          return exits.error({
+            description: 'bad request - filterType input error',
+            code: 400});
         }
           }    //~~~~~~~~~~~~~~~~~~~~~~~~~ getDetails ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           /*
@@ -377,13 +405,19 @@ module.exports = {
                       return exits.success(response);  // returns the Json to the client
                     })
                 } else {
-                  return exits.error('bad request - filterValue input error');
+                  return exits.error({
+                    description: 'bad request - filterValue input error',
+                    code: 400});
                 }
               } else {
-                return exits.error('bad request - filterType input error');
+                return exits.error({
+                  description: 'bad request - filterType input error',
+                  code: 400});
               }
-            }else {
-        return exits.error('bad request - assetType input error');
+            } else {
+              return exits.error({
+                description: 'bad request - assetType input error',
+                code: 400});
     }
 
 //------------------------------------- Seperate functions ---------------------------------------------------------------

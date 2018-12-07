@@ -161,8 +161,11 @@ module.exports = {
                 }
                 return exits.success(price); //Returns Json to the client.
               } else {
-                (response[appId]);
-                return exits.error('Could not find price data');
+                //(response[appId]);
+                return exits.error({
+                  description: 'Could not find price data',
+                  code: 400
+                });
               }
 
               get_gameprice
@@ -363,7 +366,10 @@ module.exports = {
                 return exits.success(trailer);  // returns the Json to the client
               } else {
                 (response[appId]);
-                return exits.error('Could not find trailer data');
+                return exits.error({
+                  description: 'Could not find trailer data',
+                  code: 400
+                });
               }
 
             })

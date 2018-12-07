@@ -94,7 +94,10 @@ module.exports = {
                   return exits.error(err);
                 });
             } else {
-              return exits.error('bad request - filterValue input error')
+              return exits.error({
+                description: 'bad request - filterValue input error',
+                code: 400
+              });
             }
             break;
           case 'contextual':
@@ -126,12 +129,18 @@ module.exports = {
                   });
                 break;
               default:
-                return exits.error('bad request - body filter_by input error')
+              return exits.error({
+                description: 'bad request - body filter_by input error',
+                code: 400
+              });
             }
             break;
 
           default:
-            return exits.error('bad request - filterType input error');
+          return exits.error({
+            description: 'bad request - filterType input error',
+            code: 400
+          });
         }
         break;
       default:

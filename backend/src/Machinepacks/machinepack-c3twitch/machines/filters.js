@@ -171,7 +171,9 @@ module.exports = {
           if (inputs.body.hasOwnProperty('quantity') && inputs.body.quantity >= 1 && inputs.body.quantity <= 100) {
             url = url.concat('&first=' + inputs.body.quantity)
           } else {
-            return exits.error('bad request - quantity must be between 1-100')
+            return exits.error({
+              description: 'bad request - quantity must be between 1-100',
+              code: 400});
           }
           if (inputs.body.hasOwnProperty('page_after')) {
             //adds pagination. Makes it so you can make a call to get a continous list of data where a previous one ended
@@ -182,15 +184,21 @@ module.exports = {
             .then(response => {
 
               if (Object.keys(response.data).length == 0) { //Checks if the response is empty
-                return exits.error('no streams found - check spelling of game_id')
+                return exits.error({
+                  description: 'no streams found - check spelling of game_id',
+                  code: 400});
               }
               return exits.success(response);  // returns the Json to the client
             })
         } else {
-          return exits.error('bad request - incorrect filter')
+          return exits.error({
+            description: 'bad request - incorrect filter',
+            code: 400});
         }
       } else {
-        return exits.error('bad request - filterType input error')
+        return exits.error({
+          description: 'bad request - filterType input error',
+          code: 400});
       }
 
     //------------------------------------- Streamer info ---------------------------------------------------------------
@@ -204,11 +212,15 @@ module.exports = {
               return exits.success(response);  // returns the Json to the client
             })
       } else {
-        return exits.error('bad request - incorrect user id or filterType not empty')
+        return exits.error({
+          description: 'bad request - incorrect user id or filterType not empty',
+          code: 400});
       }
 
-    }else {
-      return exits.error('bad request - assetType input error')
+    } else {
+      return exits.error({
+        description: 'bad request - assetType input error',
+        code: 400});
     }
 
     //------------------------------------- Seperate functions ---------------------------------------------------------------

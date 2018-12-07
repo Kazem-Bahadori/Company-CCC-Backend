@@ -161,7 +161,7 @@ describe('fr024-get_reviews_info', () =>{
 
       })
       .catch((error) => {
-        expect(error).to.equal("bad request - filterValue input error");
+        expect(error.description).to.equal("bad request - filterValue input error");
       });
   });
 

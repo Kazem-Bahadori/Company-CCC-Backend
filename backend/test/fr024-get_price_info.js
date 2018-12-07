@@ -395,7 +395,7 @@ describe('fr024-get_price_info', () =>{
 
         })
         .catch((error) => {
-          expect(error).to.equal("Could not find price data");
+          expect(error.description).to.equal("Could not find price data");
         });
     });
 
