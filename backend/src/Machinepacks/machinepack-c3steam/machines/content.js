@@ -161,7 +161,6 @@ module.exports = {
                 }
                 return exits.success(price); //Returns Json to the client.
               } else {
-                console.log(response[appId]);
                 return exits.error('Could not find price data');
               }
             })
@@ -216,7 +215,6 @@ module.exports = {
 
               return exits.success(requirements);  // returns the Json to the client
             } else {
-              console.log(response[appId]);
               return exits.error('Could not find requirement data');
             }
 
@@ -261,7 +259,6 @@ module.exports = {
                 return exits.success(response.querySummary); //Returns Json to the client
 
             } else {
-              console.log(response[appId]);
               return exits.error('Could not find review data');
             }
 
@@ -360,7 +357,6 @@ module.exports = {
 
                 return exits.success(trailer);  // returns the Json to the client
               } else {
-                console.log(response[appId]);
                 return exits.error('Could not find trailer data');
               }
 
@@ -410,7 +406,6 @@ module.exports = {
                   }
                   url = url.concat(ids[ids.length-1]);
                   url = url.concat('&filters=priceOverview');
-                  console.log(url);
                   fetchFromSteam(url)
                     .then(response => {
 

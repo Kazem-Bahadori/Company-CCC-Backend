@@ -93,7 +93,6 @@ module.exports = {
       return new Promise(function (resolve, reject) {
         const steamGames = cache.get('steamGames');
         if (!steamGames) { // If data is not in the cache
-          console.log('Does not exist, fetching data...');
           fetch('http://api.steampowered.com/ISteamApps/GetAppList/v0002/')
             .then(response => response.json())
             .then(data => data['applist']['apps'])
