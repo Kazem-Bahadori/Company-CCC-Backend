@@ -3,9 +3,9 @@ const assert = require('chai').assert; //bringring in the chai library
 const expect = require('chai').expect; //bringring in the chai library
 import Twitch from '../src/Machinepacks/machinepack-c3twitch';
 
-describe('fr024-twitch_search', () =>{
+describe('fr024-fr055-twitch_search', () =>{
 
-  it('Response has correct properties', ()=> {
+  it('JSON response body has correct properties', ()=> {
     let propertyExists = true;
     const inputs = {
       query: {assetType: 'games', queryString: 'fifa'},
@@ -42,11 +42,11 @@ describe('fr024-twitch_search', () =>{
       assert.isTrue(propertyExists);
     })
     .catch((error) => {
-      //expect(error).to.equal("bad request - filterValue input error");
+      expect(error.description).to.equal("bad request - filterValue input error");
     });
 });
 
-it('Correct error for no query string', ()=> {
+it('Correct expected error when no value for queryString', ()=> {
   const inputs = {
     query: {assetType: 'games', queryString: ''},
   }
@@ -69,7 +69,7 @@ it('Correct error for no query string', ()=> {
   });
 });
 
-it('Every stream has correct proper', ()=> {
+it('Every stream has correct property', ()=> {
   let propertyExists = true;
   const inputs = {
     query: {assetType: 'streams', queryString: 'fifa'},
@@ -142,7 +142,7 @@ it('Every stream has correct proper', ()=> {
   });
 });
 
-it('Correct error for no query string for streams', ()=> {
+it('Correct expected error when no value for queryString', ()=> {
   const inputs = {
     query: {assetType: 'streams', queryString: ''},
   }
@@ -165,7 +165,7 @@ it('Correct error for no query string for streams', ()=> {
   });
 });
 
-it('Correct error for no assetType', ()=> {
+it('Correct expected error when no value for assetType', ()=> {
   let ok = true;
   const inputs = {
     query: {},

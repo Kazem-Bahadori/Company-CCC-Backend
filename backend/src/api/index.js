@@ -70,7 +70,7 @@ export default ({
 			// An unexpected error occurred.
 			error: function (err) {
 
-				console.log(err);
+				(err);
 				res.sendStatus(500);
 			},
 			// OK.
@@ -90,7 +90,7 @@ export default ({
 			// An unexpected error occurred.
 			error: function (err) {
 
-				console.log(err);
+				(err);
 				res.sendStatus(500);
 			},
 			// OK.
@@ -114,7 +114,7 @@ export default ({
 			// An unexpected error occurred.
 			error: function (err) {
 
-				console.log(err);
+				(err);
 				res.sendStatus(500);
 			},
 			// OK.
@@ -139,7 +139,6 @@ export default ({
 			// An unexpected error occurred	.
 			error: function (err) {
 
-				console.log(err);
 				res.sendStatus(500);
 			},
 			// OK.
@@ -159,8 +158,6 @@ export default ({
 
 			// An unexpected error occurred.
 			error: function (err) {
-
-				console.log(err);
 				res.sendStatus(500);
 			},
 			// OK.
@@ -180,12 +177,11 @@ export default ({
 			// An unexpected error occurred.
 			error: function (err) {
 
-				console.log(err.description);
 				res.sendStatus(err.code);
 			},
 			// OK.
 			success: function (result) {
-				console.log(result);
+
 				res.send(result);
 			},
 		});
@@ -203,7 +199,7 @@ export default ({
 		TwitchIntegratedData.content(inputs).exec({
 			// An unexpected error occurred.
 			error: err => {
-				console.log(err);
+
 				res.sendStatus(500);
 			},
 			// OK.
@@ -221,7 +217,6 @@ export default ({
 		TwitchIntegratedData.filters(inputs).exec({
 			// An unexpected error occurred.
 			error: err => {
-				console.log(err);
 				res.sendStatus(500);
 			},
 			// OK.
@@ -242,7 +237,6 @@ export default ({
 			// An unexpected error occurred.
 			error: function (err) {
 
-				console.log(err);
 				res.sendStatus(500);
 			},
 			// OK.
@@ -264,7 +258,6 @@ export default ({
 			// An unexpected error occurred.
 			error: function (err) {
 
-				console.log('err', err);
 				res.sendStatus(500);
 			},
 			// OK.

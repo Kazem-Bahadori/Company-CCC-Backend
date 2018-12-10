@@ -62,9 +62,9 @@ module.exports = {
           .then(games => {
             for (let game of games) {
               if (game['name'].toLowerCase() === name.toLowerCase() && game['appid']!='0') {
-                //Why does it return zerro when game not found?
+                //Why does it return zero when game not found?
                 return exits.success({ appId: game['appid'] });
-              }    
+              }
             }
             return exits.success(false);
           })
@@ -93,15 +93,15 @@ module.exports = {
       return new Promise(function (resolve, reject) {
         const steamGames = cache.get('steamGames');
         if (!steamGames) { // If data is not in the cache
-          console.log('Does not exist, fetching data...');
+          ('Does not exist, fetching data...');
           fetch('http://api.steampowered.com/ISteamApps/GetAppList/v0002/')
             .then(response => response.json())
             .then(data => data['applist']['apps'])
             .then(data => {
-              cache.put('steamGames', data, timeToStoreData);
+              cache.put('steamGames', data, timeToStoreData, 5000);
               resolve(data);
             })
-            .catch(err => reject(err));  
+            .catch(err => reject(err));
         } else {
           resolve(steamGames);
         }

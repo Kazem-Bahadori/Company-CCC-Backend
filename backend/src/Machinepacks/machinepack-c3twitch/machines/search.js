@@ -92,7 +92,7 @@ module.exports = {
       let limit = 20; //Sets the limit of streams shown.
       if (inputs.query.queryString != "" && inputs.query.queryString != undefined) { //Checks that queryString isn't left empty
         url = url.concat('streams/?query=' + inputs.query.queryString + '&limit=' + limit) //adds the searchword to the url
-        console.log(url);
+
         searchOnTwitch(url) //calls the searchOnTwitch function
           .then(response => { //takes the response from the searchOnTwitch function
 
@@ -117,8 +117,8 @@ module.exports = {
 
     function searchOnTwitch(url) { //Sends the url with the id
      let keys = require('./keys.json');
-    /*  console.log(keys[0].Accept);
-      console.log(keys[0].Client);*/
+    /*  (keys[0].Accept);
+      (keys[0].Client);*/
       return new Promise(function (resolve, reject) {
         fetch(url, {
           headers: {

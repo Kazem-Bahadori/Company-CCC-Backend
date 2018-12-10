@@ -45,7 +45,7 @@ module.exports = {
     /*``*/
   ) {
 
-    
+
     let url = 'https://api.twitch.tv/helix/' // URL of the Twitch api
 
     /**
@@ -53,11 +53,11 @@ module.exports = {
     *
     * Base: /api/twitch/filters
     * Options:
-    * 
+    *
     *   - `assetType` specify type of output - input value: string (allowed: games)
     *   - `filterType` specify how games should be sorted - input value: string (allowed: top)
     *   - `filterValue` return specified amount of games - input value: integer (allowed: 1-100)
-    * 
+    *
     * Example URL: ?assetType=games&filterType=top&filterValue=5
     * Description: Return games (assetType) filtered by Twitch's top games (filterType), limit
     * (filterValue) return to 5 games
@@ -122,11 +122,11 @@ module.exports = {
     *
     * Base: /api/twitch/filters
     * Options:
-    * 
+    *
     *   - `assetType` specify type of output - input value: string (allowed: streams)
     *   - `filterType` specify how games should be sorted - input value: string (allowed: game)
     *   - `filterValue` return specified game id - input value: integer (allowed: any)
-    * 
+    *
     * Example URL: ?assetType=streams&filterType=game&filterValue=21779
     * Description: Return streams (assetType) filtered by Twitch's one specified game (filterType),
     * limit (filterValue) return to a Twitch game ID
@@ -142,14 +142,14 @@ module.exports = {
                 return exits.error({
                   description: 'no streams found - check spelling of game_id',
                   code: 400});
-                
+
               }
               return exits.success(response);  // returns the Json to the client
             })
           } else {
             return exits.error({
               description: 'bad request - no game_id is given',
-              code: 400});            
+              code: 400});
           }
       //~~~~~~~~~~~~~~~~~~~~~~~~ stream contextual ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       } else if (inputs.query.filterType == 'contextual') {
@@ -157,7 +157,7 @@ module.exports = {
         if (isEmpty(inputs.body)) { //Checks if body is empty
           return exits.error({
             description: 'bad request - No context given',
-            code: 400});  
+            code: 400});
         }
 
         if (inputs.body.filter_by == 'game_id') {
@@ -166,12 +166,14 @@ module.exports = {
           } else {
             return exits.error({
               description: 'bad request - no game_id found',
-              code: 400}); 
+              code: 400});
           }
           if (inputs.body.hasOwnProperty('quantity') && inputs.body.quantity >= 1 && inputs.body.quantity <= 100) {
             url = url.concat('&first=' + inputs.body.quantity)
           } else {
-            return exits.error('bad request - quantity must be between 1-100')
+            return exits.error({
+              description: 'bad request - quantity must be between 1-100',
+              code: 400});
           }
           if (inputs.body.hasOwnProperty('page_after')) {
             //adds pagination. Makes it so you can make a call to get a continous list of data where a previous one ended
@@ -182,15 +184,21 @@ module.exports = {
             .then(response => {
 
               if (Object.keys(response.data).length == 0) { //Checks if the response is empty
-                return exits.error('no streams found - check spelling of game_id')
+                return exits.error({
+                  description: 'no streams found - check spelling of game_id',
+                  code: 400});
               }
               return exits.success(response);  // returns the Json to the client
             })
         } else {
-          return exits.error('bad request - incorrect filter')
+          return exits.error({
+            description: 'bad request - incorrect filter',
+            code: 400});
         }
       } else {
-        return exits.error('bad request - filterType input error')
+        return exits.error({
+          description: 'bad request - filterType input error',
+          code: 400});
       }
 
     //------------------------------------- Streamer info ---------------------------------------------------------------
@@ -198,17 +206,21 @@ module.exports = {
     } else if (inputs.query.assetType == 'streamer_info'){
       if (inputs.query.filterType == undefined && inputs.query.filterValue != undefined) {
         url = url.concat('users?id=' + inputs.query.filterValue)
-        console.log(url)
+
         fetchFromTwitch(url)
             .then(response => {
               return exits.success(response);  // returns the Json to the client
             })
       } else {
-        return exits.error('bad request - incorrect user id or filterType not empty')
+        return exits.error({
+          description: 'bad request - incorrect user id or filterType not empty',
+          code: 400});
       }
 
-    }else {
-      return exits.error('bad request - assetType input error')
+    } else {
+      return exits.error({
+        description: 'bad request - assetType input error',
+        code: 400});
     }
 
     //------------------------------------- Seperate functions ---------------------------------------------------------------
@@ -217,7 +229,7 @@ module.exports = {
     function fetchFromTwitch(url) {
       let keys = require('./keys.json');
       return new Promise((resolve, reject) => {
-    /*  console.log(keys[0].Client);*/
+    /*  (keys[0].Client);*/
         fetch(url, { headers: { 'Client-ID': keys[0].Client } })
           .then(function (response) {
             resolve(response.json())

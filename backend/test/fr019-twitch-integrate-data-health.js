@@ -1,14 +1,14 @@
 let propertyExists = true;
 const assert = require('chai').assert; //bringring in the chai library
 const expect = require('chai').expect; //bringring in the chai library
-import Twitch from '../src/Machinepacks/machinepack-c3twitch';
+import GameData from '../src/Machinepacks/machinepack-twitchintegrategamedata';
 
-describe('frxxx-twitch_health', () =>{
+describe('fr019-twitch-integrate-data-health', () =>{
 
-  it('Twitch health', ()=> {
+  it('Test health.js for twitch-integrate-data machine', ()=> {
     let ok = true;
     return new Promise(function(resolve, reject){
-      Twitch.health().exec({
+      GameData.health().exec({
         error: function (error) {
           reject(error)
         },
@@ -20,8 +20,7 @@ describe('frxxx-twitch_health', () =>{
         },
       });
     })
-    .then((result) =>{
-      //assert.isTrue(ok);
+    .then((ok) =>{
     })
     .catch((error) => {
       expect(error).to.equal("bad request - filterValue input error");

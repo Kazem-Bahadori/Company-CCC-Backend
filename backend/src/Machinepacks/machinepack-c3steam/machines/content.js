@@ -50,14 +50,14 @@ module.exports = {
 
        /*
     * Return app data through the assetType 'gameInfo' string and filtertype 'appId'
-    * 
+    *
     * Base: /api/steam/filters
     * Options:
-    * 
+    *
     *   - `assetType` specify type of output - input value: string (allowed: 'gameInfo')
     *   - `filterType` specify what paremeter that the query uses - input value: string (allowed: appId)
     *   - `filterValue` specifiy which steam app to get information about - input value: integer (allowed: any)
-    * 
+    *
     * Example URL: ?assetType=gameInfo&filterType=appId&filterValue=404040
     * Description: Return game information (assetType) by specifying that paremeter is appId (filterType), about the appId
     * (filterValue) sent in the query.
@@ -73,31 +73,32 @@ module.exports = {
 
               if (steamResponse.data != undefined) {
                 let price = {};
-                if (steamResponse.data.isFree) {
+                if (steamResponse.data.is_free) {
                   price.final = 0;
-                  price.discountPercent = 0;
+                  price.discount_percent = 0;
                 } else {
-                  price = steamResponse.data.priceOverview
+                  price = steamResponse.data.price_overview
                 }
 
                 let allInfo = {} //Body where the machine saves only the valuable data of the appId.
 
                 allInfo['price'] = price;
-                allInfo['pcRequirements'] = steamResponse.data.pcRequirements;
-                allInfo['macRequirements'] = steamResponse.data.macRequirement;
-                allInfo['linuxRequirements'] = steamResponse.data.linuxRequirements;
+                allInfo['pc_requirements'] = steamResponse.data.pc_requirements;
+                allInfo['mac_requirements'] = steamResponse.data.mac_requirement;
+                allInfo['linux_requirements'] = steamResponse.data.linux_requirements;
                 allInfo['trailer'] = steamResponse.data.movies[0].webm.max;
-                allInfo['description'] = steamResponse.data.shortDescription;
+                allInfo['description'] = steamResponse.data.short_description;
                 allInfo['developer'] = steamResponse.data.developers;
                 allInfo['publisher'] = steamResponse.data.publishers;
                 allInfo['genres'] = steamResponse.data.genres;
 
+
                 fetchFromSteam('http://store.steampowered.com/appreviews/' + appId + '?json=1') // Fetch reviews from steam about appId
-            .then(reviewResponse => {
+            .then(review_response => {
 
 
-              if (reviewResponse.querySummary != undefined) {
-                allInfo['reviews'] = reviewResponse.querySummary
+              if (review_response.query_summary != undefined) {
+                allInfo['reviews'] = review_response.query_summary
                 return exits.success(allInfo); // Return Json to the client
 
 
@@ -127,18 +128,18 @@ module.exports = {
           });
         }
 
-      } 
+      }
       //~~~~~~~~~~~~~~~~~~~~~~~~~ price info, single appId. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     /*
     * Return price overview through the assetType 'gameInfo' string and filtertype 'appId' for a filtervalue.
-    * 
+    *
     * Base: /api/steam/filters
     * Options:
-    * 
+    *
     *   - `assetType` specify type of output - input value: string (allowed: 'price')
     *   - `filterType` specify what paremeter that the query uses - input value: string (allowed: appId)
     *   - `filterValue` specifiy which steam app to get information about - input value: integer (allowed: any)
-    * 
+    *
     * Example URL: ?assetType=price&filterType=appId&filterValue=404040
     * Description: Return price overivew (assetType) by specifying that paremeter is appId (filterType), about the appId
     * (filterValue) sent in the query.
@@ -153,16 +154,19 @@ module.exports = {
               const steamResponse = response[appId];
               if (steamResponse.data != undefined) {
                 let price = {};
-                if (steamResponse.data.isFree) {
+                if (steamResponse.data.is_free) {
                   price.final = 0;
-                  price.discountPercent = 0;
+                  price.discount_percent = 0;
                 } else {
-                  price = steamResponse.data.priceOverview
+                  price = steamResponse.data.price_overview
                 }
                 return exits.success(price); //Returns Json to the client.
               } else {
-                console.log(response[appId]);
-                return exits.error('Could not find price data');
+                //(response[appId]);
+                return exits.error({
+                  description: 'Could not find price data',
+                  code: 400
+                });
               }
             })
             .catch (err => exits.error(err));
@@ -171,7 +175,7 @@ module.exports = {
             description: 'bad request - filterValue input error',
             code: 400
           });
-          
+
         }
       } else {
         return exits.error({
@@ -183,14 +187,14 @@ module.exports = {
        //~~~~~~~~~~~~~~~~~~~~~~~~~ System requirements ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     /*
     * Return system requirements through the assetType 'systemRequirements' string and filtertype 'appId' for a filtervalue.
-    * 
+    *
     * Base: /api/steam/filters
     * Options:
-    * 
+    *
     *   - `assetType` specify type of output - input value: string (allowed: 'system requirements')
     *   - `filterType` specify what paremeter that the query uses - input value: string (allowed: appId)
     *   - `filterValue` specifiy which steam app to get information about - input value: integer (allowed: any)
-    * 
+    *
     * Example URL: ?assetType=systemRequirements&filterType=appId&filterValue=404040
     * Description: Return system requirements (assetType) by specifying that paremeter is appId (filterType), about the appId
     * (filterValue) sent in the query.
@@ -209,14 +213,14 @@ module.exports = {
               if (steamResponse.data != undefined) {
 
               let requirements = {
-                pcRequirements: steamResponse.data.pcRequirements,
-                macRequirements: steamResponse.data.macRequirements,
-                linuxRequirements: steamResponse.data.linuxRequirements
+                pc_requirements: steamResponse.data.pc_requirements,
+                mac_requirements: steamResponse.data.mac_requirements,
+                linux_requirements: steamResponse.data.linux_requirements
               }
 
               return exits.success(requirements);  // returns the Json to the client
             } else {
-              console.log(response[appId]);
+              (response[appId]);
               return exits.error('Could not find requirement data');
             }
 
@@ -234,18 +238,18 @@ module.exports = {
           code: 400
         });
       }
-    } 
+    }
       //~~~~~~~~~~~~~~~~~~~~~~~~~ Reviews ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     /*
     * Return reviews through the assetType 'reviews' string and filtertype 'appId' for a filtervalue.
-    * 
+    *
     * Base: /api/steam/filters
     * Options:
-    * 
+    *
     *   - `assetType` specify type of output - input value: string (allowed: 'reviews')
     *   - `filterType` specify what paremeter that the query uses - input value: string (allowed: appId)
     *   - `filterValue` specifiy which steam app to get information about - input value: integer (allowed: any)
-    * 
+    *
     * Example URL: ?assetType=reviews&filterType=appId&filterValue=404040
     * Description: Return system reviews (assetType) by specifying that paremeter is appId (filterType), about the appId
     * (filterValue) sent in the query.
@@ -257,11 +261,11 @@ module.exports = {
           fetchFromSteam(url) //Gets reviews for specified appId
             .then(response => {
 
-              if (response.querySummary != undefined) {
-                return exits.success(response.querySummary); //Returns Json to the client
+              if (response.query_summary != undefined) {
+                return exits.success(response.query_summary); //Returns Json to the client
 
             } else {
-              console.log(response[appId]);
+              (response[appId]);
               return exits.error('Could not find review data');
             }
 
@@ -279,18 +283,18 @@ module.exports = {
           code: 400
         });
       }
-    } 
+    }
        //~~~~~~~~~~~~~~~~~~~~~~~~~ On twitch ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     /*
     * Return appId for a game name from twitch through the assetType 'games' string and filtertype 'onTwitch' for a filtervalue.
-    * 
+    *
     * Base: /api/steam/filters
     * Options:
-    * 
+    *
     *   - `assetType` specify type of output - input value: string (allowed: 'games')
     *   - `filterType` specify what paremeter that the query uses - input value: string (allowed: 'onTwitch')
     *   - `filterValue` specifiy which app from twitch to get appId to, if available - input value: string (allowed: any)
-    * 
+    *
     * Example URL: ?assetType=games&filterType=onTwitch&filterValue=Rust
     * Description: Return appId (assetType) by specifying that paremeter is an app on twitch (filterType), for the name of a game
     * (filterValue) sent in the query.
@@ -328,18 +332,18 @@ module.exports = {
           code: 400
         });
       }
-    } 
+    }
       //~~~~~~~~~~~~~~~~~~~~~~~~~ Trailers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     /*
     * Return trailer through the assetType 'trailers' string and filtertype 'appId' for a filtervalue.
-    * 
+    *
     * Base: /api/steam/filters
     * Options:
-    * 
+    *
     *   - `assetType` specify type of output - input value: string (allowed: 'trailers')
     *   - `filterType` specify what paremeter that the query uses - input value: string (allowed: appId)
     *   - `filterValue` specifiy which steam app to get information about - input value: integer (allowed: any)
-    * 
+    *
     * Example URL: ?assetType=trailers&filterType=appId&filterValue=404040
     * Description: Return trailer (assetType) by specifying that paremeter is appId (filterType), for the appId
     * (filterValue) sent in the query.
@@ -360,8 +364,11 @@ module.exports = {
 
                 return exits.success(trailer);  // returns the Json to the client
               } else {
-                console.log(response[appId]);
-                return exits.error('Could not find trailer data');
+                (response[appId]);
+                return exits.error({
+                  description: 'Could not find trailer data',
+                  code: 400
+                });
               }
 
             })
@@ -382,18 +389,18 @@ module.exports = {
           }    //~~~~~~~~~~~~~~~~~~~~~~~~~ getDetails ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           /*
           * Return price overview through the assetType 'getDetails' string and filtertype 'appId' for a list of filtervalues.
-          * 
+          *
           * Base: /api/steam/filters
           * Options:
-          * 
+          *
           *   - `assetType` specify type of output - input value: string (allowed: 'getDetails')
           *   - `filterType` specify what paremeter that the query uses - input value: string (allowed: appId)
           *   - `filterValue` specifiy which steam app to get information about - input value: integer (allowed: any)
-          * 
+          *
           * Example URL: ?assetType=systemRequirements&filterType=appId&filterValue=404040
           * Description: Return system requirements (assetType) by specifying that paremeter is appId (filterType), about the appId
           * (filterValue) sent in the query.
-          */ 
+          */
             else if (inputs.assetType == 'details') {
               if (inputs.filterType == 'appId') {
                 if (inputs.filterValue == undefined) { // Filtervalue kanske inte behöver vara med.
@@ -409,7 +416,7 @@ module.exports = {
                     }
                   }
                   url = url.concat(ids[ids.length-1]);
-                  url = url.concat('&filters=priceOverview');
+                  url = url.concat('&filters=price_overview');
                   console.log(url);
                   fetchFromSteam(url)
                     .then(response => {

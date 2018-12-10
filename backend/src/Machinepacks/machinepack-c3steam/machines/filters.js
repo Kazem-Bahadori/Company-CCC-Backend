@@ -38,21 +38,21 @@ module.exports = {
   fn: function (inputs, exits
     /*``*/
   ) {
-    //console.log('Steam function triggered!')
+    //('Steam function triggered!')
 
     let url = 'http://store.steampowered.com/'; // the main url of the twitch api
 
 
        /*
     * Return app data through the assetType 'game_info' string and filtertype 'app_id'
-    * 
+    *
     * Base: /api/steam/filters
     * Options:
-    * 
+    *
     *   - `assetType` specify type of output - input value: string (allowed: 'game_info')
     *   - `filterType` specify what paremeter that the query uses - input value: string (allowed: app_id)
     *   - `filterValue` specifiy which steam app to get information about - input value: integer (allowed: any)
-    * 
+    *
     * Example URL: ?assetType=game_info&filterType=app_id&filterValue=404040
     * Description: Return game information (assetType) by specifying that paremeter is app_id (filterType), about the app_id
     * (filterValue) sent in the query.
@@ -110,24 +110,28 @@ module.exports = {
             .catch (err => exits.error(err));
 
           } else {
-            return exits.error('bad request - filterValue input error');
+            return exits.error({
+              description: 'bad request - filterValue input error',
+              code: 400});
           }
         } else {
-          return exits.error('bad request - filterType input error');
+          return exits.error({
+            description: 'bad request - filterType input error',
+            code: 400});
         }
 
-      } 
+      }
       //~~~~~~~~~~~~~~~~~~~~~~~~~ price info, single app_id. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     /*
     * Return price overview through the assetType 'game_info' string and filtertype 'app_id' for a filtervalue.
-    * 
+    *
     * Base: /api/steam/filters
     * Options:
-    * 
+    *
     *   - `assetType` specify type of output - input value: string (allowed: 'price')
     *   - `filterType` specify what paremeter that the query uses - input value: string (allowed: app_id)
     *   - `filterValue` specifiy which steam app to get information about - input value: integer (allowed: any)
-    * 
+    *
     * Example URL: ?assetType=price&filterType=app_id&filterValue=404040
     * Description: Return price overivew (assetType) by specifying that paremeter is app_id (filterType), about the app_id
     * (filterValue) sent in the query.
@@ -150,31 +154,37 @@ module.exports = {
                 }
                 return exits.success(price); //Returns Json to the client.
               } else {
-                console.log(response[appId]);
-                return exits.error('Could not find price data');
+                //(response[appId]);
+                return exits.error({
+                  description: 'Could not find price data',
+                  code: 400});
               }
 
               get_gameprice
             })
             .catch (err => exits.error(err));
         } else {
-          return exits.error('bad request - filterValue input error');
+          return exits.error({
+            description: 'bad request - filterValue input error',
+            code: 400});
         }
       } else {
-        return exits.error('bad request - filterType input error');
+        return exits.error({
+          description: 'bad request - filterType input error',
+          code: 400});
       }
     }
        //~~~~~~~~~~~~~~~~~~~~~~~~~ System requirements ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     /*
     * Return system requirements through the assetType 'system_requirements' string and filtertype 'app_id' for a filtervalue.
-    * 
+    *
     * Base: /api/steam/filters
     * Options:
-    * 
+    *
     *   - `assetType` specify type of output - input value: string (allowed: 'system requirements')
     *   - `filterType` specify what paremeter that the query uses - input value: string (allowed: app_id)
     *   - `filterValue` specifiy which steam app to get information about - input value: integer (allowed: any)
-    * 
+    *
     * Example URL: ?assetType=system_requirements&filterType=app_id&filterValue=404040
     * Description: Return system requirements (assetType) by specifying that paremeter is app_id (filterType), about the app_id
     * (filterValue) sent in the query.
@@ -200,30 +210,34 @@ module.exports = {
 
               return exits.success(requirements);  // returns the Json to the client
             } else {
-              console.log(response[appId]);
+              (response[appId]);
               return exits.error('Could not find requirement data');
             }
 
           })
           .catch (err => exits.error(err));
         } else {
-          return exits.error('bad request - filterValue input error');
+          return exits.error({
+          description: 'bad request - filterValue input error',
+          code: 400});
         }
       } else {
-        return exits.error('bad request - filterType input error');
+        return exits.error({
+          description: 'bad request - filterType input error',
+          code: 400});
       }
-    } 
+    }
       //~~~~~~~~~~~~~~~~~~~~~~~~~ Reviews ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     /*
     * Return reviews through the assetType 'reviews' string and filtertype 'app_id' for a filtervalue.
-    * 
+    *
     * Base: /api/steam/filters
     * Options:
-    * 
+    *
     *   - `assetType` specify type of output - input value: string (allowed: 'reviews')
     *   - `filterType` specify what paremeter that the query uses - input value: string (allowed: app_id)
     *   - `filterValue` specifiy which steam app to get information about - input value: integer (allowed: any)
-    * 
+    *
     * Example URL: ?assetType=reviews&filterType=app_id&filterValue=404040
     * Description: Return system reviews (assetType) by specifying that paremeter is app_id (filterType), about the app_id
     * (filterValue) sent in the query.
@@ -235,34 +249,38 @@ module.exports = {
           fetchFromSteam(url) //Gets reviews for specified app_id
             .then(response => {
 
-              if (response.query_summary != undefined) {
+              if (response.success != '1' || response.success != undefined) {
                 return exits.success(response.query_summary); //Returns Json to the client
 
             } else {
-              console.log(response[appId]);
+              (response[appId]);
               return exits.error('Could not find review data');
             }
 
           })
           .catch (err => exits.error(err));
         } else {
-          return exits.error('bad request - filterValue input error');
+          return exits.error({
+            description: 'bad request - filterValue input error',
+            code: 400});
         }
       } else {
-        return exits.error('bad request - filterType input error');
+        return exits.error({
+          description: 'bad request - filterType input error',
+          code: 400});
       }
-    } 
+    }
        //~~~~~~~~~~~~~~~~~~~~~~~~~ On twitch ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     /*
     * Return app_id for a game name from twitch through the assetType 'games' string and filtertype 'on_twitch' for a filtervalue.
-    * 
+    *
     * Base: /api/steam/filters
     * Options:
-    * 
+    *
     *   - `assetType` specify type of output - input value: string (allowed: 'games')
     *   - `filterType` specify what paremeter that the query uses - input value: string (allowed: 'on_twitch')
     *   - `filterValue` specifiy which app from twitch to get app_id to, if available - input value: string (allowed: any)
-    * 
+    *
     * Example URL: ?assetType=games&filterType=on_twitch&filterValue=Rust
     * Description: Return app_id (assetType) by specifying that paremeter is an app on twitch (filterType), for the name of a game
     * (filterValue) sent in the query.
@@ -289,23 +307,27 @@ module.exports = {
           return exits.success(false)  // returns the Json to the client
 
         } else {
-          return exits.error('bad request - filterValue input error');
+          return exits.error({
+            description: 'bad request - filterValue input error',
+            code: 400});
         }
       } else {
-        return exits.error('bad request - filterType input error');
+        return exits.error({
+          description: 'bad request - filterType input error',
+          code: 400});
       }
-    } 
+    }
       //~~~~~~~~~~~~~~~~~~~~~~~~~ Trailers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     /*
     * Return trailer through the assetType 'trailers' string and filtertype 'app_id' for a filtervalue.
-    * 
+    *
     * Base: /api/steam/filters
     * Options:
-    * 
+    *
     *   - `assetType` specify type of output - input value: string (allowed: 'trailers')
     *   - `filterType` specify what paremeter that the query uses - input value: string (allowed: app_id)
     *   - `filterValue` specifiy which steam app to get information about - input value: integer (allowed: any)
-    * 
+    *
     * Example URL: ?assetType=trailers&filterType=app_id&filterValue=404040
     * Description: Return trailer (assetType) by specifying that paremeter is app_id (filterType), for the app_id
     * (filterValue) sent in the query.
@@ -326,34 +348,39 @@ module.exports = {
 
                 return exits.success(trailer);  // returns the Json to the client
               } else {
-                console.log(response[appId]);
-                return exits.error('Could not find trailer data');
+                return exits.error({
+                  description: 'Could not find trailer data',
+                  code: 400});
               }
 
             })
             .catch (err => exits.error(err));
 
           } else {
-            return exits.error('bad request - filterValue input error');
+            return exits.error({
+              description: 'bad request - filterValue input error',
+              code: 400});
           }
         } else {
-          return exits.error('bad request - filterType input error');
+          return exits.error({
+            description: 'bad request - filterType input error',
+            code: 400});
         }
           }    //~~~~~~~~~~~~~~~~~~~~~~~~~ getDetails ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           /*
           * Return price overview through the assetType 'getDetails' string and filtertype 'app_id' for a list of filtervalues.
-          * 
+          *
           * Base: /api/steam/filters
           * Options:
-          * 
+          *
           *   - `assetType` specify type of output - input value: string (allowed: 'getDetails')
           *   - `filterType` specify what paremeter that the query uses - input value: string (allowed: app_id)
           *   - `filterValue` specifiy which steam app to get information about - input value: integer (allowed: any)
-          * 
+          *
           * Example URL: ?assetType=system_requirements&filterType=app_id&filterValue=404040
           * Description: Return system requirements (assetType) by specifying that paremeter is app_id (filterType), about the app_id
           * (filterValue) sent in the query.
-          */ 
+          */
             else if (inputs.query.assetType == 'getDetails') {
               if (inputs.query.filterType == 'app_id') {
                 if (inputs.query.filterValue == undefined) { // Filtervalue kanske inte behöver vara med.
@@ -370,20 +397,26 @@ module.exports = {
                   }
                   url = url.concat(ids[ids.length-1]);
                   url = url.concat('&filters=price_overview');
-                  console.log(url);
+                  (url);
                   fetchFromSteam(url)
                     .then(response => {
 
                       return exits.success(response);  // returns the Json to the client
                     })
                 } else {
-                  return exits.error('bad request - filterValue input error');
+                  return exits.error({
+                    description: 'bad request - filterValue input error',
+                    code: 400});
                 }
               } else {
-                return exits.error('bad request - filterType input error');
+                return exits.error({
+                  description: 'bad request - filterType input error',
+                  code: 400});
               }
-            }else {
-        return exits.error('bad request - assetType input error');
+            } else {
+              return exits.error({
+                description: 'bad request - assetType input error',
+                code: 400});
     }
 
 //------------------------------------- Seperate functions ---------------------------------------------------------------

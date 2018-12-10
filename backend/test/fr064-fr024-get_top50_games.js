@@ -6,7 +6,7 @@ import Steam from '../src/Machinepacks/machinepack-c3steam';
 
 describe('fr064-fr024-get_top50_games', () =>{
 
-    it('Response body has 49 or 50 id:s', ()=> {
+    it('JSON response body has 49 or 50 id:s when fetching top 50 games with filters.js', ()=> {
 
       const inputs = {
         query: {assetType: 'games', filterType: 'top', filterValue: '50'},
@@ -16,10 +16,9 @@ describe('fr064-fr024-get_top50_games', () =>{
         Twitch.filters(inputs).exec({
           error: function (err) {
 
-            console.log(err);
+            (err);
           },
           success: function (steamGames) {
-            console.log(steamGames);
             var counter = 0;
             for(var i = 0; i < steamGames.data.length; i++){
               if(steamGames.data[i].id){
@@ -39,7 +38,7 @@ describe('fr064-fr024-get_top50_games', () =>{
       });
   });
 
-  it('Every game in response has id, name and box_art_url', ()=> {
+  it('JSON response body has correct properties when fetching top 50 games with filters.js', ()=> {
     let notNull = true;
     let hasName = true;
     let hasPicture = true;
@@ -53,7 +52,7 @@ describe('fr064-fr024-get_top50_games', () =>{
       Twitch.filters(inputs).exec({
         error: function (err) {
 
-          console.log(err);
+          (err);
         },
         success: function (result) {
           var counter = 0;
@@ -84,7 +83,7 @@ describe('fr064-fr024-get_top50_games', () =>{
     });
 });
 
-it('Every steamGame should have appId', ()=> {
+it('Every game should have an app id with filters.js', ()=> {
   let steamGameOk = true;
   const inputs = {
     query: {assetType: 'games', filterType: 'top', filterValue: '50'},
@@ -94,7 +93,7 @@ it('Every steamGame should have appId', ()=> {
     Twitch.filters(inputs).exec({
       error: function (err) {
 
-        console.log(err);
+        (err);
       },
       success: function (result) {
         var counter = 0;
@@ -117,7 +116,7 @@ it('Every steamGame should have appId', ()=> {
   });
 });
 
-it('Return appId for correct filterValue', ()=> {
+it('Every game should return an app id for correct filterValue with filters.js', ()=> {
     let ok = true;
     const inputs = {
       query: {assetType: 'games', filterType: 'on_twitch', filterValue: "Dota 2"},
@@ -129,7 +128,6 @@ it('Return appId for correct filterValue', ()=> {
           reject(error);
         },
         success: function (result) {
-          console.log(result);
           if(result == null || result == undefined){
             ok = false;
           }
@@ -141,11 +139,11 @@ it('Return appId for correct filterValue', ()=> {
       assert.isTrue(ok);
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - filterValue input error");
+      expect(error.description).to.equal("bad request - filterValue input error");
     });
 });
 
-it('Correct error handling for filterValue', ()=> {
+it('Correct expected error when undefined value for filterValue with filters.js', ()=> {
 
     const inputs = {
       query: {assetType: 'games', filterType: 'on_twitch', filterValue: undefined},
@@ -165,11 +163,11 @@ it('Correct error handling for filterValue', ()=> {
 
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - filterValue input error");
+      expect(error.description).to.equal("bad request - filterValue input error");
     });
 });
 
-it('Correct error handling for no filterType', ()=> {
+it('Correct expected error when no value for filterType with filters.js', ()=> {
 
     const inputs = {
       query: {assetType: 'games'},
@@ -189,11 +187,11 @@ it('Correct error handling for no filterType', ()=> {
 
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - filterType input error");
+      expect(error.description).to.equal("bad request - filterType input error");
     });
 });
 
-it('Correct error handling for no assetType', ()=> {
+it('Correct expected error when no value for assetType with filters.js', ()=> {
 
     const inputs = {
       query: {},
@@ -213,11 +211,11 @@ it('Correct error handling for no assetType', ()=> {
 
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - assetType input error");
+      expect(error.description).to.equal("bad request - assetType input error");
     });
 });
 
-it('Correct error for trying to fetch more than 100 games', ()=> {
+it('Correct expected error when trying to fetch more than 100 games with filters.js', ()=> {
 
     const inputs = {
       query: {assetType: 'games', filterType: 'top', filterValue: '101'},
@@ -237,11 +235,11 @@ it('Correct error for trying to fetch more than 100 games', ()=> {
 
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - filtervalue for top games must be between 1-100");
+      expect(error.description).to.equal("bad request - filtervalue for top games must be between 1-100");
     });
 });
 
-it('Correct error for no assetType', ()=> {
+it('Correct expected error when no value for assetType with filters.js', ()=> {
 
     const inputs = {
       query: {},
@@ -261,10 +259,244 @@ it('Correct error for no assetType', ()=> {
 
     })
     .catch((error) => {
-      expect(error).to.equal("bad request - assetType input error");
+      expect(error.description).to.equal("bad request - assetType input error");
     });
 });
 
+//Content
+
+it('JSON response body has 49 or 50 id:s when fetching top 50 games with content.js', ()=> {
+
+  const inputs = {
+    assetType: 'games', filterType: 'top', limit: '50'
+  }
+
+  return new Promise(function(resolve, reject){
+    Twitch.content(inputs).exec({
+      error: function (err) {
+
+        (err);
+      },
+      success: function (steamGames) {
+        var counter = 0;
+        for(var i = 0; i < steamGames.data.length; i++){
+          if(steamGames.data[i].id){
+            counter++;
+          }
+        }
+        resolve(counter);
+      },
+    });
+  })
+  .then((counter) =>{
+    expect(counter).to.be.at.most(50);
+    expect(counter).to.be.at.least(49);
+  })
+  .catch((error) => {
+    assert.isNotOk(error);
+  });
+});
+
+it('JSON response body has correct properties when fetching top 50 games with content.js', ()=> {
+let notNull = true;
+let hasName = true;
+let hasPicture = true;
+let allOk = false;
+
+const inputs = {
+  assetType: 'games', filterType: 'top', limit: '50'
+}
+
+return new Promise(function(resolve, reject){
+  Twitch.content(inputs).exec({
+    error: function (err) {
+
+      (err);
+    },
+    success: function (result) {
+      var counter = 0;
+      for(var i = 0; i < result.length; i++){
+        if(result[i].id == null){
+          notNull = false;
+        }
+        if(result[i].name == null){
+          hasName = false;
+        }
+        if(result[i].box_art_url == null){
+          hasPicture = false;
+        }
+      }
+
+      if(notNull && hasName && hasPicture){
+        allOk = true;
+      }
+      resolve(allOk);
+    },
+  });
+})
+.then((allOk) =>{
+  assert.isTrue(allOk);
+})
+.catch((error) => {
+  assert.isNotOk(error);
+});
+});
+
+it('Every game should have an app id with content.js', ()=> {
+let steamGameOk = true;
+const inputs = {
+assetType: 'games', filterType: 'top', limit: '50'
+}
+
+return new Promise(function(resolve, reject){
+Twitch.content(inputs).exec({
+  error: function (err) {
+
+    (err);
+  },
+  success: function (result) {
+    var counter = 0;
+    for(var i = 0; i < result.length; i++){
+      if(result[i].steam != false){
+        if(result[i].steam.appid == null){
+          steamGameOk = false;
+        }
+      }
+    }
+    resolve(steamGameOk);
+  },
+});
+})
+.then((counter) =>{
+assert.isTrue(steamGameOk);
+})
+.catch((error) => {
+assert.isNotOk(error);
+});
+});
+
+it('Every game should return an app id for correct filterValue with content.js', ()=> {
+let ok = true;
+const inputs = {
+  assetType: 'games', filterType: 'onTwitch', filterValue: "Dota 2"
+}
+
+return new Promise(function(resolve, reject){
+  Steam.content(inputs).exec({
+    error: function (error) {
+      reject(error);
+    },
+    success: function (result) {
+      if(result == null || result == undefined){
+        ok = false;
+      }
+      resolve(ok);
+    },
+  });
+})
+.then((ok) =>{
+  assert.isTrue(ok);
+})
+.catch((error) => {
+  expect(error.description).to.equal("bad request - filterValue input error");
+});
+});
+
+it('Correct expected error when undefined value for filterValue with content.js', ()=> {
+
+const inputs = {
+  assetType: 'games', filterType: 'onTwitch', filterValue: undefined
+}
+
+return new Promise(function(resolve, reject){
+  Steam.content(inputs).exec({
+    error: function (error) {
+      reject(error);
+    },
+    success: function (result) {
+      resolve(result);
+    },
+  });
+})
+.then((result) =>{
+
+})
+.catch((error) => {
+  expect(error.description).to.equal("bad request - filterValue input error");
+});
+});
+
+it('Correct expected error when no value for filterType with content.js', ()=> {
+
+const inputs = {
+  assetType: 'games'
+}
+
+return new Promise(function(resolve, reject){
+  Steam.content(inputs).exec({
+    error: function (error) {
+      reject(error);
+    },
+    success: function (result) {
+      resolve(result);
+    },
+  });
+})
+.then((result) =>{
+
+})
+.catch((error) => {
+  expect(error.description).to.equal("bad request - filterType input error");
+});
+});
+
+it('Correct expected error when no value for assetType for Steam with content.js', ()=> {
+
+const inputs = {
+
+}
+
+return new Promise(function(resolve, reject){
+  Steam.content(inputs).exec({
+    error: function (error) {
+      reject(error);
+    },
+    success: function (result) {
+      resolve(result);
+    },
+  });
+})
+.then((result) =>{
+
+})
+.catch((error) => {
+  expect(error.description).to.equal("bad request - assetType input error");
+});
+});
+
+it('Correct expected error when trying to fetch more than 100 games with content.js', ()=> {
+
+const inputs = {
+  assetType: 'games', filterType: 'top', limit: '101'
+}
+
+return new Promise(function(resolve, reject){
+  Twitch.content(inputs).exec({
+    error: function (error) {
+      reject(error);
+    },
+    success: function (result) {
+      resolve(result);
+    },
+  });
+})
+.then((result) =>{
+
+})
+.catch((error) => {
+  expect(error.description).to.equal("bad request - filtervalue for top games must be between 1-100");
+});
+});
 
 
 });

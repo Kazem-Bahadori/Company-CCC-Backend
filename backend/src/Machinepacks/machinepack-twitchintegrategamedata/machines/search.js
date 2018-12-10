@@ -61,7 +61,6 @@ module.exports = {
             //Trigger download
             Steam.search(someInput).exec({ // This is used to trigger the download of the steamgames json
               error: err => {
-                console.log(err)
                 return exits.error(err);
               },
               success: () => { // Runs when list of games is cached
@@ -76,7 +75,6 @@ module.exports = {
                   promises.push(new Promise((resolve, reject) => { // Adds promises for searching for Steamgames to a list
                     Steam.search(inputs).exec({
                       error: err => {
-                        console.log(err)
                         reject(err);
                       },
                       success: result => {

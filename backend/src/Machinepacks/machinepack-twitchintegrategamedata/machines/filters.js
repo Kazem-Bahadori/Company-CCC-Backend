@@ -55,11 +55,11 @@ module.exports = {
     *
     * Base: /api/twitch/filters
     * Options:
-    * 
+    *
     *   - `assetType` specify type of output - input value: string (allowed: games)
     *   - `filterType` specify how games should be sorted - input value: string (allowed: top, category)
     *   - `filterValue` return specified amount of games - input value: integer (allowed: 1-100, steamgame). defaults to 20 if no input given
-    * 
+    *
     * Example URL: ?assetType=games&filterType=top&filterValue=5
     * Description: Return games (assetType) filtered by Twitch's top games (filterType), limit
     * (filterValue) return to 5 games
@@ -94,14 +94,17 @@ module.exports = {
                   return exits.error(err);
                 });
             } else {
-              return exits.error('bad request - filterValue input error')
+              return exits.error({
+                description: 'bad request - filterValue input error',
+                code: 400
+              });
             }
             break;
           case 'contextual':
             if (isEmpty(inputs.body)) {
               return exits.error('bad request - No context given')
             }
-            switch (inputs.body.filter_by) { // Checks the content of body 
+            switch (inputs.body.filter_by) { // Checks the content of body
               case 'top_games':
                 getTopGames(20, inputs.body)
                   .then(games => {
@@ -126,12 +129,18 @@ module.exports = {
                   });
                 break;
               default:
-                return exits.error('bad request - body filter_by input error')
+              return exits.error({
+                description: 'bad request - body filter_by input error',
+                code: 400
+              });
             }
             break;
 
           default:
-            return exits.error('bad request - filterType input error');
+          return exits.error({
+            description: 'bad request - filterType input error',
+            code: 400
+          });
         }
         break;
       default:
@@ -143,7 +152,7 @@ module.exports = {
 
     /**
      * Get the currently top streamed games from twitch and and adds steaminfo for the games that are also on steam
-     * 
+     *
      * @param amount an integer representing the number of games to request from twitch
      * @param context either a body to use for calling twitch machine or false if no body is provided.
      * @returns a list containing the top streamed games with steam price information added if the game is available on steam
@@ -192,7 +201,7 @@ module.exports = {
 
     /**
      * Takes a list of name of games and tries to find a match on steam. Adds an appid or false to each name.
-     * 
+     *
      * @param nameOfGames a list of names of games used to search for matches on steam
      * @returns a list of matched names and appids
      */
@@ -232,9 +241,9 @@ module.exports = {
       });
     }
 
-    /** 
+    /**
      * Takes a list of of games on twitch and checks if they are on sale on steam and adds that to the json
-     * 
+     *
      * @param twitchGames a json-list with twitchgames
      * @returns the list of games with with price and steam appid added
     */
@@ -290,7 +299,7 @@ module.exports = {
 
     /**
      * Takes a list off steam appids and returns the price overview information for each appid
-     * 
+     *
      * @param appId a list of steam appids to request the price overview information on
      * @returns the list of appids with price information
      */
@@ -321,7 +330,7 @@ module.exports = {
 
     /**
      * Checks if an object is empty (not having any elements)
-     * 
+     *
      * @param obj the object to be checked
      * @returns true/false
      */

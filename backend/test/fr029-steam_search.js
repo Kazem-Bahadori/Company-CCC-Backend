@@ -3,9 +3,9 @@ const assert = require('chai').assert; //bringring in the chai library
 const expect = require('chai').expect; //bringring in the chai library
 import Steam from '../src/Machinepacks/machinepack-c3steam';
 
-describe('frxxx-steam_search', () =>{
+describe('fr029-steam_search', () =>{
 
-  it('Steam search for game that does exist', ()=> {
+  it('Test Steam search for game that does exist', ()=> {
     let ok = true;
     const inputs = {
       query: {assetType: 'gameId', queryString: 'Dota 2'},
@@ -17,6 +17,9 @@ describe('frxxx-steam_search', () =>{
           reject(error)
         },
         success: function (result) {
+          if(result == null || result == undefined){
+            ok = false;
+          }
           resolve(ok);
         },
       });
@@ -25,11 +28,10 @@ describe('frxxx-steam_search', () =>{
       assert.isTrue(ok);
     })
     .catch((error) => {
-      //expect(error).to.equal("bad request - filterValue input error");
     });
 });
 
-it('Steam search for game that does not exist', ()=> {
+it('Test Steam search for game that does not exist', ()=> {
   let ok = true;
   const inputs = {
     query: {assetType: 'gameId', queryString: 'a game that does not exist'},
@@ -41,6 +43,9 @@ it('Steam search for game that does not exist', ()=> {
         reject(error)
       },
       success: function (result) {
+        if(result == null || result == undefined){
+          ok = false;
+        }
         resolve(ok);
       },
     });
@@ -49,11 +54,11 @@ it('Steam search for game that does not exist', ()=> {
     assert.isFalse(ok);
   })
   .catch((error) => {
-    //expect(error).to.equal("bad request - filterValue input error");
+    expect(error.description).to.equal('');
   });
 });
 
-it('Correct error for no query string', ()=> {
+it('Correct expected error when no value for queryString', ()=> {
   let ok = true;
   const inputs = {
     query: {assetType: 'gameId'},
@@ -77,7 +82,7 @@ it('Correct error for no query string', ()=> {
   });
 });
 
-it('Correct error for no asset type', ()=> {
+it('Correct expected error when no value for assetType', ()=> {
   let ok = true;
   const inputs = {
     query: {assetType: ''},

@@ -3,16 +3,16 @@ const assert = require('chai').assert; //bringring in the chai library
 const expect = require('chai').expect; //bringring in the chai library
 import GameData from '../src/Machinepacks/machinepack-twitchintegrategamedata';
 
-describe('frxxx-twitchintegrategamedata', () =>{
+describe('fr014-twitch-integrate-data-search', () =>{
 
-  it('Get top games', ()=> {
+  it('Search for a game with twitch-integrate-game-data', ()=> {
     let ok = true;
     const inputs = {
-      query: {assetType: 'games', filterType: 'top', filterValue: 5},
+      query: {assetType: "games", filterType: '', queryString: "fifa"},
     }
 
     return new Promise(function(resolve, reject){
-      GameData.filters(inputs).exec({
+      GameData.search(inputs).exec({
         error: function (error) {
           reject(error)
         },
@@ -28,18 +28,18 @@ describe('frxxx-twitchintegrategamedata', () =>{
       assert.isTrue(ok);
     })
     .catch((error) => {
-      expect(error).to.equal("no streams found - check spelling of game_id");
+      expect(error.description).to.equal('');
     });
 });
 
-it('Get steam games', ()=> {
+it('Correct expected error when no value for queryString', ()=> {
   let ok = true;
   const inputs = {
-    query: {assetType: 'games', filterType: 'category', filterValue: 'steamGame'},
+    query: {assetType: "games", filterType: '', queryString: ''},
   }
 
   return new Promise(function(resolve, reject){
-    GameData.filters(inputs).exec({
+    GameData.search(inputs).exec({
       error: function (error) {
         reject(error)
       },
@@ -55,18 +55,18 @@ it('Get steam games', ()=> {
     assert.isTrue(ok);
   })
   .catch((error) => {
-    expect(error).to.equal("no streams found - check spelling of game_id");
+    expect(error.description).to.equal('bad request - queryString input error');
   });
 });
 
-it('Correct error for no filterType', ()=> {
+it('Correct expected error when no value for filterType', ()=> {
   let ok = true;
   const inputs = {
-    query: {assetType: 'games'},
+    query: {filterType: ''},
   }
 
   return new Promise(function(resolve, reject){
-    GameData.filters(inputs).exec({
+    GameData.search(inputs).exec({
       error: function (error) {
         reject(error)
       },
@@ -82,9 +82,7 @@ it('Correct error for no filterType', ()=> {
     assert.isTrue(ok);
   })
   .catch((error) => {
-    expect(error).to.equal("bad request - filterType input error");
+    expect(error.description).to.equal('bad request - assetType input error');
   });
 });
-
-
 });

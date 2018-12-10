@@ -1,12 +1,12 @@
 {
 	"info": {
-		"_postman_id": "ef277c5a-9bd6-4676-80be-4aea270dbb65",
+		"_postman_id": "3850e418-c98c-4d61-afb6-b7100e8bd595",
 		"name": "Flatfish_backend",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "FR029: get_price_info",
+			"name": "FR029: get_price_info_filters",
 			"event": [
 				{
 					"listen": "test",
@@ -214,7 +214,208 @@
 			"response": []
 		},
 		{
-			"name": "FR024: get_reviews_info",
+			"name": "FR029: get_price_info_filters_content",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "af99b407-d920-4335-b244-8cde97dac919",
+						"exec": [
+							"const jsonData = JSON.parse(responseBody);",
+							"",
+							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains currency property\", function(){",
+							"    pm.expect(jsonData).to.have.property('currency');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains initial property\", function(){",
+							"    pm.expect(jsonData).to.have.property('initial');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains final property\", function(){",
+							"    pm.expect(jsonData).to.have.property('final');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains discount_percent property\", function(){",
+							"    pm.expect(jsonData).to.have.property('discount_percent');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains initial_formatted property\", function(){",
+							"    pm.expect(jsonData).to.have.property('initial_formatted');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains final_formatted property\", function(){",
+							"    pm.expect(jsonData).to.have.property('final_formatted');",
+							"})",
+							"",
+							"pm.test(\"Makes sure body consists of exactly 6 properties\", function(){",
+							"    var counter = 0;",
+							"    for (var property in jsonData){",
+							"        if(jsonData.hasOwnProperty(property)) {",
+							"            counter++;",
+							"        }",
+							"    }",
+							"    pm.expect(counter).to.equal(6);",
+							"});",
+							"",
+							"//Test for game with filterValue = 57690",
+							"pm.test(\"Correct currency format\", function () {",
+							"    pm.expect(jsonData.currency).to.eql('EUR'); //this specific test",
+							"    pm.expect(jsonData.currency).to.be.a('string');",
+							"});",
+							"",
+							"pm.test(\"Correct initial price format\", function () {",
+							"    pm.expect(jsonData.initial).to.eql(1499); //this specific test",
+							"    pm.expect(jsonData.initial).to.be.a('number');",
+							"    pm.expect(jsonData.initial).to.be.at.least(0);",
+							"});",
+							"",
+							"pm.test(\"Correct final price format\", function () {",
+							"    pm.expect(jsonData.final).to.eql(1499); //this specific test",
+							"    pm.expect(jsonData.final).to.be.a('number');",
+							"    pm.expect(jsonData.final).to.be.at.least(0);",
+							"});",
+							"",
+							"pm.test(\"Correct discount_percent format\", function () {",
+							"    pm.expect(jsonData.discount_percent).to.eql(0); //this specific test",
+							"    pm.expect(jsonData.discount_percent).to.be.a('number');",
+							"    pm.expect(jsonData.discount_percent).to.be.at.most(100);",
+							"    pm.expect(jsonData.discount_percent).to.be.at.least(0);",
+							"});",
+							"",
+							"pm.test(\"Correct initial_formatted format\", function(){",
+							"    pm.expect(jsonData.initial_formatted).to.be.a('string');",
+							"});",
+							"",
+							"pm.test(\"Correct final_formatted format\", function(){",
+							"    pm.expect(jsonData.final_formatted).to.be.a('string');",
+							"});",
+							"",
+							"//TODO: ADD TEST FOR CHECKING THAT THE DISCOUNT WORKS CORRECTLY",
+							"",
+							"pm.test(\"Final format is consisted of final number\", function(){",
+							"   var final_number = jsonData.final;",
+							"   var final_string = final_number.toString();",
+							"   var final_formatted_string = jsonData.final_formatted;",
+							"   var number_array = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];",
+							"   var formatted_raw_array = [];",
+							"   var ok = true;",
+							"   ",
+							"   for(var i = 0; i < final_formatted_string.length; i++){",
+							"       if(number_array.includes(final_formatted_string.charAt(i))){",
+							"           formatted_raw_array.push(final_formatted_string.charAt(i));",
+							"       }",
+							"   }",
+							"   ",
+							"   for(var j = 0; j < final_string.length; j++){",
+							"       if(final_string.charAt(j) !== formatted_raw_array[j]){",
+							"           ok = false;",
+							"       }",
+							"   }",
+							"   ",
+							"   pm.expect(ok).to.be.true;",
+							"});",
+							"",
+							"pm.test(\"Final format contains currency specification\", function(){",
+							"   var final_formatted_string = jsonData.final_formatted;",
+							"   var number_array = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];",
+							"   var not_a_number = [];",
+							"   var ok = true;",
+							"   ",
+							"   for(var i = 0; i < final_formatted_string.length; i++){",
+							"       if(!number_array.includes(final_formatted_string.charAt(i)) && final_formatted_string.charAt(i) != \",\"){",
+							"           not_a_number.push(final_formatted_string.charAt(i));",
+							"       }",
+							"   }",
+							"   ",
+							"   if(not_a_number.length === 0){",
+							"       ok = false;",
+							"   }",
+							"   ",
+							"   pm.expect(ok).to.be.true;",
+							"   ",
+							"});",
+							"",
+							"pm.test(\"Final format contains correct currency specification\", function(){",
+							"    var final_formatted_string = jsonData.final_formatted;",
+							"    var actual_currency = jsonData.currency;",
+							"    var expected_currency;",
+							"    var number_array = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];",
+							"    var ok = true;",
+							"    var not_a_number = [];",
+							"",
+							"    ",
+							"    switch(actual_currency){",
+							"        case \"EUR\":",
+							"            expected_currency = \"€\"",
+							"            break;",
+							"        case \"USD\":",
+							"            expected_currency = \"$\"",
+							"            break;",
+							"        case \"SEK\":",
+							"            expected_currency = \":-\"",
+							"            break;",
+							"    }",
+							"   ",
+							"   for(var i = 0; i < final_formatted_string.length; i++){",
+							"       if(!number_array.includes(final_formatted_string.charAt(i)) && final_formatted_string.charAt(i) != \",\"){",
+							"           not_a_number.push(final_formatted_string.charAt(i));",
+							"       }",
+							"   }",
+							"   ",
+							"   if(!not_a_number.includes(expected_currency)){",
+							"       ok = false;",
+							"   }",
+							"   ",
+							"   pm.expect(ok).to.be.true;",
+							"   ",
+							"});",
+							"",
+							"          ",
+							"          ",
+							"    ",
+							"    ",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"assetType\": \"price\",\n\t\"filterType\": \"appId\",\n\t\"filterValue\": \"57690\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/steam/content",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"steam",
+						"content"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FR024: get_reviews_info_filters",
 			"event": [
 				{
 					"listen": "test",
@@ -398,6 +599,183 @@
 			"response": []
 		},
 		{
+			"name": "FR024: get_reviews_info_content",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "af99b407-d920-4335-b244-8cde97dac919",
+						"exec": [
+							"const jsonData = pm.response.json();",
+							"",
+							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains num_reviews property\", function(){",
+							"    pm.expect(jsonData).to.have.property(\"num_reviews\");",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains review_score property\", function(){",
+							"    pm.expect(jsonData).to.have.property(\"review_score\");",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains review_score_desc property\", function(){",
+							"    pm.expect(jsonData).to.have.property(\"review_score_desc\");",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains total_positive property\", function(){",
+							"    pm.expect(jsonData).to.have.property(\"total_positive\");",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains total_negative property\", function(){",
+							"    pm.expect(jsonData).to.have.property(\"total_negative\");",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains total_reviews property\", function(){",
+							"    pm.expect(jsonData).to.have.property(\"total_reviews\");",
+							"});",
+							"",
+							"pm.test(\"Makes sure body consists of exactly 6 properties\", function(){",
+							"    var counter = 0;",
+							"    for (var property in jsonData){",
+							"        if(jsonData.hasOwnProperty(property)) {",
+							"            counter++;",
+							"        }",
+							"    }",
+							"    pm.expect(counter).to.equal(6);",
+							"});",
+							"",
+							"pm.test(\"Makes sure num_reviews is a number\", function(){",
+							"    pm.expect(jsonData.num_reviews).to.be.a('number');",
+							"    pm.expect(jsonData.num_reviews).to.be.at.least(0);",
+							"});",
+							"",
+							"pm.test(\"Makes sure review_score is a number\", function(){",
+							"    pm.expect(jsonData.review_score).to.be.a('number');",
+							"    pm.expect(jsonData.review_score).to.be.at.least(0);",
+							"});",
+							"",
+							"pm.test(\"Makes sure review_score_desc is a string\", function(){",
+							"    pm.expect(jsonData.review_score_desc).to.be.a('string');",
+							"});",
+							"",
+							"pm.test(\"Makes sure total_positive is a number\", function(){",
+							"    pm.expect(jsonData.total_positive).to.be.a('number');",
+							"    pm.expect(jsonData.total_positive).to.be.at.least(0);",
+							"});",
+							"",
+							"pm.test(\"Makes sure total_negative is a number\", function(){",
+							"    pm.expect(jsonData.total_negative).to.be.a('number');",
+							"    pm.expect(jsonData.total_negative).to.be.at.least(0);",
+							"});",
+							"",
+							"pm.test(\"Makes sure total_reviews is a number\", function(){",
+							"   pm.expect(jsonData.total_reviews).to.be.a('number'); ",
+							"   pm.expect(jsonData.total_reviews).to.be.at.least(0);",
+							"});",
+							"",
+							"pm.test(\"Makes sure total reviews is correct\", function(){",
+							"   var pos = jsonData.total_positive;",
+							"   var neg = jsonData.total_negative;",
+							"   var tot = pos+neg;",
+							"   ",
+							"   pm.expect(jsonData.total_reviews).to.be.equal(tot);",
+							"});",
+							"",
+							"pm.test(\"Makes sure review_score_desc is an existing description\", function(){",
+							"    var description_array = [\"Overwhelmingly Positive\", \"Very Positive\", \"Positive\", \"Mostly Positive\", \"Mixed\", \"Mostly Negative\", \"Negative\", \"Very Negative\", \"Overwhelmingly Negative\"];",
+							"    var exists = false;",
+							"    var description = jsonData.review_score_desc;",
+							"    ",
+							"    for(var i = 0; i < description_array.length; i++){",
+							"        if(description == description_array[i]){",
+							"            exists = true;",
+							"        }",
+							"    }",
+							"    ",
+							"    pm.expect(exists).to.be.true;",
+							"});",
+							"",
+							"pm.test(\"Makes sure description fits total positive reviews\", function(){",
+							"    var pos_description_array = [\"Overwhelmingly Positive\", \"Very Positive\", \"Positive\", \"Mostly Positive\"];",
+							"    var mixed = \"Mixed\";",
+							"    var neg_description_array = [\"Mostly Negative\", \"Negative\", \"Very Negative\", \"Overwhelmingly Negative\"];",
+							"    ",
+							"    var total_reviews = jsonData.total_reviews;",
+							"    var positive_reviews = jsonData.total_positive;",
+							"    var positive_percent = positive_reviews/total_reviews;",
+							"    var exists = false;",
+							"    var description = jsonData.review_score_desc;",
+							"    ",
+							"    if(positive_percent >= 0.7){",
+							"        for(var k = 0; k < pos_description_array.length; k++){",
+							"            if(description == pos_description_array[k]){",
+							"                exists = true;",
+							"            }",
+							"        }",
+							"    }",
+							"    else if(positive_percent < 0.7 && positive_percent >= 0.4 ){",
+							"        if(description == mixed){",
+							"            exists = true;",
+							"        }",
+							"    }else{",
+							"        for(var j = 0; j < neg_description_array.length; j++){",
+							"            if(description == neg_description_array[j]){",
+							"                exists = true;",
+							"            }",
+							"        }",
+							"    }",
+							"    ",
+							"    pm.expect(exists).to.be.true;",
+							"});",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"          ",
+							"          ",
+							"    ",
+							"    ",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"assetType\": \"reviews\",\n\t\"filterType\": \"appId\",\n\t\"filterValue\": \"57690\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/steam/content",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"steam",
+						"content"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Check_if_twitch_machine_is_running",
 			"event": [
 				{
@@ -486,51 +864,7 @@
 			"response": []
 		},
 		{
-			"name": "Check_if_twitchansteam_machine_is_running",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "bf89901d-c3d0-4c50-9121-1ca679bf4dd7",
-						"exec": [
-							"",
-							"pm.test(\"API call successfull\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"Should be OK\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"OK\");",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "http://localhost:8080/api/twitchandsteam/health",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"twitchandsteam",
-						"health"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "FR056 get_top_streams_from_gID",
+			"name": "FR056 get_top_streams_from_gID_filters",
 			"event": [
 				{
 					"listen": "test",
@@ -676,18 +1010,6 @@
 							"   } ",
 							"});",
 							"",
-							"// display_name existerar inte längre",
-							"/*pm.test(\"Makes sure user_name and display_name are the same\", function(){",
-							"    var user_name;",
-							"    var display_name;",
-							"    ",
-							"   for(var i = 0; i < jsonData.data.length; i++){",
-							"       user_name = jsonData.data[i].user_name;",
-							"       display_name = jsonData.data[i].display_name;",
-							"       pm.expect(user_name).to.equal(display_name);",
-							"   } ",
-							"});*/",
-							"",
 							""
 						],
 						"type": "text/javascript"
@@ -733,7 +1055,191 @@
 			"response": []
 		},
 		{
-			"name": "FR064, FR024: get_Top50_games",
+			"name": "FR056 get_top_streams_from_gID_content",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9f0c0b7b-e706-4d2c-9f89-87510a40c319",
+						"exec": [
+							"const jsonData = pm.response.json();",
+							"",
+							"pm.test(\"API call successfull\", function () { //makes sure that the response was successful",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains property data\", function(){",
+							"    pm.expect(jsonData).to.have.property('data');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains property pagination\", function(){",
+							"    pm.expect(jsonData).to.have.property('pagination');",
+							"});",
+							"",
+							"pm.test(\"Makes sure each game contains id property\", function(){",
+							"   for(var i = 0; i < jsonData.data.length; i++){",
+							"       pm.expect(jsonData.data[i]).to.have.property('id');",
+							"   }",
+							"});",
+							"",
+							"pm.test(\"Makes sure each game contains user_id property\", function(){",
+							"    for(var i = 0; i < jsonData.data.length; i++){",
+							"        pm.expect(jsonData.data[i]).to.have.property('user_id');",
+							"    }",
+							"});",
+							"",
+							"pm.test(\"Makes sure each game contains user_name property\", function(){",
+							"   for(var i = 0; i < jsonData.data.length; i++){",
+							"       pm.expect(jsonData.data[i]).to.have.property('user_name');",
+							"   }",
+							"}); ",
+							"",
+							"pm.test(\"Makes sure each game contains game_id property\", function(){",
+							"   for(var i = 0; i < jsonData.data.length; i++){",
+							"       pm.expect(jsonData.data[i]).to.have.property('game_id');",
+							"   }",
+							"});",
+							"",
+							"pm.test(\"Makes sure each game contains community_ids property\", function(){",
+							"    for(var i = 0; i < jsonData.data.length; i++){",
+							"        pm.expect(jsonData.data[i]).to.have.property('community_ids')",
+							"    }",
+							"});",
+							"",
+							"pm.test(\"Makes sure each game contains type property\", function(){",
+							"    for(var i = 0; i < jsonData.data.length; i++){",
+							"        pm.expect(jsonData.data[i]).to.have.property('type');",
+							"    }",
+							"});",
+							"",
+							"pm.test(\"Makes sure each game contains title property\", function(){",
+							"    for(var i = 0; i < jsonData.data.length; i++){",
+							"        pm.expect(jsonData.data[i]).to.have.property('viewer_count');",
+							"    }",
+							"});",
+							"",
+							"pm.test(\"Makes sure each game contains started_at property\", function(){",
+							"    for(var i = 0; i < jsonData.data.length; i++){",
+							"        pm.expect(jsonData.data[i]).to.have.property('started_at');",
+							"    }",
+							"});",
+							"",
+							"pm.test(\"Makes sure each game contains language property\", function(){",
+							"    for(var i = 0; i < jsonData.data.length; i++){",
+							"        pm.expect(jsonData.data[i]).to.have.property('language');",
+							"    }",
+							"});",
+							"",
+							"pm.test(\"Makes sure each game contains thumbnail_url property\", function(){",
+							"    for(var i = 0; i < jsonData.data.length; i++){",
+							"        pm.expect(jsonData.data[i]).to.have.property('thumbnail_url');",
+							"    }",
+							"});",
+							"",
+							"pm.test(\"Make sure each game contains tag_ids property\", function(){",
+							"   for(var i = 0; i < jsonData.data.length; i++){",
+							"       pm.expect(jsonData.data[i]).to.have.property('tag_ids');",
+							"   } ",
+							"});",
+							"",
+							"// Följande test behövs inte längre",
+							"/*pm.test(\"Makes sure each game contains display_name property\", function(){",
+							"    for(var i = 0; i < jsonData.data.length; i++){",
+							"        pm.expect(jsonData.data[i]).to.have.property('display_name');",
+							"    }",
+							"});*/",
+							"",
+							"pm.test(\"Makes sure response body contains exactly 2 properties\", function(){",
+							"    var counter = 0;",
+							"      for (var property in jsonData){",
+							"        if(jsonData.hasOwnProperty(property)) {",
+							"            counter++;",
+							"        }",
+							"    }",
+							"    pm.expect(counter).to.equal(2);",
+							"});",
+							"",
+							"pm.test(\"Makes sure data property contains exactly 12 sub-properties\", function(){",
+							"    var counter;",
+							"    for(var i = 0; i < jsonData.data.length; i++){",
+							"        counter = 0;",
+							"        for(var property in jsonData.data[i]){",
+							"            if(jsonData.data[i].hasOwnProperty(property)){",
+							"                counter++;",
+							"            }",
+							"        }",
+							"        ",
+							"        pm.expect(counter).to.equal(12);",
+							"    }",
+							"    ",
+							"});",
+							"",
+							"pm.test('Type == live', function () { //checks the amout of games shown",
+							"    for(var i = 0; i < jsonData.data.length; i++){",
+							"        pm.expect(jsonData.data[i].type).to.eql(\"live\");",
+							"    }",
+							"});",
+							"",
+							"pm.test(\"Makes sures viewer_count is a number\", function(){",
+							"    for(var i = 0; i < jsonData.data.length; i++){",
+							"        pm.expect(jsonData.data[i].viewer_count).to.be.a('number');",
+							"    }",
+							"});",
+							"",
+							"pm.test(\"Makes sure all properties except viewer_count are strings\", function(){",
+							"   for(var i = 0; i < jsonData.data.length; i++){",
+							"       pm.expect(jsonData.data[i].id).to.be.a('string');",
+							"       pm.expect(jsonData.data[i].user_id).to.be.a('string');",
+							"       pm.expect(jsonData.data[i].user_name).to.be.a('string');",
+							"       pm.expect(jsonData.data[i].game_id).to.be.a('string');",
+							"       pm.expect(jsonData.data[i].type).to.be.a('string');",
+							"       pm.expect(jsonData.data[i].title).to.be.a('string');",
+							"       pm.expect(jsonData.data[i].started_at).to.be.a('string');",
+							"       pm.expect(jsonData.data[i].language).to.be.a('string');",
+							"       pm.expect(jsonData.data[i].thumbnail_url).to.be.a('string');",
+							"      // pm.expect(jsonData.data[i].tag_ids).to.be.a('string');",
+							"   } ",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"assetType\": \"streams\",\n\t\"filterType\": \"game\",\n\t\"filterValue\": \"21779\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/twitch/content",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"twitch",
+						"content"
+					]
+				},
+				"description": "fetches top streams from a specific game ID, in this case Red Dead Redemption 2 ID: 493959"
+			},
+			"response": []
+		},
+		{
+			"name": "FR064, FR024: get_Top50_games_filters",
 			"event": [
 				{
 					"listen": "test",
@@ -852,7 +1358,119 @@
 			"response": []
 		},
 		{
-			"name": "FR024: get_system_requriments",
+			"name": "FR064, FR024: get_Top50_games_content",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a8ec180f-b15b-417d-872e-c7c3cfe1de29",
+						"exec": [
+							"const jsonData = pm.response.json();",
+							"",
+							"pm.test(\"API call successfull\", function () { //makes sure that the response was successful",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"/*pm.test('Response body has data', function() {",
+							"    pm.expect(jsonData).to.have.property('data');",
+							"   ",
+							"});*/",
+							"pm.test('Response body has 50 id', function() {",
+							"   // pm.expect(jsonData.data).contains('id');",
+							"   var count =0;",
+							"   for (var i=0; i < jsonData.data.length; i++){",
+							"       if (jsonData.data[i].id){",
+							"           count ++;",
+							"       }",
+							"     }",
+							"console.log(count);",
+							"     pm.expect(count).to.be.at.least(19);",
+							"     pm.expect(count).to.be.at.most(20);",
+							"   ",
+							" // pm.expect(jsonData).to.be.equal('id');",
+							"  ",
+							"});",
+							"",
+							"pm.test('Response body id is not null', function () {  // gör nog inte vad den sa´ka",
+							"   ",
+							"   for (var i=0; i < jsonData.length; i++){",
+							"        pm.expect(jsonData[i].id).to.be.not.null;",
+							"     }",
+							"});    ",
+							"",
+							"pm.test('Response body name is not null', function () { // gör nog inte vad den sa´ka",
+							"   // pm.expect(jsonData.data.name).to.be.not.null;",
+							"  for (var i=0; i < jsonData.length; i++){",
+							"            pm.expect(jsonData[i].name).to.be.not.null;",
+							"     }",
+							"    //pm.jsonData = jsonData.data.name !== null ;",
+							"});    ",
+							"pm.test('Response body box_art_url is not null', function () { // gör nog inte vad den sa´ka",
+							"   for (var i=0; i < jsonData.length; i++){",
+							"            pm.expect(jsonData[i].box_art_url).to.be.not.null;",
+							"          // console.log(jsonData[i].box_art_url)",
+							"     }",
+							"});    ",
+							"",
+							"",
+							"pm.test('Contains 50 top games', function () { //checks the amout of games shown",
+							"     //var responseJson = JSON.parse(responseBody);",
+							"     //console.log(responseJson.data.length);",
+							"    pm.expect(jsonData.data.length).to.be.at.least(19);",
+							"    pm.expect(jsonData.data.length).to.be.at.most(20);",
+							"    ",
+							"});",
+							"",
+							"pm.test('steamGame should show have appId', function () { ",
+							"     ",
+							"     for (var i=0; i < jsonData.length; i++){",
+							"         if (jsonData[i].steam !== false){",
+							"            pm.expect(jsonData[i].steam.appid).to.be.not.null;",
+							"         }",
+							"     }",
+							"});",
+							"",
+							" ",
+							"    "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"assetType\": \"games\",\n\t\"filterType\": \"top\",\n\t\"filterValue\": \"20\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/twitch/content",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"twitch",
+						"content"
+					]
+				},
+				"description": "A API request that makes sure we get the correct game"
+			},
+			"response": []
+		},
+		{
+			"name": "FR024: get_system_requriments_filters",
 			"event": [
 				{
 					"listen": "test",
@@ -964,23 +1582,126 @@
 			"response": []
 		},
 		{
-			"name": "Exception test: get_reviews_info_nofilter",
+			"name": "FR024: get_system_requriments_content",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "b4a65f3d-92ab-42fa-bd21-547618f97ed5",
+						"id": "b9395235-1aa5-4a43-9ab2-56c1800b735c",
+						"exec": [
+							"const jsonData = JSON.parse(responseBody);",
+							"",
+							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains pc_requirements property\", function(){",
+							"    pm.expect(jsonData).to.have.property(\"pc_requirements\");",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains mac_requirements\", function(){",
+							"    pm.expect(jsonData).to.have.property(\"mac_requirements\");",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains linux_requirements\", function(){",
+							"    pm.expect(jsonData).to.have.property(\"linux_requirements\");",
+							"});",
+							"",
+							"pm.test(\"pc_requirements correct sub properties\", function(){",
+							"    if(jsonData.pc_requirements.length !== 0){",
+							"        pm.expect(jsonData.pc_requirements).to.be.an('object');",
+							"        pm.expect(jsonData.pc_requirements).to.have.property('minimum');",
+							"        pm.expect(jsonData.pc_requirements).to.have.property('recommended');",
+							"    }",
+							"});",
+							"",
+							"pm.test(\"mac_requirements correct sub properties\", function(){",
+							"    if(jsonData.mac_requirements.length !== 0){",
+							"        pm.expect(jsonData.mac_requirements).to.be.an('object');",
+							"        pm.expect(jsonData.mac_requirements).to.have.property('minimum');",
+							"        pm.expect(jsonData.mac_requirements).to.have.property('recommended');    ",
+							"    }",
+							"});",
+							"",
+							"pm.test(\"linux_requirements correct sub properties\", function(){",
+							"    if(jsonData.linux_requirements.length !== 0){ //fixa så att hanterar om de är tomma",
+							"        pm.expect(jsonData.linux_requirements).to.be.an('object');",
+							"        pm.expect(jsonData.linux_requirements).to.be.an('minimum');",
+							"        pm.expect(jsonData.linux_requirements).to.be.an('recommended');",
+							"    }",
+							"});",
+							"",
+							"pm.test(\"pc_requirements correct sub property format\", function(){",
+							"    if(jsonData.pc_requirements.length !== 0){",
+							"    pm.expect(jsonData.pc_requirements.minimum).to.be.a('string');",
+							"    pm.expect(jsonData.pc_requirements.recommended).to.be.a('string');",
+							"    }",
+							"});",
+							"",
+							"pm.test(\"mac_requirements correct sub property format\", function(){",
+							"    if(jsonData.mac_requirements.length !== 0){",
+							"    pm.expect(jsonData.mac_requirements.minimum).to.be.a('string');",
+							"    pm.expect(jsonData.mac_requirements.recommended).to.be.a('string');",
+							"    }",
+							"});",
+							"",
+							"pm.test(\"linux_requirments correct sub property format\", function(){",
+							"    if(jsonData.linux_requirements.length !== 0){",
+							"        pm.expect(jsonData.linux_requirements.minimum).to.be.a('string');",
+							"        pm.expect(jsonData.linux_requirements.recommended).to.be.a('string');",
+							"    }",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"assetType\": \"systemRequirements\",\n\t\"filterType\": \"appId\",\n\t\"filterValue\": \"57690\"\n\t\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/steam/content",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"steam",
+						"content"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FR029: steam_search",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "650fb264-8341-4b50-bcea-a3768e72d08f",
 						"exec": [
 							"",
-							"pm.test(\"API call unsuccessfull\", function () {",
+							"pm.test(\"API call successfull\", function () {",
 							"    pm.response.to.have.status(500);",
 							"});",
 							"",
-							"pm.test(\"Unsuccessful API response body\", function () {",
+							"pm.test(\"Should be OK\", function () {",
 							"    pm.expect(pm.response.text()).to.include(\"Internal Server Error\");",
-							"});",
-							"",
-							""
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -994,7 +1715,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "localhost:8080/api/steam/filters?assetType=reviews&filterType=appid&filterValue=",
+					"raw": "localhost:8080/api/steam/search?assetType=gameId&queryString=doesnotexist",
 					"host": [
 						"localhost"
 					],
@@ -1002,20 +1723,16 @@
 					"path": [
 						"api",
 						"steam",
-						"filters"
+						"search"
 					],
 					"query": [
 						{
 							"key": "assetType",
-							"value": "reviews"
+							"value": "gameId"
 						},
 						{
-							"key": "filterType",
-							"value": "appid"
-						},
-						{
-							"key": "filterValue",
-							"value": ""
+							"key": "queryString",
+							"value": "doesnotexist"
 						}
 					]
 				}
@@ -1023,26 +1740,36 @@
 			"response": []
 		},
 		{
-			"name": "Exception test: get_price_info_nofilter",
+			"name": "FR024, FR055: twitch_search",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "a456f592-3388-4f7e-83b3-02be029e74b2",
+						"id": "650fb264-8341-4b50-bcea-a3768e72d08f",
 						"exec": [
+							"const jsonData = JSON.parse(responseBody);",
 							"",
-							"pm.test(\"API call unsuccessfull \", function () {",
-							"    pm.response.to.have.status(500);",
+							"",
+							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.have.status(200);",
 							"});",
 							"",
-							"pm.test(\"Unsuccessful API response body\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Internal Server Error\");",
+							"pm.test(\"JSON response contains games property\", function(){",
+							"    pm.expect(jsonData).to.have.property('games');",
 							"});",
-							"          ",
-							"          ",
+							"",
+							"pm.test(\"Makes sure body consists of exactly 4 properties\", function(){",
+							"    var counter = 0;",
+							"    for(var i = 0; i < jsonData.length; i++){",
+							"        for (var property in jsonData[i]){",
+							"        if(jsonData[i].hasOwnProperty(property)) {",
+							"            counter++;",
+							"        }",
+							"    }",
+							"    pm.expect(counter).to.equal(4);",
+							"    }",
 							"    ",
-							"    ",
-							""
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -1056,8 +1783,210 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/steam/filters?assetType=price&filterType=app_id&filterValue=",
-					"protocol": "http",
+					"raw": "localhost:8080/api/twitch/search?assetType=games&queryString=fifa",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"twitch",
+						"search"
+					],
+					"query": [
+						{
+							"key": "assetType",
+							"value": "games"
+						},
+						{
+							"key": "queryString",
+							"value": "fifa"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FR025: streamer_info_filters",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d2d40b8c-6d76-45a3-b40c-cdd81babf49f",
+						"exec": [
+							"const jsonData = JSON.parse(responseBody);",
+							"",
+							"",
+							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"JSON response contains data property\", function(){",
+							"    pm.expect(jsonData).to.have.property(\"data\");",
+							"});",
+							"",
+							"pm.test(\"JSON response property data contains correct sub-properties\", function(){",
+							"    ",
+							"    var properties = [\"id\", \"login\", \"display_name\", \"type\", \"broadcaster_type\", \"description\", \"profile_image_url\", \"offline_image_url\", \"view_count\"]",
+							"    ",
+							"    for(var i = 0; i < jsonData.data.length; i++){",
+							"        pm.expect(jsonData.data[0]).to.have.property(properties[i]);",
+							"    }",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/twitch/filters?assetType=streamer_info&filterValue=121203480",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"twitch",
+						"filters"
+					],
+					"query": [
+						{
+							"key": "assetType",
+							"value": "streamer_info"
+						},
+						{
+							"key": "filterValue",
+							"value": "121203480"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FR025: streamer_info_content",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d2d40b8c-6d76-45a3-b40c-cdd81babf49f",
+						"exec": [
+							"const jsonData = JSON.parse(responseBody);",
+							"",
+							"",
+							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"JSON response contains data property\", function(){",
+							"    pm.expect(jsonData).to.have.property(\"data\");",
+							"});",
+							"",
+							"pm.test(\"JSON response property data contains correct sub-properties\", function(){",
+							"    ",
+							"    var properties = [\"id\", \"login\", \"display_name\", \"type\", \"broadcaster_type\", \"description\", \"profile_image_url\", \"offline_image_url\", \"view_count\"]",
+							"    ",
+							"    for(var i = 0; i < jsonData.data.length; i++){",
+							"        pm.expect(jsonData.data[0]).to.have.property(properties[i]);",
+							"    }",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"assetType\": \"streamerInfo\",\n\t\"filterType\": \"streamerId\",\n\t\"filterValue\": \"121203480\"\n\t\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/twitch/content",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"twitch",
+						"content"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FR027: get_details_filters",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "271d0028-8549-43a3-b463-b6acc538175b",
+						"exec": [
+							"const jsonData = JSON.parse(responseBody);",
+							"",
+							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"JSON response contains correct properties from data\", function(){",
+							"   var data = [\"3455\", \"4656\", \"6434\", \"34543\"]",
+							"",
+							"   for(var i = 0; i < jsonData.length; i++){",
+							"        pm.expect(jsonData).to.have.property(data[i]);",
+							"   }",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"data\": [34543,6434,4656,3455]\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/steam/filters?assetType=getDetails&filterType=app_id",
 					"host": [
 						"localhost"
 					],
@@ -1070,7 +1999,149 @@
 					"query": [
 						{
 							"key": "assetType",
-							"value": "price"
+							"value": "getDetails"
+						},
+						{
+							"key": "filterType",
+							"value": "app_id"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FR027: get_details_content",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "271d0028-8549-43a3-b463-b6acc538175b",
+						"exec": [
+							"const jsonData = JSON.parse(responseBody);",
+							"",
+							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"JSON response contains correct properties from data\", function(){",
+							"   var data = [\"3455\", \"4656\", \"6434\", \"34543\"]",
+							"",
+							"   for(var i = 0; i < jsonData.length; i++){",
+							"        pm.expect(jsonData).to.have.property(data[i]);",
+							"   }",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"data\": [34543,6434,4656,3455],\n\t\"assetType\": \"details\",\n\t\"filterType\": \"appId\"\n\t\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/steam/content",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"steam",
+						"content"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FR065: get_game_info_filters",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "09e7157c-640c-4931-8521-2a16ea5abed4",
+						"exec": [
+							"const jsonData = JSON.parse(responseBody);",
+							"",
+							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains price property\", function(){",
+							"    pm.expect(jsonData).to.have.property('price');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains pc_requirements property\", function(){",
+							"    pm.expect(jsonData).to.have.property('pc_requirements');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains linux_requirements property\", function(){",
+							"    pm.expect(jsonData).to.have.property('linux_requirements');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains trailer property\", function(){",
+							"    pm.expect(jsonData).to.have.property('trailer');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains description property\", function(){",
+							"    pm.expect(jsonData).to.have.property('description');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains developer property\", function(){",
+							"    pm.expect(jsonData).to.have.property('developer');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains publisher property\", function(){",
+							"    pm.expect(jsonData).to.have.property('publisher');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains genres property\", function(){",
+							"    pm.expect(jsonData).to.have.property('genres');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains reviews property\", function(){",
+							"    pm.expect(jsonData).to.have.property('reviews');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/steam/filters?assetType=game_info&filterType=app_id&filterValue=57690",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"steam",
+						"filters"
+					],
+					"query": [
+						{
+							"key": "assetType",
+							"value": "game_info"
 						},
 						{
 							"key": "filterType",
@@ -1078,7 +2149,7 @@
 						},
 						{
 							"key": "filterValue",
-							"value": ""
+							"value": "57690"
 						}
 					]
 				}
@@ -1086,22 +2157,109 @@
 			"response": []
 		},
 		{
-			"name": "Exception test: get_system_req_nofilter",
+			"name": "FR065: get_game_info_content",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "b9395235-1aa5-4a43-9ab2-56c1800b735c",
+						"id": "09e7157c-640c-4931-8521-2a16ea5abed4",
 						"exec": [
+							"const jsonData = JSON.parse(responseBody);",
 							"",
-							"pm.test(\"API call unsuccessfull\", function () {",
-							"    pm.response.to.have.status(500);",
+							"pm.test(\"API call successfull\", function () {",
+							"    pm.response.to.have.status(200);",
 							"});",
 							"",
-							"pm.test(\"Unsuccessful API response body\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Internal Server Error\");",
+							"pm.test(\"Makes sure body contains price property\", function(){",
+							"    pm.expect(jsonData).to.have.property('price');",
 							"});",
 							"",
+							"pm.test(\"Makes sure body contains pc_requirements property\", function(){",
+							"    pm.expect(jsonData).to.have.property('pc_requirements');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains linux_requirements property\", function(){",
+							"    pm.expect(jsonData).to.have.property('linux_requirements');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains trailer property\", function(){",
+							"    pm.expect(jsonData).to.have.property('trailer');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains description property\", function(){",
+							"    pm.expect(jsonData).to.have.property('description');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains developer property\", function(){",
+							"    pm.expect(jsonData).to.have.property('developer');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains publisher property\", function(){",
+							"    pm.expect(jsonData).to.have.property('publisher');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains genres property\", function(){",
+							"    pm.expect(jsonData).to.have.property('genres');",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains reviews property\", function(){",
+							"    pm.expect(jsonData).to.have.property('reviews');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"assetType\": \"gameInfo\",\n\t\"filterType\": \"appId\",\n\t\"filterValue\": \"57690\"\n\t\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/steam/content",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"steam",
+						"content"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FR019: twitch_integrate_data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9920fe2b-d2e7-49d0-bc52-45ee4dc842ff",
+						"exec": [
+							"const jsonData = pm.response.json();",
+							"",
+							"pm.test(\"API call successfull\", function () { //makes sure that the response was successful",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains data property\", function(){",
+							"    pm.expect(jsonData).to.have.property(\"data\");",
+							"});",
+							"",
+							"pm.test(\"Makes sure body contains pagination property\", function(){",
+							"    pm.expect(jsonData).to.have.property(\"pagination\");",
+							"});",
 							""
 						],
 						"type": "text/javascript"
@@ -1116,28 +2274,28 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "localhost:8080/api/steam/filters?assetType=systemrequirements&filterType=appid&filterValue=",
+					"raw": "localhost:8080/api/aggregation/filters?assetType=games&filterType=top&queryString=5",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"api",
-						"steam",
+						"aggregation",
 						"filters"
 					],
 					"query": [
 						{
 							"key": "assetType",
-							"value": "systemrequirements"
+							"value": "games"
 						},
 						{
 							"key": "filterType",
-							"value": "appid"
+							"value": "top"
 						},
 						{
-							"key": "filterValue",
-							"value": ""
+							"key": "queryString",
+							"value": "5"
 						}
 					]
 				}
