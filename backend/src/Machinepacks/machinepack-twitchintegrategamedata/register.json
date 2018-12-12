@@ -1,0 +1,6 @@
+{
+    "name": "PUM18 C3 – TwitchAndSteam)",
+    "url": "http://backend.c3.netplus.se/api/twitchandsteam",
+    "assetTypes": ["games"],
+    "filterTypes": ["top", "category", "contextual"]
+}

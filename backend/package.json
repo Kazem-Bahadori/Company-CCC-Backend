@@ -1,0 +1,77 @@
+{
+  "name": "flatfish-backend",
+  "version": "0.0.1",
+  "description": "Starter project for an ES6 RESTful Express API",
+  "main": "dist",
+  "scripts": {
+    "dev": "nodemon -w src --exec \"babel-node src --presets es2015,stage-0\"",
+    "build": "babel src -s -D -d dist --presets es2015,stage-0",
+    "start": "node dist",
+    "prestart": "npm run -s build",
+    "test": "eslint src mocha --timeout 10000",
+    "test_case": " nyc --reporter=cobertura mocha --compilers js:babel-core/register",
+    "create_result": "mocha --compilers js:babel-core/register test --reporter mocha-junit-reporter",
+    "newman": "newman run Flatfish_backend.postman_collection.json --reporters cli,junit",
+    "coverage": "nyc report"
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "parserOptions": {
+      "ecmaVersion": 7,
+      "sourceType": "module"
+    },
+    "env": {
+      "node": true
+    },
+    "rules": {
+      "no-console": 0,
+      "no-unused-vars": 1
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/developit/express-es6-rest-api.git"
+  },
+  "author": "Jason Miller <jason@developit.ca>",
+  "license": "MIT",
+  "dependencies": {
+    "all": "0.0.0",
+    "body-parser": "^1.13.3",
+    "compression": "^1.5.2",
+    "cors": "^2.7.1",
+    "express": "^4.13.3",
+    "machinepack-steam": "^0.1.10",
+    "memory-cache": "^0.2.0",
+    "morgan": "^1.8.0",
+    "node-fetch": "^2.2.1",
+    "resource-router-middleware": "^0.6.0"
+  },
+  "devDependencies": {
+    "@babel/preset-stage-0": "^7.0.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.9.0",
+    "babel-plugin-istanbul": "^5.1.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
+    "eslint": "^3.1.1",
+    "mocha": "^5.2.0",
+    "mocha-junit-reporter": "^1.18.0",
+    "newman": "^4.2.2",
+    "nodemon": "^1.9.2",
+    "nyc": "^13.1.0"
+  },
+  "nyc": {
+    "include": [
+      "**/machinepack-c3twitch/machines/*.js",
+      "**/machinepack-c3steam/machines/*.js",
+      "**/machinepack-twitchintegrategamedata/machines/*.js"
+    ]
+  },
+  "bugs": {
+    "url": "https://github.com/developit/express-es6-rest-api/issues"
+  },
+  "homepage": "https://github.com/developit/express-es6-rest-api#readme"
+}
